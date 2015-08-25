@@ -28,3 +28,6 @@ SDK/glfw-3.1.1/src/glfw_config.h
 SDK/glfw-3.1.1/src/glfw3ConfigVersion.cmake
 SDK/glfw-3.1.1/src/glfw3Config.cmake
 SDK/glfw-3.1.1/cmake_uninstall.cmake
+/SDK/lib/Debug
+/SDK/x64
+01_HelloOpenGL/HelloOpenGL.opensdf
