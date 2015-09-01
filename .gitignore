@@ -2,7 +2,7 @@
 *.filters
 *.log
 *.tlog
-/SDK/include
+
 *CMakeCache.txt
 *.obj
 *.exe
@@ -32,3 +32,4 @@ SDK/glfw-3.1.1/cmake_uninstall.cmake
 /SDK/x64
 01_HelloOpenGL/HelloOpenGL.opensdf
 .DS_Store
+SDK/include/glm/.DS_Store
