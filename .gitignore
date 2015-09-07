@@ -33,3 +33,16 @@ SDK/glfw-3.1.1/cmake_uninstall.cmake
 01_HelloOpenGL/HelloOpenGL.opensdf
 .DS_Store
 SDK/include/glm/.DS_Store
+SimpleModel.xcodeproj
+SimpleModel.build
+HelloOpenGL.xcodeproj
+Debug
+DerivedData
+CMakeScripts
+project.pbxproj
+xcshareddata
+ZERO_CHECK.xcscheme
+UserInterfaceState.xcuserstate
+xcschemes
+xcuserdata
+project.xcworkspace
