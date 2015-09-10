@@ -6,6 +6,12 @@ cmake_minimum_required(VERSION 2.8)
 project(OpenGL_CS557)
 
 
+set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/cmake/")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/" ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
+message(STATUS "SDK directory ${CMAKE_SOURCE_DIR}/")
+
 set(OUTPUT_LIBDIR ${CMAKE_SOURCE_DIR}/lib)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
