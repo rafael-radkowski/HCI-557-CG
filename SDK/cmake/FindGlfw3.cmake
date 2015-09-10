@@ -15,8 +15,12 @@
 set( _glfw3_HEADER_SEARCH_DIRS 
   "/usr/include"
   "/usr/local/include"
+  "../../SDK/include"
+  "../SDK/include"
+  "./SDK/include"
   "C:/Program Files (x86)/glfw/include" 
   "/usr/local/Cellar/glfw3/3.0.4/include"
+
   )
 set( _glfw3_LIB_SEARCH_DIRS
   "/usr/lib"

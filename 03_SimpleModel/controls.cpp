@@ -45,7 +45,7 @@ void computeMatricesFromInputs(){
 	float deltaTime = float(currentTime - lastTime);
 
 	// Get mouse position
-	double xpos, ypos;
+	double xpos = 0, ypos = 0;
 	//glfwGetCursorPos(window, &xpos, &ypos);
 
 	// Reset mouse position for next frame
