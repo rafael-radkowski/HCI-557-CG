@@ -6,16 +6,15 @@ cmake_minimum_required(VERSION 2.6)
 # Main project name is ARMaker
 project(Glfw_Window)
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
-set(LIBRARY_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../SDK")
-message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
+set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/" ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
 
-set( glm_DIR ${LIBRARY_PATH} )
-set( glfw3_DIR ${LIBRARY_PATH} )
+message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
+message(STATUS "SDK directory ${CMAKE_SOURCE_DIR}/../SDK/")
 
 # Find packages
 FIND_PACKAGE(glew REQUIRED)
-FIND_PACKAGE(glm NO_MODULE REQUIRED)
+FIND_PACKAGE(glm REQUIRED)
 FIND_PACKAGE(glfw3 REQUIRED)
 FIND_PACKAGE(OpenGL REQUIRED)
 
