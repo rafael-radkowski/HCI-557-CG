@@ -28,7 +28,12 @@
 #include "HCI557Common.h"
 
 
+
+
 using namespace std;
+
+
+
 
 static const string vs_string =
 "#version 410 core                                                 \n"
@@ -153,20 +158,6 @@ void setupScene(void) {
 }
 
 
-/*!
- This function updates the virtual camera
- */
-bool updateCamera()
-{
-    // Compute the MVP matrix from keyboard and mouse input
-    computeMatricesFromInputs();
-    viewMatrix =  getViewMatrix(); // get the current view matrix
-    
-    return true;
-}
-
-
-
 
 
 int main(int argc, const char * argv[])
@@ -272,10 +263,7 @@ int main(int argc, const char * argv[])
         glClearBufferfv(GL_DEPTH , 0, clear_depth);
         
         
-        // update the virtual camera
-        // ignore this line since we did not introduced cameras.
-        updateCamera();
-        
+
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //// This generate the object
@@ -283,7 +271,8 @@ int main(int argc, const char * argv[])
         glUseProgram(program);
         
         // this changes the camera location
-        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]); // send the view matrix to our shader
+        glm::mat4 rotated_view = viewMatrix * trackball.getRotationMatrix();
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &rotated_view[0][0]); // send the view matrix to our shader
         
         // This moves the model to the right
         modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(2.0f, 0.0f, 0.0f));
