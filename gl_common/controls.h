@@ -22,7 +22,7 @@
  Implementation of a trakball
  */
 class Trackball {
-
+    
 public:
     Trackball( int window_width, int window_height, GLfloat roll_speed = 0.5f, bool x_axis = true, bool y_axis = true );
     glm::vec3 toScreenCoord( double x, double y );

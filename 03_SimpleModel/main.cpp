@@ -27,8 +27,19 @@
 #include "controls.h"
 
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
+
 
 using namespace std;
+
+
+/* A trackball to move and rotate the camera view */
+static Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
+
+
+
 
 static const string vs_string =
     "#version 410 core                                                 \n"
@@ -70,7 +81,6 @@ GLFWwindow*         window;
 
 // Define some of the global variables we're using for this sample
 GLuint program;
-GLuint vao;
 
 unsigned int vaoID[1]; // Our Vertex Array Object
 
@@ -92,6 +102,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
 }
+
+
+
+/* In GLFW mouse callback */
+void mouseButtonCallback( GLFWwindow * window, int button, int action, int mods ){
+    
+    
+    trackball.mouseButtonCallback( window, button, action, mods );
+}
+
+/* In GLFW curser callback */
+void cursorCallback( GLFWwindow *window, double x, double y ) {
+    
+
+    trackball.cursorCallback( window, x, y );
+}
+
 
 
 void createBox(void)
@@ -154,7 +181,7 @@ void createBox(void)
     colors[45] = 0.0; colors[46] = 0.5; colors[47] = 0.0; // Bottom left corner
     
     
-    glGenVertexArrays(2, &vaoID[0]); // Create our Vertex Array Object
+    glGenVertexArrays(1, &vaoID[0]); // Create our Vertex Array Object
     glBindVertexArray(vaoID[0]); // Bind our Vertex Array Object so we can use it
     
     
@@ -185,6 +212,8 @@ void createBox(void)
 void setupScene(void) {
     createBox();
 }
+
+
 
 
 
@@ -223,6 +252,10 @@ int initWindow(void)
     
     // Use the window as the current context (everything that's drawn will be place in this window).
     glfwMakeContextCurrent(window);
+    
+    // set the cursor callback
+    glfwSetCursorPosCallback(window, cursorCallback);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
     return 1;
 }
@@ -247,17 +280,8 @@ bool initGlew(void)
     cout <<  "OpenGL version supported by this platform " << glGetString(GL_VERSION) <<  endl;
 }
 
-/*!
- This function updates the virtual camera
- */
-bool updateCamera()
-{
-    // Compute the MVP matrix from keyboard and mouse input
-    computeMatricesFromInputs();
-    viewMatrix = getViewMatrix(); // get the current view matrix
-    
-    return true;
-}
+
+
 
 
 
@@ -336,6 +360,9 @@ int main(int argc, const char * argv[])
     glBindAttribLocation(program, 0, "in_Position");
     glBindAttribLocation(program, 1, "in_Color");
     
+    
+
+    
     // Enable depth test
     glEnable(GL_DEPTH_TEST); // ignore this line
     
@@ -348,7 +375,7 @@ int main(int argc, const char * argv[])
         glClearBufferfv(GL_DEPTH , 0, clear_depth);
         
         // update the virtual camera
-        updateCamera();
+        //updateCamera();
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -357,7 +384,9 @@ int main(int argc, const char * argv[])
         // Enable the shader program
         glUseProgram(program);
         
-        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]); // send the view matrix to our shader
+        /* Creating rotation matrices */
+        glm::mat4 rotated_view = viewMatrix * trackball.getRotationMatrix();
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &rotated_view[0][0]); // send the view matrix to our shader
         
         // Bind the buffer and switch it to an active buffer
         glBindVertexArray(vaoID[0]);
@@ -381,7 +410,7 @@ int main(int argc, const char * argv[])
     }
     
     // Program clean up when the window gets closed.
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, &vaoID[0]);
     glDeleteProgram(program);
 }
 
