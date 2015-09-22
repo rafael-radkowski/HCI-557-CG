@@ -2,6 +2,11 @@
 
 
 
+/* A trackball to move and rotate the camera view */
+Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
+
+// variable too keep the glsl version.
+int glsl_major = 0 , glsl_minor = 0;
 
 
 /* In GLFW mouse callback */
@@ -80,6 +85,8 @@ GLFWwindow* initWindow(void)
         exit(-1);
     }
     
+    
+    
     // Use the window as the current context (everything that's drawn will be place in this window).
     glfwMakeContextCurrent(window);
     
@@ -91,6 +98,7 @@ GLFWwindow* initWindow(void)
     // set the cursor callback
     glfwSetCursorPosCallback(window, cursorCallback);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    
     
     return window;
 }
@@ -114,6 +122,12 @@ bool initGlew(void)
     }
     
     cout <<  "OpenGL version supported by this platform " << glGetString(GL_VERSION) <<  endl;
+    
+    
+    // Check the GLSL version
+    const char *verstr = (const char *) glGetString(GL_SHADING_LANGUAGE_VERSION);
+    cout << "GLSL version supported by this platform " << string (verstr) << endl;
+    sscanf(verstr, "%d.%d", &glsl_major, &glsl_minor);
     
     return true;
 }

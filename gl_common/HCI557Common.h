@@ -18,7 +18,7 @@
 
 // Locals
 #include "controls.h"
-
+#include "ModelObj.h"
 
 using namespace std;
 
@@ -27,9 +27,6 @@ using namespace std;
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
-
-/* A trackball to move and rotate the camera view */
-static Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
 
 
 

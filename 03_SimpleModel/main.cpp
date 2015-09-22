@@ -81,7 +81,6 @@ GLFWwindow*         window;
 
 // Define some of the global variables we're using for this sample
 GLuint program;
-GLuint vao;
 
 unsigned int vaoID[1]; // Our Vertex Array Object
 
@@ -182,7 +181,7 @@ void createBox(void)
     colors[45] = 0.0; colors[46] = 0.5; colors[47] = 0.0; // Bottom left corner
     
     
-    glGenVertexArrays(2, &vaoID[0]); // Create our Vertex Array Object
+    glGenVertexArrays(1, &vaoID[0]); // Create our Vertex Array Object
     glBindVertexArray(vaoID[0]); // Bind our Vertex Array Object so we can use it
     
     
@@ -411,7 +410,7 @@ int main(int argc, const char * argv[])
     }
     
     // Program clean up when the window gets closed.
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, &vaoID[0]);
     glDeleteProgram(program);
 }
 
