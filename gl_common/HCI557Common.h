@@ -45,4 +45,14 @@ GLFWwindow* initWindow(void);
 bool initGlew(void);
 
 
+/*!
+ Return the glsl major / minor version.
+ */
+int GLSLMajor(void);
+int GLSLMinor(void);
+
+
+
+
+
 

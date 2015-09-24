@@ -9,6 +9,25 @@ Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
 int glsl_major = 0 , glsl_minor = 0;
 
 
+
+
+
+/*!
+ Return the glsl major / minor version.
+ */
+int GLSLMajor(void)
+{
+    return glsl_major;
+}
+
+int GLSLMinor(void)
+{
+    return glsl_minor;
+}
+
+
+
+
 /* In GLFW mouse callback */
 void mouseButtonCallback( GLFWwindow * window, int button, int action, int mods ){
     
@@ -43,6 +62,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    else if(key == 78)
+    {
+        bool value = true;
     }
 }
 
@@ -131,6 +154,7 @@ bool initGlew(void)
     
     return true;
 }
+
 
 
 
