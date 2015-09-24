@@ -87,7 +87,7 @@ int main(int argc, const char * argv[])
     // ignore this line, it allows us to keep the distance value after we proejct each object to a 2d canvas.
     glEnable(GL_DEPTH_TEST);
     
-   // sphere->enableNormalVectorRenderer();
+    //sphere->enableNormalVectorRenderer();
     
     // This is our render loop. As long as our window remains open (ESC is not pressed), we'll continue to render things.
     while(!glfwWindowShouldClose(window))

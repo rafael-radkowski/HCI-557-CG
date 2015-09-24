@@ -38,7 +38,7 @@ static const string vs_string_GLSphere_410 =
 "{                                                                 \n"
 "    vec3 normal = normalize(in_Normal);                                                                        \n"
 "    vec4 transformedNormal =  normalize(transpose(inverse(modelMatrixBox)) * vec4( normal, 1.0 ));             \n"
-"    vec4 surfacePostion = viewMatrixBox * modelMatrixBox * vec4(in_Position, 1.0);                             \n"
+"    vec4 surfacePostion = modelMatrixBox * vec4(in_Position, 1.0);                             \n"
 "                                                                                                               \n"
 "    vec4 surface_to_light =   normalize( vec4(light_position,1.0) -  surfacePostion );                         \n"
 "                                                                                                               \n"
@@ -200,6 +200,7 @@ void GLSphere::draw(void)
     // Bind the buffer and switch it to an active buffer
     glBindVertexArray(_vaoID[0]);
     
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // allows to see the primitives
     // Draw the triangles
     glDrawArrays(GL_TRIANGLE_STRIP, 0, _num_vertices);
     
@@ -432,12 +433,7 @@ void GLSphere::initShader(void)
     _lightPosition = glGetUniformLocation(_program, "light_position");
     
     
-    _sphereMaterial._ambientColorPos = glGetUniformLocation(_program, "ambient_color");
-    _sphereMaterial._diffuseColorPos = glGetUniformLocation(_program, "diffuse_color");
-    _sphereMaterial._specularColorPos = glGetUniformLocation(_program, "specular_color");
-    _sphereMaterial._shininessIdx = glGetUniformLocation(_program, "shininess");
-    
-    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
+       glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
     glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &viewMatrix()[0][0]); // Send our view matrix to the shader
     glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); // Send our model matrix to the shader
     
@@ -448,6 +444,13 @@ void GLSphere::initShader(void)
     _sphereMaterial._ambient_material = glm::vec3(1.0, 0.5, 0.0);
     _sphereMaterial._specular_material = glm::vec3(1.0, 1.0, 1.0);
     _sphereMaterial._shininess = 1.0;
+    
+    
+    _sphereMaterial._ambientColorPos = glGetUniformLocation(_program, "ambient_color");
+    _sphereMaterial._diffuseColorPos = glGetUniformLocation(_program, "diffuse_color");
+    _sphereMaterial._specularColorPos = glGetUniformLocation(_program, "specular_color");
+    _sphereMaterial._shininessIdx = glGetUniformLocation(_program, "shininess");
+    
     
     // Send the material to your shader program
     glUniform3fv(_sphereMaterial._ambientColorPos, 1, &_sphereMaterial._ambient_material[0] );
@@ -461,7 +464,7 @@ void GLSphere::initShader(void)
     // define the position of the light and send the light position to your shader program
     _light_source0._lightPos = glm::vec3(50.0,50.0,0.0);
     _light_source0._ambient_intensity = 0.5;
-    _light_source0._specular_intensity = 2.0;
+    _light_source0._specular_intensity = 1.0;
     _light_source0._diffuse_intensity = 1.0;
  
     
