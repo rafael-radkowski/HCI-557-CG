@@ -29,6 +29,29 @@ static const string vs_string_ColoredBox_410 =
 "    pass_Color = in_Color;                                         \n"
 "}                                                                 \n";
 
+
+
+
+static const string vs_string_ColoredBox_300 =
+"#version 310 core                                                 \n"
+"                                                                   \n"
+"uniform mat4 projectionMatrixBox;                                    \n"
+"uniform mat4 viewMatrixBox;                                           \n"
+"uniform mat4 modelMatrixBox;                                          \n"
+"in vec3 in_Position;                                               \n"
+"                                                                   \n"
+"in vec3 in_Color;                                                  \n"
+"                                              \n"
+"                                                                  \n"
+"void main(void)                                                   \n"
+"{                                                                 \n"
+"    gl_Position = projectionMatrixBox * viewMatrixBox * modelMatrixBox * vec4(in_Position, 1.0);  \n"
+"    gl_FrontColor = vec4(in_Color, 1.0);                                         \n"
+"}                                                                       \n";
+
+
+
+
 // Fragment shader source code. This determines the colors in the fragment generated in the shader pipeline. In this case, it colors the inside of our triangle specified by our vertex shader.
 static const string fs_string_ColoredBox_410  =
 "#version 410 core                                                 \n"
@@ -41,6 +64,15 @@ static const string fs_string_ColoredBox_410  =
 "}                                                                 \n";
 
 
+static const string fs_string_ColoredBox_300  =
+"#version 310 core                                                 \n"
+"                                                                  \n"
+"                                                \n"
+"                                                  \n"
+"void main(void)                                                   \n"
+"{                                                                 \n"
+"    gl_FragColor = vec4(pass_Color, 1.0);                               \n"
+"}                                                                 \n";
 
 
 
