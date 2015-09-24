@@ -266,10 +266,16 @@ void GLSphere::initVBO(void)
     
     _num_vertices = _spherePoints.size();
     
-    float vertices[_spherePoints.size() * 3];
+#ifdef _WIN32
+    float* vertices = new float[_spherePoints.size() * 3];
+    float* colors = new float[_spherePoints.size() * 3];
+    float* normals = new float[_spherePoints.size() * 3];
+#else
+	float vertices[_spherePoints.size() * 3];
     float colors[_spherePoints.size() * 3];
     float normals[_spherePoints.size() * 3];
-    
+
+#endif
     
     
     // copy the data to the vectors
@@ -345,8 +351,14 @@ void GLSphere::initVBONormals(void)
         
     }
     
+#ifdef _WIN32
+	float *normal_lines = new float[normalVectorLines.size() * 3];
+    float *colors = new float[normalVectorLines.size() * 3];
+#else
     float normal_lines[normalVectorLines.size() * 3];
     float colors[normalVectorLines.size() * 3];
+#endif
+
     for(int i=0; i<normalVectorLines.size() ; i++)
     {
         normal_lines[(i*3)] = normalVectorLines[i].x;
