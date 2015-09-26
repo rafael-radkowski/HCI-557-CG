@@ -266,16 +266,11 @@ void GLSphere::initVBO(void)
     
     _num_vertices = _spherePoints.size();
     
-#ifdef _WIN32
+    
+    // create memory for the vertices, etc.
     float* vertices = new float[_spherePoints.size() * 3];
     float* colors = new float[_spherePoints.size() * 3];
     float* normals = new float[_spherePoints.size() * 3];
-#else
-	float vertices[_spherePoints.size() * 3];
-    float colors[_spherePoints.size() * 3];
-    float normals[_spherePoints.size() * 3];
-
-#endif
     
     
     // copy the data to the vectors
@@ -325,11 +320,12 @@ void GLSphere::initVBO(void)
     glVertexAttribPointer((GLuint)logColor, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(logColor); //
     
-    
-    
     glBindVertexArray(0); // Disable our Vertex Buffer Object
     
-    
+    // delete the memory
+    delete vertices;
+    delete colors;
+    delete normals;
 }
 
 
@@ -351,13 +347,8 @@ void GLSphere::initVBONormals(void)
         
     }
     
-#ifdef _WIN32
-	float *normal_lines = new float[normalVectorLines.size() * 3];
+    float *normal_lines = new float[normalVectorLines.size() * 3];
     float *colors = new float[normalVectorLines.size() * 3];
-#else
-    float normal_lines[normalVectorLines.size() * 3];
-    float colors[normalVectorLines.size() * 3];
-#endif
 
     for(int i=0; i<normalVectorLines.size() ; i++)
     {
@@ -394,6 +385,8 @@ void GLSphere::initVBONormals(void)
     
     glBindVertexArray(0); // Disable our Vertex Buffer Object
     
+    delete normal_lines;
+    delete colors;
 }
 
 
