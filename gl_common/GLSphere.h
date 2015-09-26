@@ -24,101 +24,36 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
+// locals
 #include "GLObject.h"
 #include "Shaders.h"
-
+#include "HCI557Datatypes.h"
 
 using namespace std;
 
 class GLSphere : public GLObject
 {
-private:
-    
-    class Vertex{
-    public:
-        float x;
-        float y;
-        float z;
-        
-        Vertex(float px, float py, float pz):
-        x(px), y(py), z(pz){};
-        
-        Vertex():
-        x(0.0), y(0.0), z(0.0){};
-        
-        
-        Vertex operator-(Vertex& r)
-        {
-            Vertex res;
-            res.x = x-r.x;
-            res.y = y-r.y;
-            res.z = z-r.z;
-            return res;
-        }
-        
-        Vertex operator+(Vertex& r)
-        {
-            Vertex res;
-            res.x = x+r.x;
-            res.y = y+r.y;
-            res.z = z+r.z;
-            return res;
-        }
-        
-        Vertex& operator*(float r)
-        {
-            Vertex res;
-            res.x = x*r;
-            res.y = y*r;
-            res.z = z*r;
-            return res;
-        }
-        
-        Vertex& operator/(float r)
-        {
-            Vertex res;
-            res.x = x/r;
-            res.y = y/r;
-            res.z = z/r;
-            return res;
-        }
-        
-        void operator=(Vertex& r)
-        {
-            Vertex res;
-            x = r.x;
-            y = r.y;
-            z = r.z;
-        }
-        
-        inline void normalize(void)
-        {
-            float l = length();
-            x = x / l;
-            y = y / l;
-            z = z / l;
-            
-        }
-        
-        inline float length(void)
-        {
-             return sqrt( float((x*x) + (y*y) + (z*z)) );
-        }
-        
-        
-    };
-    
-
-    
 public:
+    /*!
+     Constructor
+     @param ceneter_x, center_y, center_z - the center of the sphere in x,y,z
+     @param radius - the radius of the sphere
+     @param rows - the number of triangle strip rows 
+     @param segments - the number of triangles per row.
+    */
     GLSphere(float center_x, float center_y, float center_z, float radius, int rows = 10, int segments = 10 );
+    
+    // default constructor
+    GLSphere(){};
+    
+    // desctructor
     ~GLSphere();
     
     
     /*!
      Draw the objects
      */
-    void draw(void);
+    virtual  void draw(void);
     
     
     /*!
@@ -138,18 +73,18 @@ public:
      */
     void enableNormalVectorRenderer(bool value = true);
     
-private:
+protected:
     
     
     /*!
      Create the vertex buffer object for this element
      */
-    void initVBO(void);
+    virtual void initVBO(void);
     
     /*
      Inits the shader program for this object
      */
-    void initShader(void);
+    virtual void initShader(void);
     
     /*!
      Init a frame buffer object to draw normal vectors
@@ -161,38 +96,32 @@ private:
      */
     void initShaderNormal(void);
     
-
-    
-    Vertex cross_product(Vertex& v1, Vertex& v2);
     
     /*
      Creates a sphere
      */
     void make_Sphere(Vertex center, double r, std::vector<Vertex> &spherePoints, std::vector<Vertex> &normals);
     
+
     
     // the program
     GLuint                  _program;
-    int                     _viewMatrixLocation;
+
     int                     _modelMatrixLocation;
-    int                     _lightPosition;
 
 
-    
-    // The material for thsi object
-    GLMaterial              _sphereMaterial;
-    
-    // The light source
-    GLLightSource           _light_source0;
-   
-    
     unsigned int            _vaoID[1]; // Our Vertex Array Object
     unsigned int            _vboID[3]; // Our Vertex Buffer Object
     
     
+    // The light source
+    GLLightSource           _light_source0;
+
+    
+    // The program and data to render normal vectors as lines
     GLuint                  _program_normals;
-    int                     _viewMatrixLocationN;
-    int                     _modelMatrixLocationN;
+    unsigned int            _viewMatrixLocationN;
+    unsigned int            _modelMatrixLocationN;
     unsigned int            _vaoIDNormals[1];
     unsigned int            _vboIDNormals[2]; // Our Vertex Buffer Object for normal vectors
 

@@ -1,10 +1,12 @@
 # Main cmake file 
-# Simple Model
+# Direct light example for HCI 557
+# Iowa State University
+# All rights reserved
 
 cmake_minimum_required(VERSION 2.6)
 
 # Main project name is ARMaker
-project(HCI557_Lighting)
+project(HCI557_Directlight)
 
 
 set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
@@ -29,8 +31,10 @@ include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/../gl_common/)
 
 # Add all files to the configuration
-file(GLOB HCI557_Lighting_SRC
-	main_lighting.cpp
+file(GLOB HCI557_Directlight_SRC
+	main_directlight.cpp
+    GLSphereDirect.h
+    GLSphereDirect.cpp
     ../gl_common/HCI557Common.cpp
     ../gl_common/HCI557Common.h
 	../gl_common/controls.cpp
@@ -49,7 +53,7 @@ file(GLOB HCI557_Lighting_SRC
 )
 
 # Create an executable
-add_executable(HCI557_Lighting ${HCI557_Lighting_SRC})
+add_executable(HCI557_Directlight ${HCI557_Directlight_SRC})
 
 
 # Add link directories
@@ -65,4 +69,4 @@ ENDIF(WIN32)
 
 
 # Add libraries
-target_link_libraries(HCI557_Lighting ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HCI557_Directlight ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )

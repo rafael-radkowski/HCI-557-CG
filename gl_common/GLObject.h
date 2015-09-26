@@ -22,6 +22,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+// local
+#include "GLAppearance.h"
 
 using namespace std;
 
@@ -38,61 +40,12 @@ void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up);
 
 
 
-class GLMaterial
-{
-public:
-    
-    glm::vec3   _specular_material;
-    glm::vec3   _diffuse_material;
-    glm::vec3   _ambient_material;
-    float       _shininess;
-    
-    
-    int         _ambientColorPos;
-    int         _diffuseColorPos;
-    int         _specularColorPos;
-    int         _shininessIdx;
-    
-    GLMaterial()
-    {
-        _specular_material = glm::vec3(1.0,0.0,0.0);
-        _diffuse_material = glm::vec3(1.0,0.0,0.0);
-        _ambient_material = glm::vec3(1.0,0.0,0.0);
-    }
-    
-};
-
-
-class GLLightSource
-{
-public:
-    
-    float       _specular_intensity;
-    float       _diffuse_intensity;
-    float       _ambient_intensity;
-
-    
-    // the glsl shader program positions
-    int         _specularIdx;
-    int         _diffuseIdx;
-    int         _ambientIdx;
-    
-    glm::vec3   _lightPos;
-    
-    GLLightSource():
-        _specular_intensity(1.0), _diffuse_intensity(1.0), _ambient_intensity(1.0)
-    {
-        _lightPos = glm::vec3(0.0,0.0,0.0);
-        _specularIdx = _diffuseIdx =_ambientIdx  = -1;
-    }
-    
-};
-
-
-
 
 /*!
  Abstract base class for objects which share a common view.
+ This object "common" type acts as a virtual camera and 
+ stores the view and projection matrix for each object as well as 
+ global functions to access them.
  */
 class GLObject
 {
@@ -130,5 +83,15 @@ protected:
     
     // returns the rotated view matrix, mulitplied with the trackball. 
     glm::mat4 rotatedViewMatrix(void);
+    
+    
+    // The location of teh view matrix and the projection matrix inside the shader code.
+    int                     _viewMatrixLocation;
+    int                     _projectionMatrixLocation;
+    
+    
+    
+    // The material for this object
+    GLMaterial              _material;
     
 };

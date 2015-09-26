@@ -10,7 +10,7 @@
 
 
 
-void CheckShader(GLuint shader, GLenum shader_type)
+bool CheckShader(GLuint shader, GLenum shader_type)
 {
     GLint compiled = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
@@ -26,14 +26,15 @@ void CheckShader(GLuint shader, GLenum shader_type)
             char* buf = (char*) malloc(info_len);
             if (buf) {
                 glGetShaderInfoLog(shader, info_len, NULL, buf);
-                cout << "Could not compile shader shader_type:\n" <<  buf << endl;
+                cout << "Could not compile shader shader_type " << shader_type << ":\n" <<  buf << endl;
                 free(buf);
             }
             glDeleteShader(shader);
             shader = 0;
         }
+        return false;
     }
-    
+    return true;
 
 }
 
@@ -62,15 +63,16 @@ GLuint CreateShaderProgram(string vertex_source, string fragment_source)
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fs, 1, &fs_source, NULL);
     glCompileShader(fs);
-    CheckShader(fs, GL_FRAGMENT_SHADER);
-
+    bool ret = CheckShader(fs, GL_FRAGMENT_SHADER);
+    if(!ret){cout << "Problems compiling GL_FRAGMENT_SHADER" << endl;}
     
     
     // We create a shader with our vertex shader source code and compile it.
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vs, 1, &vs_source, NULL);
     glCompileShader(vs);
-    CheckShader(vs, GL_FRAGMENT_SHADER);
+    ret = CheckShader(vs, GL_VERTEX_SHADER);
+    if(!ret){cout << "Problems compiling GL_VERTEX_SHADER" << endl;}
     
     // We'll attach our two compiled shaders to the OpenGL program.
     glAttachShader(program, vs);
@@ -82,4 +84,77 @@ GLuint CreateShaderProgram(string vertex_source, string fragment_source)
     
     return program;
 }
+
+
+
+/*!
+ Loads a shader program from a file and creates the related program
+ @param vertex_file -  the file which stores the vertex shader code
+ @param fragment_file -  the file which stores the fragment shader code
+ @return - Gluint of the shader program
+ */
+GLuint LoadAndCreateShaderProgram(string vertex_file, string fragment_file)
+{
+
+    string vertex_source = LoadFromFile(vertex_file);
+    string fragment_source= LoadFromFile(fragment_file);
+
+
+    // create and return the pgoram.
+    return CreateShaderProgram(vertex_source, fragment_source);
+
+}
+
+
+/*!
+ Verifies wheterh a file [name] exits
+ @param name - the path and the name of the file.
+ */
+bool Exists (const std::string& name)
+{
+    ifstream f(name.c_str());
+    if (f.good()) {
+        f.close();
+        return true;
+    } else {
+        f.close();
+        return false;
+    }
+}
+
+
+
+/*!
+ Opens a file and loads the code from this file.
+ */
+string LoadFromFile(string path_and_file)
+{
+    
+    if(!Exists(path_and_file)) return "";
+    
+    
+    ifstream in(path_and_file);
+    
+    if(in.good())
+    {
+        
+        std::string str;
+        
+        in.seekg(0, std::ios::end);
+        str.reserve(in.tellg());
+        in.seekg(0, std::ios::beg);
+        
+        str.assign((std::istreambuf_iterator<char>(in)),
+                   std::istreambuf_iterator<char>());
+        
+        return str;
+    }
+    return "";
+}
+
+
+
+
+
+
 

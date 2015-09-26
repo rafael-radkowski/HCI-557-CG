@@ -21,7 +21,7 @@ static const string vs_string_GLSphere_410 =
 "uniform vec3 diffuse_color;                                          \n"
 "uniform vec3 ambient_color;                                          \n"
 "uniform vec3 specular_color;                                          \n"
-"uniform vec3 light_position;                                          \n"
+"uniform vec4 light_position;                                          \n"
 "uniform float diffuse_intensity;                                          \n"
 "uniform float ambient_intensity;                                          \n"
 "uniform float specular_intensity;                                          \n"
@@ -40,7 +40,7 @@ static const string vs_string_GLSphere_410 =
 "    vec4 transformedNormal =  normalize(transpose(inverse(modelMatrixBox)) * vec4( normal, 1.0 ));             \n"
 "    vec4 surfacePostion = modelMatrixBox * vec4(in_Position, 1.0);                             \n"
 "                                                                                                               \n"
-"    vec4 surface_to_light =   normalize( vec4(light_position,1.0) -  surfacePostion );                         \n"
+"    vec4 surface_to_light =   normalize( light_position -  surfacePostion );                         \n"
 "                                                                                                               \n"
 "    // Diffuse color                                                                                           \n"
 "    float diffuse_coefficient = max( dot(transformedNormal, surface_to_light), 0.0);                           \n"
@@ -74,7 +74,7 @@ static const string vs_string_GLSphere_300 =
 "uniform vec3 diffuse_color;                                          \n"
 "uniform vec3 ambient_color;                                          \n"
 "uniform vec3 specular_color;                                          \n"
-"uniform vec3 light_position;                                          \n"
+"uniform vec4 light_position;                                          \n"
 "uniform float diffuse_intensity;                                          \n"
 "uniform float ambient_intensity;                                          \n"
 "uniform float specular_intensity;                                          \n"
@@ -91,7 +91,7 @@ static const string vs_string_GLSphere_300 =
 "    vec4 transformedNormal =  normalize(transpose(inverse(modelMatrixBox)) * vec4( normal, 1.0 ));             \n"
 "    vec4 surfacePostion = viewMatrixBox * modelMatrixBox * vec4(in_Position, 1.0);                             \n"
 "                                                                                                               \n"
-"    vec4 surface_to_light =   normalize( vec4(light_position,1.0) -  surfacePostion );                         \n"
+"    vec4 surface_to_light =   normalize( light_position -  surfacePostion );                         \n"
 "                                                                                                               \n"
 "    // Diffuse color                                                                                           \n"
 "    float diffuse_coefficient = max( dot(transformedNormal, surface_to_light), 0.0);                           \n"
@@ -151,15 +151,17 @@ static const string fs_string_GLSphere_300  =
 GLSphere::GLSphere(float center_x, float center_y, float center_z, float radius, int rows, int segments )
 {
     
-    _center.x = center_x;
-    _center.y = center_y;
-    _center.z = center_z;
+    _center.x() = center_x;
+    _center.y() = center_y;
+    _center.z() = center_z;
     
     _radius = radius;
     _rows = rows;
     _segments = segments;
     
     _render_normal_vectors = false;
+    _program_normals = -1;
+    _program = -1;
     
     initShader();
     initVBO();
@@ -175,7 +177,9 @@ GLSphere::~GLSphere()
 {
     // Program clean up when the window gets closed.
     glDeleteVertexArrays(1, _vaoID);
+    glDeleteVertexArrays(1, _vaoIDNormals);
     glDeleteProgram(_program);
+    glDeleteProgram(_program_normals);
 }
 
 
@@ -277,15 +281,15 @@ void GLSphere::initVBO(void)
     for(int i=0; i<_spherePoints.size() ; i++)
     {
         Vertex v = _spherePoints[i];
-        vertices[(i*3)] = v.x; vertices[(i*3)+1] = v.y; vertices[(i*3)+2] = v.z;
+        vertices[(i*3)] = v.x(); vertices[(i*3)+1] = v.y(); vertices[(i*3)+2] = v.z();
         
         Vertex n = _normalVectors[i];
-        normals[(i*3)] = n.x; normals[(i*3)+1] = n.y; normals[(i*3)+2] = n.z;
+        normals[(i*3)] = n.x(); normals[(i*3)+1] = n.y(); normals[(i*3)+2] = n.z();
         
         colors[(i*3)] = 1.0; colors[(i*3)+1] = 1.0; colors[(i*3)+2] = 0.0;
     }
     
-    
+    glUseProgram(_program);
     
     
     glGenVertexArrays(1, _vaoID); // Create our Vertex Array Object
@@ -352,15 +356,16 @@ void GLSphere::initVBONormals(void)
 
     for(int i=0; i<normalVectorLines.size() ; i++)
     {
-        normal_lines[(i*3)] = normalVectorLines[i].x;
-        normal_lines[(i*3)+1] = normalVectorLines[i].y;
-        normal_lines[(i*3)+2] = normalVectorLines[i].z;
+        normal_lines[(i*3)] = normalVectorLines[i].x();
+        normal_lines[(i*3)+1] = normalVectorLines[i].y();
+        normal_lines[(i*3)+2] = normalVectorLines[i].z();
         
-        colors[(i*3)] = 1.0; colors[(i*3)+1] = 0.0; colors[(i*3)+2] = 0.0;
+        colors[(i*3)] = 0.0; colors[(i*3)+1] = 0.0; colors[(i*3)+2] = 1.0;
     }
     
     _num_vertices_normals = normalVectorLines.size();
     
+    glUseProgram(_program_normals);
     
     glGenVertexArrays(1, _vaoIDNormals); // Create our Vertex Array Object
     glBindVertexArray(_vaoIDNormals[0]); // Bind our Vertex Array Object so we can use it
@@ -380,8 +385,8 @@ void GLSphere::initVBONormals(void)
     glBindBuffer(GL_ARRAY_BUFFER, _vboIDNormals[1]); // Bind our second Vertex Buffer Object
     glBufferData(GL_ARRAY_BUFFER, normalVectorLines.size() * 3 *  sizeof(GLfloat), colors, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
     
-    glVertexAttribPointer((GLuint)1, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
-    glEnableVertexAttribArray(1); //
+    glVertexAttribPointer((GLuint)glGetAttribLocation(_program, "in_Color"), 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
+    glEnableVertexAttribArray(glGetAttribLocation(_program, "in_Color")); //
     
     glBindVertexArray(0); // Disable our Vertex Buffer Object
     
@@ -435,7 +440,7 @@ void GLSphere::initShader(void)
     int projectionMatrixLocation = glGetUniformLocation(_program, "projectionMatrixBox"); // Get the location of our projection matrix in the shader
     _viewMatrixLocation = glGetUniformLocation(_program, "viewMatrixBox"); // Get the location of our view matrix in the shader
     _modelMatrixLocation = glGetUniformLocation(_program, "modelMatrixBox"); // Get the location of our model matrix in the shader
-    _lightPosition = glGetUniformLocation(_program, "light_position");
+    _light_source0._lightPosIdx = glGetUniformLocation(_program, "light_position");
     
     
        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
@@ -445,29 +450,29 @@ void GLSphere::initShader(void)
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Material
-    _sphereMaterial._diffuse_material = glm::vec3(1.0, 0.5, 0.0);
-    _sphereMaterial._ambient_material = glm::vec3(1.0, 0.5, 0.0);
-    _sphereMaterial._specular_material = glm::vec3(1.0, 1.0, 1.0);
-    _sphereMaterial._shininess = 1.0;
+    _material._diffuse_material = glm::vec3(1.0, 0.5, 0.0);
+    _material._ambient_material = glm::vec3(1.0, 0.5, 0.0);
+    _material._specular_material = glm::vec3(1.0, 1.0, 1.0);
+    _material._shininess = 1.0;
     
     
-    _sphereMaterial._ambientColorPos = glGetUniformLocation(_program, "ambient_color");
-    _sphereMaterial._diffuseColorPos = glGetUniformLocation(_program, "diffuse_color");
-    _sphereMaterial._specularColorPos = glGetUniformLocation(_program, "specular_color");
-    _sphereMaterial._shininessIdx = glGetUniformLocation(_program, "shininess");
+    _material._ambientColorPos = glGetUniformLocation(_program, "ambient_color");
+    _material._diffuseColorPos = glGetUniformLocation(_program, "diffuse_color");
+    _material._specularColorPos = glGetUniformLocation(_program, "specular_color");
+    _material._shininessIdx = glGetUniformLocation(_program, "shininess");
     
     
     // Send the material to your shader program
-    glUniform3fv(_sphereMaterial._ambientColorPos, 1, &_sphereMaterial._ambient_material[0] );
-    glUniform3fv(_sphereMaterial._diffuseColorPos, 1, &_sphereMaterial._diffuse_material[0]);
-    glUniform3fv(_sphereMaterial._specularColorPos, 1, &_sphereMaterial._specular_material[0]);
-    glUniform1f(_sphereMaterial._shininessIdx, _sphereMaterial._shininess);
+    glUniform3fv(_material._ambientColorPos, 1, &_material._ambient_material[0] );
+    glUniform3fv(_material._diffuseColorPos, 1, &_material._diffuse_material[0]);
+    glUniform3fv(_material._specularColorPos, 1, &_material._specular_material[0]);
+    glUniform1f(_material._shininessIdx, _material._shininess);
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Light
     
     // define the position of the light and send the light position to your shader program
-    _light_source0._lightPos = glm::vec3(50.0,50.0,0.0);
+    _light_source0._lightPos = glm::vec4(50.0,50.0,0.0,1.0);
     _light_source0._ambient_intensity = 0.5;
     _light_source0._specular_intensity = 1.0;
     _light_source0._diffuse_intensity = 1.0;
@@ -485,7 +490,7 @@ void GLSphere::initShader(void)
     glUniform1f(_light_source0._diffuseIdx, _light_source0._diffuse_intensity);
     glUniform1f(_light_source0._specularIdx, _light_source0._specular_intensity);
     
-    glUniform3fv(_lightPosition, 1, &_light_source0._lightPos[0]);
+    glUniform4fv(_light_source0._lightPosIdx, 1, &_light_source0._lightPos[0]);
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Vertex information / names
@@ -511,7 +516,7 @@ void GLSphere::initShaderNormal(void)
     
     glUseProgram(_program_normals);
     
-    int projectionMatrixLocation = glGetUniformLocation(_program_normals, "projectionMatrix"); // Get the location of our projection matrix in the shader
+    unsigned int projectionMatrixLocation = glGetUniformLocation(_program_normals, "projectionMatrix"); // Get the location of our projection matrix in the shader
     _viewMatrixLocationN = glGetUniformLocation(_program_normals, "viewMatrix"); // Get the location of our view matrix in the shader
     _modelMatrixLocationN = glGetUniformLocation(_program_normals, "modelMatrix"); // Get the location of our model matrix in the shader
     
@@ -527,17 +532,6 @@ void GLSphere::initShaderNormal(void)
     glUseProgram(0);
 }
 
-
-GLSphere::Vertex GLSphere::cross_product(Vertex& v1, Vertex& v2)
-{
-    Vertex r;
-    
-    r.x = v1.y * v2.z - v1.z * v2.y;
-    r.y = v1.z * v2.x - v1.x * v2.z;
-    r.z = v1.x * v2.y - v1.y * v2.x;
-    
-    return r;
-}
 
 
 void GLSphere::make_Sphere(Vertex center, double r, std::vector<Vertex> &spherePoints, std::vector<Vertex> &normals)
@@ -559,16 +553,16 @@ void GLSphere::make_Sphere(Vertex center, double r, std::vector<Vertex> &sphereP
         {
             
             Vertex point;
-            point.x = r * cos(phi) * sin(theta) + center.x;
-            point.y = r * sin(phi) * sin(theta) + center.y;
-            point.z = r            * cos(theta) + center.z;
+            point.x() = r * cos(phi) * sin(theta) + center.x();
+            point.y() = r * sin(phi) * sin(theta) + center.y();
+            point.z() = r            * cos(theta) + center.z();
             spherePoints.push_back(point); count++;
             
             
             Vertex point2;
-            point2.x = r * cos(phi) * sin(theta2) + center.x;
-            point2.y = r * sin(phi) * sin(theta2) + center.y;
-            point2.z = r            * cos(theta2) + center.z;
+            point2.x() = r * cos(phi) * sin(theta2) + center.x();
+            point2.y() = r * sin(phi) * sin(theta2) + center.y();
+            point2.z() = r            * cos(theta2) + center.z();
             spherePoints.push_back(point2); count++;
         }
         if(count_row == 0) count_row = count;
@@ -617,8 +611,8 @@ void GLSphere::make_Sphere(Vertex center, double r, std::vector<Vertex> &sphereP
             Vertex v2 = left - v;
             
             
-            Vertex normal = cross_product(v2, v1);
-            //normal.normalize();
+            Vertex normal = Vertex::cross_product(v2, v1);
+            normal.normalize();
             normals.push_back(normal);
         }
         

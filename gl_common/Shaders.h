@@ -14,6 +14,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <strstream>
+#include <string>
 
 // GLEW include
 #include <GL/glew.h>
@@ -34,7 +36,7 @@ using namespace std;
  @param shader: the shader program id
  @param shader_type, vertex or framgment shader
  */
-void CheckShader(GLuint shader, GLenum shader_type);
+bool CheckShader(GLuint shader, GLenum shader_type);
 
 
 /*
@@ -46,7 +48,30 @@ void CheckShader(GLuint shader, GLenum shader_type);
 GLuint CreateShaderProgram(string vertex_source, string fragment_source);
 
 
+/*!
+ Loads a shader program from a file and creates the related program
+ @param vertex_file -  the file which stores the vertex shader code
+ @param fragment_file -  the file which stores the fragment shader code
+ @return - Gluint of the shader program
+ */
+GLuint LoadAndCreateShaderProgram(string vertex_file, string fragment_file);
 
+
+/*!
+ Verifies wheterh a file [name] exits
+ @param name - the path and the name of the file.
+ @return - true if the file exits. 
+ */
+bool Exists (const std::string& name);
+
+
+
+/*!
+ Opens a file and loads the code from this file.
+ @param path_and_file - the path and the filename of the file
+ @return the content as string.
+ */
+string LoadFromFile(string path_and_file);
 
 
 static const string vs_string_simple_shader_410 =
@@ -65,7 +90,7 @@ static const string vs_string_simple_shader_410 =
 "                                                                  \n"
 "                                                                 \n"
 "    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_Position, 1.0);  \n"
-"    pass_Color = vec3(in_Color);                                         \n"
+"    pass_Color = vec3(1.0,0.0,0.0);                                         \n"
 "}                                                                 \n";
 
 
