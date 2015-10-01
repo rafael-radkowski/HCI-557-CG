@@ -53,9 +53,13 @@ GLSphereDirect::~GLSphereDirect()
  */
 void GLSphereDirect::initShader(void)
 {
+#ifdef _WIN32
     // This loads the shader program from a file
+    _program = LoadAndCreateShaderProgram("../data/shaders/directlight.vs", "../data/shaders/directlight.fs");
+#else
+	 // This loads the shader program from a file
     _program = LoadAndCreateShaderProgram("../../data/shaders/directlight.vs", "../../data/shaders/directlight.fs");
-    
+#endif
     glUseProgram(_program);
     
     

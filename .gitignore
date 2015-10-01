@@ -52,3 +52,6 @@ HW2_Program.build
 04_Transformation/OpenGL_Transformations.opensdf
 07_SpotLight/HCI557_Spotlight.build
 07_SpotLight/Release
+07_SpotLight/HCI557_Spotlight.opensdf
+data/shaders/spotlight.vs.rej
+07_SpotLight/HCI557_Spotlight.vcxproj.user

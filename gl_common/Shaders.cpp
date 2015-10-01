@@ -50,11 +50,11 @@ GLuint CreateShaderProgram(string vertex_source, string fragment_source)
     // Vertex shader source code. This draws the vertices in our window. We have 3 vertices since we're drawing an triangle.
     // Each vertex is represented by a vector of size 4 (x, y, z, w) coordinates.
     // static const string vertex_code = vs_string_CoordSystem;
-    static const char * vs_source = vertex_source.c_str();
+    const char * vs_source = vertex_source.c_str();
     
     // Fragment shader source code. This determines the colors in the fragment generated in the shader pipeline. In this case, it colors the inside of our triangle specified by our vertex shader.
     // static const string fragment_code = fs_string_CoordSystem;
-    static const char * fs_source = fragment_source.c_str();
+    const char * fs_source = fragment_source.c_str();
     
     // This next section we'll generate the OpenGL program and attach the shaders to it so that we can render our triangle.
     program = glCreateProgram();

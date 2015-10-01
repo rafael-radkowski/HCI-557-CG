@@ -56,9 +56,14 @@ GLSphereSpot::~GLSphereSpot()
  */
 void GLSphereSpot::initShader(void)
 {
+#ifdef _WIN32
     // This loads the shader program from a file
+    _program = LoadAndCreateShaderProgram("../data/shaders/spotlight.vs", "../data/shaders/spotlight.fs");
+#else
+	// This loads the shader program from a file
     _program = LoadAndCreateShaderProgram("../../data/shaders/spotlight.vs", "../../data/shaders/spotlight.fs");
-    
+#endif
+
     glUseProgram(_program);
     
     
