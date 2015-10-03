@@ -94,4 +94,8 @@ protected:
     // The material for this object
     GLMaterial              _material;
     
+    
+    // vector to store all the light sources that illuminate this object
+    vector<GLLightSource*>   _light_sources;
+    
 };

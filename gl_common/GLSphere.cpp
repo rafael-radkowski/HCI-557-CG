@@ -534,6 +534,7 @@ void GLSphere::initShaderNormal(void)
 
 
 
+
 void GLSphere::make_Sphere(Vertex center, double r, std::vector<Vertex> &spherePoints, std::vector<Vertex> &normals)
 {
     const double PI = 3.141592653589793238462643383279502884197;
@@ -564,66 +565,23 @@ void GLSphere::make_Sphere(Vertex center, double r, std::vector<Vertex> &sphereP
             point2.y() = r * sin(phi) * sin(theta2) + center.y();
             point2.z() = r            * cos(theta2) + center.z();
             spherePoints.push_back(point2); count++;
+            
+            Vertex normal;
+            normal.x() =  cos(phi) * sin(theta);
+            normal.y() =  sin(phi) * sin(theta);
+            normal.z() =  cos(theta);
+            normals.push_back(normal);
+            
+            Vertex normal2;
+            normal2.x() =  cos(phi) * sin(theta2);
+            normal2.y() =  sin(phi) * sin(theta2);
+            normal2.z() =  cos(theta2);
+            normals.push_back(normal2);
+            
+            
         }
         if(count_row == 0) count_row = count;
-        
-        
-        // Calculate the normal vectors for each point
-        for (int i=current_size; i<current_size+count; i++)
-        {
-            int r = i%2;
-            
-            Vertex v = spherePoints[i];
-            Vertex left;
-            Vertex right;
-            
-            if(r==0)
-            {
-                if(i == current_size)// the very first point
-                {
-                    left = spherePoints[spherePoints.size()-2];
-                    right = spherePoints[i+1];
-                    
-                }
-                else
-                {
-                    left = spherePoints[i-1];
-                    right = spherePoints[i+1];
-                }
-                
-            }
-            else
-            {
-                if(i == current_size+count-1)// the very first point
-                {
-                    left = spherePoints[current_size+1];
-                    right = spherePoints[i-1];
-                }
-                else
-                {
-                    left = spherePoints[i+1];
-                    right = spherePoints[i-1];
-                }
-            }
-            
-            
-            Vertex v1 = right - v;
-            Vertex v2 = left - v;
-            
-            
-            Vertex normal = Vertex::cross_product(v2, v1);
-            normal.normalize();
-            normals.push_back(normal);
-        }
-        
-        
-        
-
-        
-        
     }
-    
-    
     return;
 }
 
