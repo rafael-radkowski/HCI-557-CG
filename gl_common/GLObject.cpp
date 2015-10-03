@@ -53,6 +53,48 @@ GLObject::~GLObject()
 }
 
 
+/*!
+ Add the model view matrix, especially the three shader program objects to
+ the shader program "program"
+ */
+bool GLObject::addModelViewMatrixToProgram(GLuint program)
+{
+    
+    _projectionMatrixLocation = glGetUniformLocation(program, "projectionMatrixBox"); // Get the location of our projection matrix in the shader
+    _viewMatrixLocation = glGetUniformLocation(program, "viewMatrixBox"); // Get the location of our view matrix in the shader
+    _modelMatrixLocation = glGetUniformLocation(program, "modelMatrixBox"); // Get the location of our model matrix in the shader
+    
+    
+    glUniformMatrix4fv(_projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
+    glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &viewMatrix()[0][0]); // Send our view matrix to the shader
+    glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); // Send our model matrix to the shader
+
+    return true;
+}
+
+/*!
+ Set the appearance of this object
+ */
+void GLObject::setApperance(GLAppearance& apperance)
+{
+    if(_apperance.exists())
+    {
+        cerr << "[GLObject] - Did not set apperrance. The appearance for this object has already been set and cannot be changed without re-initialization" << endl;
+        return;
+    }
+    
+    _apperance = apperance;
+}
+
+
+/*!
+ Set the appearance of this object
+ */
+void setApperance(GLAppearance& apperance);
+
+
+
+
 
 glm::mat4 GLObject::projectionMatrix(void)
 {
@@ -72,6 +114,9 @@ glm::mat4 GLObject::rotatedViewMatrix(void)
 {
     return g_rotated_view;
 }
+
+
+
 
 
 

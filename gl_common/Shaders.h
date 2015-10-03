@@ -74,6 +74,20 @@ bool Exists (const std::string& name);
 string LoadFromFile(string path_and_file);
 
 
+
+
+
+/*!
+ Returns the variable name if it needs to be assembled from a struct name, the index, and the variable itself
+ @param struct_name - the name of the struct
+ @param variable_name - the name of the glsl variable
+ @param index - the name of the index
+ */
+string GetVariableName(string struct_name, string variable_name, int index );
+
+
+
+
 static const string vs_string_simple_shader_410 =
 "#version 410 core                                                 \n"
 "                                                                   \n"

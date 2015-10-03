@@ -23,22 +23,58 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
+using namespace std;
+
+
+class GLVariable
+{
+public:
+    GLVariable(){}
+    
+    virtual bool addVariablesToProgram(GLuint program, int variable_index = -1) = 0;
+    
+    
+    
+    virtual bool dirty(GLuint program) = 0;
+    
+protected:
+    /*!
+     Checks whether a uniform variable has been correctly added.
+     @param idx - the unifrom locaiton
+     @param name - the name of the uniform variable.
+     */
+    bool checkUniform(int idx, string name);
+};
+
+
+
+
 
 /*!
  A Material class, which allows us to define a material
  */
-class GLMaterial
+class GLMaterial : public GLVariable
 {
+protected:
+    
+    // These are the variable names which are used in our glsl shader programs.
+    // Make sure that you use the correct names in your programs.
+    string      _glsl_names[5] = { "ambient", "diffuse",  "specular",  "shininess", "emissive"};
+    string      _glsl_struct = "allMaterials";
+    
 public:
     
     // The material parameters
     glm::vec3   _specular_material;
     glm::vec3   _diffuse_material;
     glm::vec3   _ambient_material;
+    glm::vec3   _emissive_material;
     
     // Shininess factor
     float       _shininess;
 
+    // the transparency coefficient
+    float       _transparency;
     
     // The shader program indices of the material parameters.
     int         _ambientColorPos;
@@ -51,15 +87,39 @@ public:
         _specular_material = glm::vec3(1.0,0.0,0.0);
         _diffuse_material = glm::vec3(1.0,0.0,0.0);
         _ambient_material = glm::vec3(1.0,0.0,0.0);
+        _emissive_material = glm::vec3(1.0,0.0,0.0);
+        _shininess = 1.0;
     }
     
+    /*!
+     Add all the variables of this material object to the shader program "program".
+     It expects that the program already exits and that the names in _glsl_names are used
+     @param program - the glsl shader program integer id
+     */
+    virtual bool addVariablesToProgram(GLuint program, int variable_index);
+    
+    
+    /*!
+     Updates all the variables with new values
+     */
+    virtual bool dirty(GLuint program);
 };
+
+
 
 /*
  A light source class, which allows us to represent a light source.
  */
-class GLLightSource
+class GLLightSource  : public GLVariable
 {
+protected:
+    
+    // These are the variable names which are used in our glsl shader programs.
+    // Make sure that you use the correct names in your programs.
+    string      _glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
+    string      _glsl_object = "allLights";
+    
+    
 public:
     
     // The intensity of the light source
@@ -87,6 +147,7 @@ public:
     {
         _lightPos = glm::vec4(0.0,0.0,0.0,1.0);
         _specularIdx = _diffuseIdx =_ambientIdx = _attenuation_coeffIdx  = -1;
+
     }
     
     
@@ -143,6 +204,22 @@ public:
     inline float ambient(void){return _ambient_intensity;}
     
     
+    
+    /*!
+     Add all the variables of this material object to the shader program "program".
+     It expects that the program already exits and that the names in _glsl_names are used
+     @param program - the glsl shader program integer id
+     */
+    virtual bool addVariablesToProgram(GLuint program, int variable_index);
+    
+    
+    
+    /*!
+     Updates all the variables with new values
+     */
+    virtual bool dirty(GLuint program);
+    
+    
 };
 
 
@@ -152,6 +229,12 @@ public:
  */
 class GLSpotLightSource : public GLLightSource
 {
+protected:
+    
+    // These are the variable names which are used in our glsl shader programs.
+    // Make sure that you use the correct names in your programs.
+    string      _glsl_names[2] = { "cone_angle", "cone_direction"};
+    
 public:
     
     // The cone angle in degree because we calculate the angle in degree in our glsl program
@@ -172,8 +255,124 @@ public:
     }
 
 
+    
+    /*!
+     Add all the variables of this material object to the shader program "program".
+     It expects that the program already exits and that the names in _glsl_names are used
+     @param program - the glsl shader program integer id
+     */
+    virtual bool addVariablesToProgram(GLuint program, int variable_index);
+    
+    
+    
+    /*!
+     Updates all the variables with new values
+     */
+    virtual bool dirty(GLuint program);
+    
 };
 
+
+/*!
+ A point light source
+ */
+typedef GLLightSource GLPointLightSource;
+
+/*!
+ A direct light source
+ */
+typedef GLLightSource GLDirectLightSource;
+
+
+/*!
+ This object defines the apperance of a 3D geometry model.
+ It combines the shader code, with the material, and the light sources
+ */
+class GLAppearance
+{
+public:
+    
+    // Create an apperance object using a vertex and fragment shader file
+    GLAppearance(string vertex_shader_file, string fragment_shader_file);
+    GLAppearance();
+    ~GLAppearance();
+    
+    /*!
+     Returns the program index
+     */
+    inline GLuint getProgram(void){return _program;}
+    
+    
+    /*!
+     Add a light source that should illuminate this object.
+     You can add multiple light sources
+     @param light_source - a light source reference
+     */
+    void addLightSource(GLLightSource& light_source);
+    
+    /*!
+     Set the material for this object
+     @param material - a reference to a material object
+     */
+    void setMaterial(GLMaterial& material);
+    
+    /*!
+     Helper function to check whether this objects exits. 
+     */
+    inline bool exists(void){return _exists;}
+    
+    /*!
+     Update all the materials if values changes
+     */
+    void updateMaterial(void);
+    
+    /*!
+     Updates all the light sources
+     */
+    void updateLightSources(void);
+    
+    
+    /*!
+     Finalize the program and all variables.
+     */
+    void finalize(void);
+    
+protected:
+    
+    /*!
+     Add all the variables of this material object to the shader program "program".
+     It expects that the program already exits and that the names in _glsl_names are used
+     */
+    bool addVariablesToProgram(void);
+    
+    
+private:
+
+    
+    
+    // The shader program
+    GLuint                      _program;
+    
+    
+    // The material for this object
+    GLMaterial*                 _material;
+    
+    
+    // vector to store all the light sources that illuminate this object
+    vector<GLLightSource*>      _light_sources;
+    
+    
+    // counts the number of light sources
+    int                         _num_light_sources;
+    
+    
+    // helper to verify whether this object is ok.
+    bool                        _exists;
+    
+    // helper to mark the appearance as complete
+    bool                        _finalized;
+
+};
 
 
 

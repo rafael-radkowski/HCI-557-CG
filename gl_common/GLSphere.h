@@ -107,7 +107,6 @@ protected:
     // the program
     GLuint                  _program;
 
-    int                     _modelMatrixLocation;
 
 
     unsigned int            _vaoID[1]; // Our Vertex Array Object
@@ -126,7 +125,7 @@ protected:
     unsigned int            _vboIDNormals[2]; // Our Vertex Buffer Object for normal vectors
 
     
-    glm::mat4               _modelMatrix; // Store the model matrix
+
     
     
     // the dimensions of the sphere

@@ -62,6 +62,19 @@ public:
     virtual void draw(void) = 0;
     
     
+    /*!
+     Add the model view matrix, especially the three shader program objects to
+     the shader program "program"
+     */
+    bool addModelViewMatrixToProgram(GLuint program);
+    
+    
+    
+    /*!
+     Set the appearance of this object
+     */
+    void setApperance(GLAppearance& apperance);
+    
     
 protected:
     
@@ -75,7 +88,7 @@ protected:
      Inits the shader program for this object
      */
     virtual void initShader(void) = 0;
-
+    
 
     // Model view projection paramaters
     glm::mat4 projectionMatrix(void);
@@ -90,12 +103,26 @@ protected:
     int                     _projectionMatrixLocation;
     
     
+    // Stores teh model matrix and the model matrix location
+    int                     _modelMatrixLocation;
+    glm::mat4               _modelMatrix; // Store the model matrix
+    
     
     // The material for this object
     GLMaterial              _material;
     
     
-    // vector to store all the light sources that illuminate this object
-    vector<GLLightSource*>   _light_sources;
+    // An apperance object
+    GLAppearance            _apperance;
     
 };
+
+
+
+
+
+
+
+
+
+
