@@ -17,6 +17,7 @@ static const string vs_string_GLSphere_410 =
 "                                                                   \n"
 "uniform mat4 projectionMatrixBox;                                    \n"
 "uniform mat4 viewMatrixBox;                                           \n"
+"uniform mat4 inverseViewMatrix;                                        \n"
 "uniform mat4 modelMatrixBox;                                          \n"
 "uniform vec3 diffuse_color;                                          \n"
 "uniform vec3 ambient_color;                                          \n"
@@ -51,8 +52,8 @@ static const string vs_string_GLSphere_410 =
 "                                                                                                               \n"
 "    // Specular color                                                                                          \n"
 "    vec3 incidenceVector = -surface_to_light.xyz;                                                              \n"
-"    vec3 reflectionVector = reflect(incidenceVector, transformedNormal.xyz);                                   \n"
-"    vec3 cameraPosition = vec3( -viewMatrixBox[3][0], -viewMatrixBox[3][1], -viewMatrixBox[3][2]);             \n"
+"    vec3 reflectionVector = reflect(incidenceVector, normal);                                   \n"
+"    vec3 cameraPosition = vec3( inverseViewMatrix[3][0], inverseViewMatrix[3][1], inverseViewMatrix[3][2]);             \n"
 "    vec3 surfaceToCamera = normalize(cameraPosition - surfacePostion.xyz);                                     \n"
 "    float cosAngle = max( dot(surfaceToCamera, reflectionVector), 0.0);                                        \n"
 "    float specular_coefficient = pow(cosAngle, shininess);                                                     \n"
@@ -71,6 +72,7 @@ static const string vs_string_GLSphere_300 =
 "uniform mat4 projectionMatrixBox;                                    \n"
 "uniform mat4 viewMatrixBox;                                           \n"
 "uniform mat4 modelMatrixBox;                                          \n"
+"uniform mat4 inverseViewMatrix;                                        \n"
 "uniform vec3 diffuse_color;                                          \n"
 "uniform vec3 ambient_color;                                          \n"
 "uniform vec3 specular_color;                                          \n"
@@ -102,8 +104,8 @@ static const string vs_string_GLSphere_300 =
 "                                                                                                               \n"
 "    // Specular color                                                                                          \n"
 "    vec3 incidenceVector = -surface_to_light.xyz;                                                              \n"
-"    vec3 reflectionVector = reflect(incidenceVector, transformedNormal.xyz);                                   \n"
-"    vec3 cameraPosition = vec3( -viewMatrixBox[3][0], -viewMatrixBox[3][1], -viewMatrixBox[3][2]);             \n"
+"    vec3 reflectionVector = reflect(incidenceVector, normal);                                   \n"
+"    vec3 cameraPosition = vec3( inverseViewMatrix[3][0], inverseViewMatrix[3][1], inverseViewMatrix[3][2]);             \n"
 "    vec3 surfaceToCamera = normalize(cameraPosition - surfacePostion.xyz);                                     \n"
 "    float cosAngle = max( dot(surfaceToCamera, reflectionVector), 0.0);                                        \n"
 "    float specular_coefficient = pow(cosAngle, shininess);                                                     \n"
@@ -198,7 +200,7 @@ void GLSphere::draw(void)
     // this changes the camera location
     glm::mat4 rotated_view =  rotatedViewMatrix();
     glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &rotated_view[0][0]); // send the view matrix to our shader
-    
+    glUniformMatrix4fv(_inverseViewMatrixLocation, 1, GL_FALSE, &invRotatedViewMatrix()[0][0]);
     glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); //
     
     // Bind the buffer and switch it to an active buffer
@@ -440,20 +442,22 @@ void GLSphere::initShader(void)
     int projectionMatrixLocation = glGetUniformLocation(_program, "projectionMatrixBox"); // Get the location of our projection matrix in the shader
     _viewMatrixLocation = glGetUniformLocation(_program, "viewMatrixBox"); // Get the location of our view matrix in the shader
     _modelMatrixLocation = glGetUniformLocation(_program, "modelMatrixBox"); // Get the location of our model matrix in the shader
+    _inverseViewMatrixLocation = glGetUniformLocation(_program, "inverseViewMatrix");
+    
     _light_source0._lightPosIdx = glGetUniformLocation(_program, "light_position");
     
     
-       glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
+    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
     glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &viewMatrix()[0][0]); // Send our view matrix to the shader
     glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); // Send our model matrix to the shader
-    
+     glUniformMatrix4fv(_inverseViewMatrixLocation, 1, GL_FALSE, &invRotatedViewMatrix()[0][0]);
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Material
     _material._diffuse_material = glm::vec3(1.0, 0.5, 0.0);
     _material._ambient_material = glm::vec3(1.0, 0.5, 0.0);
     _material._specular_material = glm::vec3(1.0, 1.0, 1.0);
-    _material._shininess = 1.0;
+    _material._shininess = 12.0;
     
     
     _material._ambientColorPos = glGetUniformLocation(_program, "ambient_color");

@@ -3,7 +3,8 @@
 // Transformations for the projections
 uniform mat4 projectionMatrixBox;                                    
 uniform mat4 viewMatrixBox;                                          
-uniform mat4 modelMatrixBox;     
+uniform mat4 modelMatrixBox;
+uniform mat4 inverseViewMatrix;
 
 // The material parameters 
 uniform vec3 diffuse_color;                                        
@@ -47,8 +48,8 @@ void main(void)
                                                                                                              
     // Specular color                                                                                        
     vec3 incidenceVector = -surface_to_light.xyz;                                                             
-    vec3 reflectionVector = reflect(incidenceVector, transformedNormal.xyz);                                   
-    vec3 cameraPosition = vec3( -viewMatrixBox[3][0], -viewMatrixBox[3][1], -viewMatrixBox[3][2]);            
+    vec3 reflectionVector = reflect(incidenceVector, normal);
+    vec3 cameraPosition = vec3( inverseViewMatrix[3][0], inverseViewMatrix[3][1], inverseViewMatrix[3][2]);
     vec3 surfaceToCamera = normalize(cameraPosition - surfacePostion.xyz);                                   
     float cosAngle = max( dot(surfaceToCamera, reflectionVector), 0.0);                                       
     float specular_coefficient = pow(cosAngle, shininess);                                                     
@@ -79,7 +80,7 @@ void main(void)
 	
 	// Calculate the linear color
 	vec3 linearColor = out_ambient_color  + attenuation * ( out_diffuse_color + out_specular_color);  
-	
+
 	// Gamma correction	
 	vec3 gamma = vec3(1.0/2.2);
 	vec3 finalColor = pow(linearColor, gamma);

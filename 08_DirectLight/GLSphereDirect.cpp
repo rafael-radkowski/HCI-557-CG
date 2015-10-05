@@ -81,20 +81,20 @@ void GLSphereDirect::initShader(void)
     _projectionMatrixLocation = glGetUniformLocation(_program, "projectionMatrixBox"); // Get the location of our projection matrix in the shader
     _viewMatrixLocation = glGetUniformLocation(_program, "viewMatrixBox"); // Get the location of our view matrix in the shader
     _modelMatrixLocation = glGetUniformLocation(_program, "modelMatrixBox"); // Get the location of our model matrix in the shader
-   
+    _inverseViewMatrixLocation = glGetUniformLocation(_program, "inverseViewMatrix");
     
     
     glUniformMatrix4fv(_projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
     glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &viewMatrix()[0][0]); // Send our view matrix to the shader
     glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); // Send our model matrix to the shader
-    
+    glUniformMatrix4fv(_inverseViewMatrixLocation, 1, GL_FALSE, &invRotatedViewMatrix()[0][0]);
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Material
     _material._diffuse_material = glm::vec3(1.0, 0.5, 0.0);
     _material._ambient_material = glm::vec3(1.0, 0.5, 0.0);
     _material._specular_material = glm::vec3(1.0, 1.0, 1.0);
-    _material._shininess = 1.0;
+    _material._shininess = 12.0;
     
     
     _material._ambientColorPos = glGetUniformLocation(_program, "ambient_color");

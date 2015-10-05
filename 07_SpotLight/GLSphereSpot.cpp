@@ -85,20 +85,20 @@ void GLSphereSpot::initShader(void)
     _projectionMatrixLocation = glGetUniformLocation(_program, "projectionMatrixBox"); // Get the location of our projection matrix in the shader
     _viewMatrixLocation = glGetUniformLocation(_program, "viewMatrixBox"); // Get the location of our view matrix in the shader
     _modelMatrixLocation = glGetUniformLocation(_program, "modelMatrixBox"); // Get the location of our model matrix in the shader
-   
+    _inverseViewMatrixLocation = glGetUniformLocation(_program, "inverseViewMatrix");
     
     
     glUniformMatrix4fv(_projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix()[0][0] ); // Send our projection matrix to the shader
     glUniformMatrix4fv(_viewMatrixLocation, 1, GL_FALSE, &viewMatrix()[0][0]); // Send our view matrix to the shader
     glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]); // Send our model matrix to the shader
-    
+    glUniformMatrix4fv(_inverseViewMatrixLocation, 1, GL_FALSE, &invRotatedViewMatrix()[0][0]);
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Material
     _material._diffuse_material = glm::vec3(1.0, 0.5, 0.0);
     _material._ambient_material = glm::vec3(1.0, 0.5, 0.0);
     _material._specular_material = glm::vec3(1.0, 1.0, 1.0);
-    _material._shininess = 1.0;
+    _material._shininess = 12.0;
     
     
     _material._ambientColorPos = glGetUniformLocation(_program, "ambient_color");
@@ -119,11 +119,11 @@ void GLSphereSpot::initShader(void)
     // define the position of the light and send the light position to your shader program
     _light_source1._lightPos = glm::vec4(20.0,20.0,0.0, 1.0);
     _light_source1._ambient_intensity = 0.3;
-    _light_source1._specular_intensity = 5.0;
-    _light_source1._diffuse_intensity = 8.0;
+    _light_source1._specular_intensity = 10.0;
+    _light_source1._diffuse_intensity = 15.5;
     _light_source1._attenuation_coeff = 0.02;
     
-    _light_source1._cone_angle = 12.0; // in degree
+    _light_source1._cone_angle = 90.0; // in degree
     _light_source1._cone_direction = glm::vec3(-1.0, -1.0, 0.0); // this must be aligned with the object and light position.
     
     // Read all the index values from the shader program

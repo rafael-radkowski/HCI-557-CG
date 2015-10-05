@@ -93,15 +93,16 @@ protected:
     // Model view projection paramaters
     glm::mat4 projectionMatrix(void);
     glm::mat4 viewMatrix(void);
+    glm::mat4 invViewMatrix(void);
     
     // returns the rotated view matrix, mulitplied with the trackball. 
     glm::mat4 rotatedViewMatrix(void);
-    
+    glm::mat4 invRotatedViewMatrix(void);
     
     // The location of teh view matrix and the projection matrix inside the shader code.
     int                     _viewMatrixLocation;
     int                     _projectionMatrixLocation;
-    
+    int                     _inverseViewMatrixLocation;
     
     // Stores teh model matrix and the model matrix location
     int                     _modelMatrixLocation;
