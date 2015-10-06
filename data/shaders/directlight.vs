@@ -83,7 +83,7 @@ void main(void)
 	
 	// Calculate the linear color
 	vec3 linearColor = out_ambient_color  + attenuation * ( out_diffuse_color + out_specular_color);  
-    linearColor = out_diffuse_color;
+  
 	// Gamma correction	
 	vec3 gamma = vec3(1.0/2.2);
 	vec3 finalColor = pow(linearColor, gamma);
