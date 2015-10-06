@@ -116,7 +116,7 @@ void GLSphereDirect::initShader(void)
     _light_source1._lightPos = glm::vec4(20.0,20.0,0.0,0.0);
     _light_source1._ambient_intensity = 0.3;
     _light_source1._specular_intensity = 0.5;
-    _light_source1._diffuse_intensity = 1.0;
+    _light_source1._diffuse_intensity = 2.0;
     _light_source1._attenuation_coeff = 0.02;
     
 

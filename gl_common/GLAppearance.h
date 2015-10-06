@@ -59,7 +59,7 @@ protected:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[5] = { "ambient", "diffuse",  "specular",  "shininess", "emissive"};
+    string      _glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
     string      _glsl_struct = "allMaterials";
     
 public:
@@ -81,14 +81,17 @@ public:
     int         _diffuseColorPos;
     int         _specularColorPos;
     int         _shininessIdx;
+    int         _transparencyIdx;
+    int         _emissiveIdx;
     
     GLMaterial()
     {
         _specular_material = glm::vec3(1.0,0.0,0.0);
         _diffuse_material = glm::vec3(1.0,0.0,0.0);
         _ambient_material = glm::vec3(1.0,0.0,0.0);
-        _emissive_material = glm::vec3(1.0,0.0,0.0);
+        _emissive_material = glm::vec3(0.0,0.0,0.0);
         _shininess = 1.0;
+        _transparency = 1.0;
     }
     
     /*!

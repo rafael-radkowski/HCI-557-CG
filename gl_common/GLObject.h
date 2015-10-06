@@ -76,6 +76,13 @@ public:
     void setApperance(GLAppearance& apperance);
     
     
+    /*!
+     Set a model matrix to move the object around
+     @param matrix - the model matrix for this object.
+     */
+    void setMatrix(glm::mat4& matrix);
+    
+    
 protected:
     
     

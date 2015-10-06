@@ -69,12 +69,15 @@ bool GLMaterial::addVariablesToProgram(GLuint program, int variable_index)
     _shininessIdx = glGetUniformLocation(program, GetVariableName(_glsl_struct, _glsl_names[3], variable_index).c_str());
                         checkUniform(_shininessIdx, _glsl_names[3]);
     
+    _emissiveIdx = glGetUniformLocation(program, GetVariableName(_glsl_struct, _glsl_names[4], variable_index).c_str());
+                        checkUniform(_emissiveIdx, _glsl_names[4]);
+    
+    _transparencyIdx = glGetUniformLocation(program, GetVariableName(_glsl_struct, _glsl_names[5], variable_index).c_str());
+                    checkUniform(_transparencyIdx, _glsl_names[5]);
+    
     
     // Send the material to your shader program
-    glUniform3fv(_ambientColorPos, 1, &_ambient_material[0] );
-    glUniform3fv(_diffuseColorPos, 1, &_diffuse_material[0]);
-    glUniform3fv(_specularColorPos, 1, &_specular_material[0]);
-    glUniform1f(_shininessIdx, _shininess);
+    dirty(program);
     
     // disable the program
     // glUseProgram(0);
@@ -96,7 +99,9 @@ bool GLMaterial::dirty(GLuint program)
     glUniform3fv(_ambientColorPos, 1, &_ambient_material[0] );
     glUniform3fv(_diffuseColorPos, 1, &_diffuse_material[0]);
     glUniform3fv(_specularColorPos, 1, &_specular_material[0]);
+    glUniform3fv(_emissiveIdx, 1, &_emissive_material[0]);
     glUniform1f(_shininessIdx, _shininess);
+    glUniform1f(_transparencyIdx, _transparency);
     
     // disable the program
     glUseProgram(0);

@@ -38,9 +38,12 @@ void main(void)
     vec4 surfacePostion = modelMatrixBox * vec4(in_Position, 1.0);                          
                                                                                                             
     vec4 surface_to_light =   normalize( light_position -  surfacePostion );                      
-                                                                                                            
-    // Diffuse color                                                                                          
-    float diffuse_coefficient = max( dot(transformedNormal, surface_to_light), 0.0);                         
+    if(light_position.w == 0.0){
+        surface_to_light =   normalize( light_position);
+    }
+    
+    // Diffuse color
+    float diffuse_coefficient = max( dot(transformedNormal, surface_to_light), 0.0);
     vec3 out_diffuse_color = diffuse_color  * diffuse_coefficient * diffuse_intensity;                        
                                                                                                               
     // Ambient color                                                                                         
@@ -80,7 +83,7 @@ void main(void)
 	
 	// Calculate the linear color
 	vec3 linearColor = out_ambient_color  + attenuation * ( out_diffuse_color + out_specular_color);  
-
+    linearColor = out_diffuse_color;
 	// Gamma correction	
 	vec3 gamma = vec3(1.0/2.2);
 	vec3 finalColor = pow(linearColor, gamma);

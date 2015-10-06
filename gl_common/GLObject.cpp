@@ -44,7 +44,7 @@ void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 GLObject::GLObject()
 {
 
-    g_projectionMatrix = glm::perspective(1.57f, (float)800 / (float)600, 0.1f, 100.f);
+    g_projectionMatrix = glm::perspective(1.0f, (float)800 / (float)600, 0.1f, 100.f);
     g_viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     g_invViewMatrix = glm::inverse(g_viewMatrix);
     
@@ -95,12 +95,13 @@ void GLObject::setApperance(GLAppearance& apperance)
 
 
 /*!
- Set the appearance of this object
+ Set a model matrix to move the object around
+ @param matrix - the model matrix for this object.
  */
-void setApperance(GLAppearance& apperance);
-
-
-
+void GLObject::setMatrix(glm::mat4& matrix)
+{
+    _modelMatrix = matrix;
+}
 
 
 glm::mat4 GLObject::projectionMatrix(void)
