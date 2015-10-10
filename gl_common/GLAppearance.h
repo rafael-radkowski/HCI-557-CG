@@ -22,29 +22,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+// locals
+#include "GLAppearanceBase.h"
+#include "Texture.h"
+
 
 using namespace std;
 
-
-class GLVariable
-{
-public:
-    GLVariable(){}
-    
-    virtual bool addVariablesToProgram(GLuint program, int variable_index = -1) = 0;
-    
-    
-    
-    virtual bool dirty(GLuint program) = 0;
-    
-protected:
-    /*!
-     Checks whether a uniform variable has been correctly added.
-     @param idx - the unifrom locaiton
-     @param name - the name of the uniform variable.
-     */
-    bool checkUniform(int idx, string name);
-};
 
 
 
@@ -340,6 +324,12 @@ public:
      */
     void finalize(void);
     
+    
+    /*!
+     Add a texture to the appearance.
+     */
+    void setTexture(GLTexture* texture);
+    
 protected:
     
     /*!
@@ -365,12 +355,17 @@ private:
     vector<GLLightSource*>      _light_sources;
     
     
+    // maintains the texture objectx
+    vector<GLTexture*>          _textures;
+    
+    
     // counts the number of light sources
     int                         _num_light_sources;
     
     
     // helper to verify whether this object is ok.
     bool                        _exists;
+    
     
     // helper to mark the appearance as complete
     bool                        _finalized;

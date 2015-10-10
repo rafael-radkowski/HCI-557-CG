@@ -39,6 +39,10 @@ void SetTrackballLocation(glm::mat4 trackball);
 void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up);
 
 
+/*!
+ Set the view frustum. 
+ */
+void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, float far);
 
 
 /*!

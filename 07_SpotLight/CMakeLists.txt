@@ -46,6 +46,7 @@ file(GLOB HCI557_Spotlight_SRC
     ../gl_common/Shaders.h
     ../gl_common/Shaders.cpp
     ../gl_common/HCI557Datatypes.h
+    ../gl_common/GLAppearanceBase.h
     ../gl_common/GLAppearance.h
     ../gl_common/GLAppearance.cpp
 )

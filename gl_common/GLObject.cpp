@@ -40,6 +40,11 @@ void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 }
 
 
+void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, float far)
+{
+    g_projectionMatrix = glm::perspective(view_angle_y, ratio, near, far);
+}
+
 
 GLObject::GLObject()
 {

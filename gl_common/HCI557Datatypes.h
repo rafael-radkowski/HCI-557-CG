@@ -31,14 +31,19 @@ protected:
     T _y;
     T _z;
     T _w;
+    
+    
+    // Texture coordinates
+    T _u;
+    T _v;
 
     
 public:
     _Vertex(T px, T py, T pz):
-    _x(px), _y(py), _z(pz), _w(1.0){};
+    _x(px), _y(py), _z(pz), _w(1.0), _u(0.0), _v(0.0){};
     
     _Vertex():
-    _x(0.0), _y(0.0), _z(0.0), _w(1.0){};
+    _x(0.0), _y(0.0), _z(0.0), _w(1.0), _u(0.0), _v(0.0){};
     
     
     inline _Vertex operator-(_Vertex& r)
@@ -130,6 +135,8 @@ public:
     inline T& z(){return _z;}
     inline T& w(){return _w;}
     
+    inline T& u(){return _u;}
+    inline T& v(){return _v;}
     
 };
 

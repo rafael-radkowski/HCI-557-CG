@@ -269,7 +269,7 @@ GLAppearance::GLAppearance(string vertex_shader_file, string fragment_shader_fil
 {
     
     // This loads the shader program from a file
-    _program = LoadAndCreateShaderProgram("../../data/shaders/multi_vertex_lights.vs", "../../data/shaders/multi_vertex_lights.fs");
+    _program = LoadAndCreateShaderProgram(vertex_shader_file, fragment_shader_file);
     
     GLint params;
     glGetProgramiv( _program, GL_LINK_STATUS, &params);
@@ -407,6 +407,23 @@ void GLAppearance::finalize(void)
     
     _finalized = true;
     addVariablesToProgram();
+}
+
+
+/*!
+ Add a texture to the appearance.
+ */
+void GLAppearance::setTexture(GLTexture* texture)
+{
+    if(_finalized)
+    {
+        cerr << "Apperance already finalized. Material cannot be set" << endl;
+        return;
+    }
+    
+    _textures.push_back(texture);
+    texture->addVariablesToProgram(_program, -1);
+
 }
 
 
