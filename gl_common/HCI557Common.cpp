@@ -9,7 +9,8 @@ Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
 int glsl_major = 0 , glsl_minor = 0;
 
 
-
+// this is a helper variable to allow us to change the texture blend model
+int g_change_texture_blend;
 
 
 /*!
@@ -63,9 +64,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
-    else if(key == 78)
+    else if(key == 84 && action == GLFW_PRESS) // key t
     {
-        bool value = true;
+        g_change_texture_blend++;
+        g_change_texture_blend = g_change_texture_blend%3;
+
     }
 }
 

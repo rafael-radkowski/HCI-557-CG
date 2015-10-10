@@ -46,9 +46,6 @@ GLuint program;
 extern Trackball trackball;
 
 
-// this is a helper variable to allow us to change the texture blend model
-extern int g_change_texture_blend;
-
 
 int main(int argc, const char * argv[])
 {
@@ -74,7 +71,7 @@ int main(int argc, const char * argv[])
     
     
     // create an apperance object.
-    GLAppearance* apperance_0 = new GLAppearance("../../data/shaders/single_texture.vs", "../../data/shaders/single_texture.fs");
+    GLAppearance* apperance_0 = new GLAppearance("../../data/shaders/texture_filter.vs", "../../data/shaders/texture_filter.fs");
     
     GLDirectLightSource  light_source;
     light_source._lightPos = glm::vec4(00.0,20.0,20.0, 0.0);
@@ -100,11 +97,11 @@ int main(int argc, const char * argv[])
     
     // Create a material object
     GLMaterial material_0;
-    material_0._diffuse_material = glm::vec3(0.2, 0.0, 1.0);
-    material_0._ambient_material = glm::vec3(0.2, 0.0, 1.0);
+    material_0._diffuse_material = glm::vec3(0.0, 0.0, 0.0);
+    material_0._ambient_material = glm::vec3(0.0, 0.0, 0.0);
     material_0._specular_material = glm::vec3(1.0, 1.0, 1.0);
     material_0._shininess = 12.0;
-    material_0._transparency = 0.5;
+    material_0._transparency = 0.4;
     
     // Add the material to the apperance object
     apperance_0->setMaterial(material_0);
@@ -113,7 +110,7 @@ int main(int argc, const char * argv[])
     //************************************************************************************************
     // Add a texture
     GLTexture* texture = new GLTexture();
-    int texid = texture->loadAndCreateTexture("../../data/textures/texture_earth_128x128_a.bmp");
+    int texid = texture->loadAndCreateTexture("../../data/textures/texture_isu.bmp");
     apperance_0->setTexture(texture);
     
     //************************************************************************************************
@@ -122,7 +119,7 @@ int main(int argc, const char * argv[])
     
     
     // create the sphere geometry
-    GLPlane3D* plane_0 = new GLPlane3D(0.0, 0.0, 0.0, 50.0, 50.0);
+    GLPlane3D* plane_0 = new GLPlane3D(0.0, 0.0, 0.0, 80.0, 50.0);
     plane_0->setApperance(*apperance_0);
     plane_0->init();
     
@@ -180,12 +177,9 @@ int main(int argc, const char * argv[])
         
         // draw the objects
         cs->draw();
-        plane_0->draw();
- 
         
-        // change the texture appearance blend mode
-        bool ret = texture->setTextureBlendMode(g_change_texture_blend);
-        if(ret)apperance_0->updateTextures();
+        plane_0->draw();
+      //  sphere_0->draw();
         
         
         //// This renders the objects

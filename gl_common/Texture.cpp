@@ -13,6 +13,8 @@
 GLTexture::GLTexture()
 {
     _textureIdx = -1;
+    _texture_blend_mode = 0;
+    _dirty = false;
 }
 
 GLTexture::~GLTexture()
@@ -92,7 +94,7 @@ int GLTexture::loadAndCreateTexture(string path_and_file)
     glBindTexture( GL_TEXTURE_2D, _texture );
     
     // Change the parameters of your texture units.
-    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_BLEND );
+    //glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_BLEND );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT );
@@ -149,6 +151,27 @@ bool GLTexture::addVariablesToProgram(GLuint program, int variable_index )
     _textureIdx = glGetUniformLocation(program, _glsl_names[0].c_str() );
     checkUniform(_textureIdx, _glsl_names[0]);
     
+    _textureBlendModelIdx = glGetUniformLocation(program, _glsl_names[1].c_str() );
+    checkUniform(_textureBlendModelIdx, _glsl_names[1]);
+    
+    //****************************************************************************************************
+    // Link the texture to the uniform variable and texture unit 0;
+    
+    /*
+     glActiveTexture tells OpenGL which texture unit we want to use. GL_TEXTURE0 is the first texture unit, so we will just use that.
+     */
+    glActiveTexture(GL_TEXTURE0);
+    
+    
+    //We use glBindTexture bind our texture into the active texture unit.
+    glBindTexture(GL_TEXTURE_2D, _texture);
+    
+    /*
+     Then we set the tex uniform of the shaders to the index of the texture unit. We used texture unit zero, so we set the tex uniform to the integer value 0.
+     */
+    glUniform1i(_textureIdx, 0);
+    
+    
     // update the variable
     dirty(program);
     
@@ -162,25 +185,35 @@ bool GLTexture::addVariablesToProgram(GLuint program, int variable_index )
 //virtual
 bool GLTexture::dirty(GLuint program)
 {
-    /*
-     glActiveTexture tells OpenGL which texture unit we want to use. GL_TEXTURE0 is the first texture unit, so we will just use that.
-     */
-    glActiveTexture(GL_TEXTURE0);
-    
-    
-    //We use glBindTexture bind our texture into the active texture unit.
-    glBindTexture(GL_TEXTURE_2D, _texture);
-
-  
-    /*
-    Then we set the tex uniform of the shaders to the index of the texture unit. We used texture unit zero, so we set the tex uniform to the integer value 0.
-    */
-    glUniform1i(_textureIdx, 0);
-    
+    // enable the program
+    glUseProgram(program);
+ 
+    // write the texture blend mode
+    glUniform1i(_textureBlendModelIdx, _texture_blend_mode);
     
     
     // disable the program
     glUseProgram(0);
+    
+    _dirty = false;
+
+    return true;
+}
+
+
+/*!
+ This sets the texture blend model
+ @param mode - the values 0,1, or 2
+ */
+bool GLTexture::setTextureBlendMode(int mode)
+{
+    if(mode < 0 || mode > 2)return false;
+    if(_texture_blend_mode == mode)return false;
+    
+    // write the texture blend mode
+    _texture_blend_mode = mode;
+    
+    _dirty = true;
 
     return true;
 }

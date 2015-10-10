@@ -367,6 +367,21 @@ void GLAppearance::updateLightSources(void)
     }
 }
 
+/*!
+ Updates all texture variables
+ */
+void GLAppearance::updateTextures(void)
+{
+    for (vector<GLTexture*>::iterator i = _textures.begin();
+         i != _textures.end();
+         i++)
+    {
+        if ( (*i)->dirty() ) {
+            (*i)->dirty(_program);
+        }
+    }
+}
+
 
 /*!
  Add all the variables of this material object to the shader program "program".

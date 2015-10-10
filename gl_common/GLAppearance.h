@@ -320,6 +320,12 @@ public:
     
     
     /*!
+     Updates all texture variables
+     */
+    void updateTextures(void);
+
+    
+    /*!
      Finalize the program and all variables.
      */
     void finalize(void);

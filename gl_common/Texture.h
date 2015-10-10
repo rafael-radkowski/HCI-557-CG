@@ -40,7 +40,7 @@ private:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[1] = { "tex"};
+    string      _glsl_names[2] = { "tex", "texture_blend"};
     
 public:
     GLTexture();
@@ -53,6 +53,17 @@ public:
      */
     int loadAndCreateTexture(string path_and_file);
     
+    /*!
+     This sets the texture blend model
+     @param mode - the values 0,1, or 2
+     @return true, when a new mode was set, false when current and new mode are equal
+     */
+    bool setTextureBlendMode(int mode);
+    
+    /*!
+     Checks whether variables have been changed
+    */
+    inline bool dirty(void){return _dirty;};
     
 protected:
     
@@ -66,14 +77,22 @@ protected:
      The function indicates that the variables of this object require an update
      */
     virtual bool dirty(GLuint program);
+
     
     
 private:
     
     // The texture for this program.
     GLuint      _texture;
+    
+    // The blending mode for this texture
+    int         _texture_blend_mode;
 
     // location of the texture in the glsl program 
     int         _textureIdx;
-
+    int         _textureBlendModelIdx;
+    
+    
+    bool        _dirty;
+    
 };
