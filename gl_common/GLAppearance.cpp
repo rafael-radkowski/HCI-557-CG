@@ -11,6 +11,18 @@
 
 
 
+#ifdef WIN32
+string GLMaterial::_glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
+string GLMaterial::_glsl_struct = "allMaterials";
+
+string GLLightSource::_glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
+string GLLightSource::_glsl_object = "allLights";
+
+string GLSpotLightSource::_glsl_names[2] = { "cone_angle", "cone_direction"};
+#endif
+
+
+
 /*!
 Checks whether a uniform variable has been correctly added.
 @param idx - the unifrom locaiton

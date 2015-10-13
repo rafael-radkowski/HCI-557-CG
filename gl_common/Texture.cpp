@@ -8,7 +8,9 @@
 
 #include "Texture.h"
 
-
+#ifdef WIN32
+string  GLTexture::_glsl_names[2] = { "tex", "texture_blend"};
+#endif
 
 GLTexture::GLTexture()
 {

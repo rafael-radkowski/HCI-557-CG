@@ -40,8 +40,12 @@ private:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[2] = { "tex", "texture_blend"};
-    
+#ifdef WIN32
+    static string      _glsl_names[];
+#else
+	string      _glsl_names[2] = { "tex", "texture_blend"};
+#endif
+
 public:
     GLTexture();
     ~GLTexture();
@@ -96,3 +100,5 @@ private:
     bool        _dirty;
     
 };
+
+

@@ -43,8 +43,13 @@ protected:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
-    string      _glsl_struct = "allMaterials";
+#ifdef WIN32
+    static string      _glsl_names[]; 
+    static string      _glsl_struct;
+#else
+	static string      _glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
+    static string      _glsl_struct = "allMaterials";
+#endif
     
 public:
     
@@ -103,9 +108,13 @@ protected:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
+#ifdef WIN32
+    static string      _glsl_names[];
+    static string      _glsl_object;
+#else
+	string      _glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
     string      _glsl_object = "allLights";
-    
+#endif
     
 public:
     
@@ -210,6 +219,7 @@ public:
 };
 
 
+
 /*!
  A spot light source which adds a cone angle and 
  cone direction as parameters to the light source
@@ -220,8 +230,12 @@ protected:
     
     // These are the variable names which are used in our glsl shader programs.
     // Make sure that you use the correct names in your programs.
-    string      _glsl_names[2] = { "cone_angle", "cone_direction"};
-    
+#ifdef WIN32
+    static string      _glsl_names[];
+#else
+	string      _glsl_names[2] = { "cone_angle", "cone_direction"};
+#endif
+
 public:
     
     // The cone angle in degree because we calculate the angle in degree in our glsl program
@@ -258,6 +272,8 @@ public:
     virtual bool dirty(GLuint program);
     
 };
+
+
 
 
 /*!
