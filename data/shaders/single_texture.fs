@@ -24,7 +24,7 @@ void main(void)
     {
         color = pass_Color * tex_color;
     }
-    else if(texture_blend == 3)
+    else if(texture_blend == 2)
     {
         color = (1-pass_Color.w)*pass_Color + tex_color;
     }
