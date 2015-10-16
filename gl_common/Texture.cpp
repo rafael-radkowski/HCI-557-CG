@@ -552,27 +552,14 @@ int GLMipMapTexture::loadAndCreateTexture(string path_and_file)
     //**********************************************************************************************
     // Create a midmap texture pyramid and load it to the graphics hardware.
     // Note, the MIN and MAG filter must be set to one of the available midmap filters.
-#ifdef _WIN32
-    if(channels == 3)
-        gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,GL_RGB, GL_UNSIGNED_BYTE, data );
-    else if(channels == 4)
-        gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height,GL_RGB, GL_UNSIGNED_BYTE, data );
-#else
-    
-    
-    
-    // Create a texture and load it to your graphics hardware. This texture is automatically associated
-    // with texture 0 and the textuer variable "texture" / the active texture.
-    if(channels == 3)
+	if(channels == 3)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
     else if(channels == 4)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-    
-    
-    
-    glGenerateMipmap(GL_TEXTURE_2D);
-    
-#endif
+
+	// This generates the midmaps
+	glGenerateMipmap(GL_TEXTURE_2D);
+
     
     // Delete your loaded data
     free( data );
@@ -622,7 +609,7 @@ unsigned char* loadBitmapFile(string path_and_file, unsigned int& channels, unsi
     
     // This opens a file
     FILE * file;
-    file = fopen( path_and_file.c_str(), "rb" );
+    file = fopen( new_path_and_file.c_str(), "rb" );
     
     if ( file == NULL ) return 0;
     

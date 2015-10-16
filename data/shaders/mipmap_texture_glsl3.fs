@@ -27,7 +27,7 @@ void main(void)
     float mipmapLevel = mip_map_level(pass_TexCoord);
     
     // CHANGE THE LEVEL MANUALLY TO SEE THE EFFECT.
-    //mipmapLevel = 4;
+    // mipmapLevel = 4;
 
     // This function finds the color component for each texture coordinate.
     vec4 tex_color =  textureLod(tex, pass_TexCoord, mipmapLevel);
@@ -37,6 +37,5 @@ void main(void)
     // to figure out how we like to blend a texture with the background color.
     
     color = 0.10* pass_Color + tex_color;
-    
-    
+      
 }
