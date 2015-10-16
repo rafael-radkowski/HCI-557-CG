@@ -230,3 +230,9 @@ unsigned char*  loadBitmapFile(string path_and_file, unsigned int& channels, uns
 
 
 
+/*!
+ Verifies wheterh a file [name] exits
+ @param name - the path and the name of the file.
+ @param new_name - if this variable is not empty, the file is in a different folder. 
+ */
+bool SearchTexture (const std::string& name, string& new_name);

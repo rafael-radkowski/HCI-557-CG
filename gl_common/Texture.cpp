@@ -10,6 +10,8 @@
 
 #ifdef WIN32
 string  GLTexture::_glsl_names[2] = { "tex", "texture_blend"};
+
+string  GLMultiTexture::_glsl_names[3] = { "texture_background", "texture_foreground", "texture_blend"};
 #endif
 
 GLTexture::GLTexture()
@@ -41,7 +43,16 @@ int GLTexture::loadAndCreateTexture(string path_and_file)
         cerr << "[ERROR] Filetype " << suffix << " is currently not supported. This example only support bitmap files. " << endl;
         return -1;
     }
+
+
+	string checked_path_and_file;
+	bool ret = SearchTexture(path_and_file, checked_path_and_file);
     
+	if(!ret)
+	{
+		cerr << "[ERROR] Cannot find the file " << path_and_file << "." << endl;
+        return -1;
+	}
     
     //**********************************************************************************************
     // Loads the file content
@@ -55,7 +66,7 @@ int GLTexture::loadAndCreateTexture(string path_and_file)
     
     // This opens a file
     FILE * file;
-    file = fopen( path_and_file.c_str(), "rb" );
+    file = fopen( checked_path_and_file.c_str(), "rb" );
     
     if ( file == NULL ) return 0;
     
@@ -595,6 +606,9 @@ unsigned char* loadBitmapFile(string path_and_file, unsigned int& channels, unsi
         return NULL;
     }
     
+	string new_path_and_file;
+	SearchTexture(path_and_file, new_path_and_file);
+
     
     //**********************************************************************************************
     // Loads the file content
@@ -642,3 +656,51 @@ unsigned char* loadBitmapFile(string path_and_file, unsigned int& channels, unsi
 
 }
 
+
+
+
+/*!
+ Verifies wheterh a file [name] exits
+ @param name - the path and the name of the file.
+ */
+bool SearchTexture (const std::string& name, string& new_name)
+{
+	new_name = "";
+
+	bool exits = false;
+
+    ifstream f(name.c_str());
+    if (f.good()) {
+        f.close();
+		new_name = name;
+        exits = true;
+		return exits;
+    } else {
+        f.close();
+        exits = false;
+    }
+
+
+
+	int idx = name.find_first_of("/");
+    string newstring = name.substr(idx+1, name.length() - 3);
+
+
+	ifstream f2(newstring.c_str());
+    if (f2.good()) {
+        f2.close();
+        exits = true;
+    } else {
+        f2.close();
+        exits = false;
+    }
+
+
+	if(exits)
+	{
+		new_name = newstring;
+	}
+
+
+	return exits;
+}

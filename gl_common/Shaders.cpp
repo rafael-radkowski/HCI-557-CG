@@ -130,7 +130,11 @@ bool Exists (const std::string& name)
 string LoadFromFile(string path_and_file)
 {
     
-    if(!Exists(path_and_file)) return "";
+	if(!Exists(path_and_file)) {
+		
+		cerr << "[ERROR] Cannot find shader program " << path_and_file << "." <<endl;
+		return "";
+	}
     
     
     ifstream in(path_and_file);
