@@ -92,8 +92,6 @@ protected:
 
     
     
-private:
-    
     // The texture for this program.
     GLuint      _texture;
     
@@ -189,6 +187,32 @@ private:
 };
 
 
+/*!
+ Mipmap texture object. 
+ Extends the class GLTexture.
+ It loads the texture file in a slightly different way.
+*/
+class GLMipMapTexture : public GLTexture
+{
+private:
+    
+    // Allow the class GLApperance access to protected variables.
+    friend class GLAppearance;
+    
+    
+public:
+    GLMipMapTexture();
+    ~GLMipMapTexture();
+    
+    /*!
+     Loads a texture from a file and creates the necessary texture objects
+     @param path_and_file to the texture object
+     @return int - the texture id when the texture was sucessfully loaded.
+     */
+    int loadAndCreateTexture(string path_and_file);
+
+
+};
 
 
 

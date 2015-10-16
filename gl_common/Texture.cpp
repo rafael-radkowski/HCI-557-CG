@@ -477,9 +477,102 @@ bool GLMultiTexture::dirty(GLuint program)
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Midmap texture
+
+GLMipMapTexture::GLMipMapTexture()
+{
+    _textureIdx = -1;
+    _texture_blend_mode = 0;
+    _dirty = false;
+}
 
 
+GLMipMapTexture::~GLMipMapTexture()
+{
 
+}
+
+/*!
+ Loads a texture from a file and creates the necessary texture objects
+ @param path_and_file to the texture object
+ @return int - the texture id when the texture was sucessfully loaded.
+ */
+int GLMipMapTexture::loadAndCreateTexture(string path_and_file)
+{
+    
+    unsigned int channels;
+    unsigned int width;
+    unsigned int height;
+    
+    // Load the texture from file.
+    unsigned char* data = loadBitmapFile(path_and_file, channels, width,  height );
+    if(data == NULL )return -1;
+
+    
+    //**********************************************************************************************
+    // Texture generation
+    
+    glActiveTexture(GL_TEXTURE0);
+    
+    // Generate a texture, this function allocates the memory and
+    // associates the texture with a variable.
+    glGenTextures(1, &_texture );
+    
+    // Set a texture as active texture.
+    glBindTexture( GL_TEXTURE_2D, _texture );
+
+    //------------------------------------------------------------------------------------------------
+    // Change the parameters of your texture units.
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR );
+
+    // TRY THESE TWO PARAMETERS. They change the mipmap mode from linear to nearest
+    // glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_NEAREST );
+    // glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+    //------------------------------------------------------------------------------------------------
+    
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT );
+    
+    
+    //**********************************************************************************************
+    // Create a midmap texture pyramid and load it to the graphics hardware.
+    // Note, the MIN and MAG filter must be set to one of the available midmap filters.
+#ifdef _WIN32
+    if(channels == 3)
+        gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,GL_RGB, GL_UNSIGNED_BYTE, data );
+    else if(channels == 4)
+        gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height,GL_RGB, GL_UNSIGNED_BYTE, data );
+#else
+    
+    
+    
+    // Create a texture and load it to your graphics hardware. This texture is automatically associated
+    // with texture 0 and the textuer variable "texture" / the active texture.
+    if(channels == 3)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+    else if(channels == 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+    
+    
+    
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+#endif
+    
+    // Delete your loaded data
+    free( data );
+    
+    // Return the texture.
+    return _texture;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*!
