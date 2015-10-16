@@ -29,13 +29,16 @@ using namespace std;
 class GLVariable
 {
 public:
-    GLVariable(){}
+    GLVariable(){_dirty = false;}
     
     virtual bool addVariablesToProgram(GLuint program, int variable_index = -1) = 0;
     
     
     
     virtual bool dirty(GLuint program) = 0;
+    
+    
+    friend class GLAppearance;
     
 protected:
     /*!
@@ -44,6 +47,15 @@ protected:
      @param name - the name of the uniform variable.
      */
     bool checkUniform(int idx, string name);
+    
+    /*!
+     Checks whether variables have been changed
+     */
+    inline bool is_dirty(void){return _dirty;};
+    
+
+    // indicate whether an object has changed
+    bool    _dirty;
 };
 
 

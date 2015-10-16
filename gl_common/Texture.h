@@ -30,7 +30,19 @@
 
 using namespace std;
 
-class GLTexture : public GLVariable
+
+/*!
+ This texture base class for textures. 
+ It is just a name change to make the relation more obvious. 
+ */
+typedef GLVariable GLTextureBase;
+
+
+/*!
+ This texture class adds a texture to a primitive. 
+ It is part of the appearance object and need to be used with a shader program that supports textures.
+ */
+class GLTexture : public GLTextureBase
 {
 private:
     
@@ -43,7 +55,7 @@ private:
 #ifdef WIN32
     static string      _glsl_names[];
 #else
-	string      _glsl_names[2] = { "tex", "texture_blend"};
+	const string      _glsl_names[2] = { "tex", "texture_blend"};
 #endif
 
 public:
@@ -64,10 +76,6 @@ public:
      */
     bool setTextureBlendMode(int mode);
     
-    /*!
-     Checks whether variables have been changed
-    */
-    inline bool dirty(void){return _dirty;};
     
 protected:
     
@@ -97,8 +105,104 @@ private:
     int         _textureBlendModelIdx;
     
     
-    bool        _dirty;
+   
     
 };
+
+
+
+
+
+/*!
+ This texture class adds two textures to a glsl shader program.
+ It is part of the appearance object and need to be used with a shader program that supports textures.
+ */
+class GLMultiTexture : public GLTextureBase
+{
+private:
+    // Allow the class GLApperance access to protected variables.
+    friend class GLAppearance;
+    
+    
+    // These are the variable names which are used in our glsl shader programs.
+    // Make sure that you use the correct names in your programs.
+#ifdef WIN32
+    static string      _glsl_names[];
+#else
+    const string      _glsl_names[3] = { "texture_background", "texture_foreground", "texture_blend"};
+#endif
+    
+    
+    
+public:
+    GLMultiTexture();
+    ~GLMultiTexture();
+    
+    /*!
+     Load two bitmap images as textures from files.
+     @param path_and_file_texture_1 - path and file of the first image.
+     @param path_and_file_texture_1 - path and file of the second image.
+     @return int - the texture id when the texture was sucessfully loaded.
+     */
+    int loadAndCreateTextures(string path_and_file_texture_1, string path_and_file_texture_2);
+    
+    /*!
+     This sets the texture blend model
+     @param mode - the values 0,1, or 2
+     @return true, when a new mode was set, false when current and new mode are equal
+     */
+    bool setTextureBlendMode(int mode);
+    
+    
+    
+protected:
+    
+    /*!
+     Adds the variables of this object to the shader program
+     */
+    virtual bool addVariablesToProgram(GLuint program, int variable_index);
+    
+    
+    /*!
+     The function indicates that the variables of this object require an update
+     */
+    virtual bool dirty(GLuint program);
+    
+    
+    
+private:
+    
+    // The texture for this program.
+    GLuint      _texture_1;
+    GLuint      _texture_2;
+    
+    // The blending mode for this texture
+    int         _texture_blend_mode;
+    
+    // location of the texture in the glsl program
+    int         _textureIdx1;
+    int         _textureIdx2;
+    int         _textureBlendModelIdx;
+    
+    
+
+};
+
+
+
+
+
+
+/*!
+ Load a bitmap image from a file
+ @param path_and_file - the path and filename
+ @param data - a pointer to return the data. Note, the data object should be deleted once the data is not required anymore.
+ @param channels - reference to an integer to keep the channels.
+ @param width, height, - reference to integers to return the dimensions in pixels.
+ */
+unsigned char*  loadBitmapFile(string path_and_file, unsigned int& channels, unsigned int& width, unsigned int& height );
+
+
+
 
 

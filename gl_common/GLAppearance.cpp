@@ -384,11 +384,11 @@ void GLAppearance::updateLightSources(void)
  */
 void GLAppearance::updateTextures(void)
 {
-    for (vector<GLTexture*>::iterator i = _textures.begin();
+    for (vector<GLTextureBase*>::iterator i = _textures.begin();
          i != _textures.end();
          i++)
     {
-        if ( (*i)->dirty() ) {
+        if ( (*i)->is_dirty() ) {
             (*i)->dirty(_program);
         }
     }
@@ -454,7 +454,18 @@ void GLAppearance::setTexture(GLTexture* texture)
 }
 
 
+void GLAppearance::setTexture(GLMultiTexture* texture)
+{
+    if(_finalized)
+    {
+        cerr << "Apperance already finalized. Material cannot be set" << endl;
+        return;
+    }
+    
+    _textures.push_back(texture);
+    texture->addVariablesToProgram(_program, -1);
 
+}
 
 
 

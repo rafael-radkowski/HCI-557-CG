@@ -32,8 +32,6 @@ using namespace std;
 
 
 
-
-
 /*!
  A Material class, which allows us to define a material
  */
@@ -47,8 +45,8 @@ protected:
     static string      _glsl_names[]; 
     static string      _glsl_struct;
 #else
-	static string      _glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
-    static string      _glsl_struct = "allMaterials";
+	const string      _glsl_names[6] = { "ambient", "diffuse",  "specular",  "shininess", "emissive", "transparency"};
+    const string      _glsl_struct = "allMaterials";
 #endif
     
 public:
@@ -112,8 +110,8 @@ protected:
     static string      _glsl_names[];
     static string      _glsl_object;
 #else
-	string      _glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
-    string      _glsl_object = "allLights";
+	const string       _glsl_names[5] = { "specular_intensity", "diffuse_intensity",  "ambient_intensity",  "attenuationCoefficient", "light_position"};
+    const string       _glsl_object = "allLights";
 #endif
     
 public:
@@ -233,7 +231,7 @@ protected:
 #ifdef WIN32
     static string      _glsl_names[];
 #else
-	string      _glsl_names[2] = { "cone_angle", "cone_direction"};
+	const string       _glsl_names[2] = { "cone_angle", "cone_direction"};
 #endif
 
 public:
@@ -351,6 +349,7 @@ public:
      Add a texture to the appearance.
      */
     void setTexture(GLTexture* texture);
+    void setTexture(GLMultiTexture* texture);
     
 protected:
     
@@ -378,7 +377,7 @@ private:
     
     
     // maintains the texture objectx
-    vector<GLTexture*>          _textures;
+    vector<GLTextureBase*>          _textures;
     
     
     // counts the number of light sources

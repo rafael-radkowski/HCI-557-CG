@@ -57,3 +57,4 @@ data/shaders/spotlight.vs.rej
 07_SpotLight/HCI557_Spotlight.vcxproj.user
 10_Transparency_Blending/HCI557_Transparency.vcxproj.user
 11_Simple_Textures/HCI557_Simple_Texture.vcxproj.user
+13_Multi_Texturing/HCI557_Multi_Texture.build
