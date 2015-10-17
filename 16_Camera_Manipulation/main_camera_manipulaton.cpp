@@ -37,14 +37,6 @@ using namespace std;
 // The handle to the window object
 GLFWwindow*         window;
 
-// Define some of the global variables we're using for this sample
-GLuint program;
-
-/* A trackball to move and rotate the camera view */
-extern Trackball trackball;
-
-
-
 int main(int argc, const char * argv[])
 {
     
@@ -142,7 +134,7 @@ int main(int argc, const char * argv[])
     // This sets the camera to a new location
     // the first parameter is the eye position, the second the center location, and the third the up vector. 
     SetViewAsLookAt(glm::vec3(0.0f, 0.0f, 85.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    
+    SetCameraManipulator(CAMERA_MANIPULATOR);
     
     
     
