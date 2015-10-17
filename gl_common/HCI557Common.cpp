@@ -2,8 +2,17 @@
 
 
 
+CameraTypes _cam_type = TRACKBALL;
+
+
 /* A trackball to move and rotate the camera view */
 Trackball trackball( WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true );
+
+/*!
+ A new camera manipulator object
+ */
+CameraManipulator cam_manipulator(WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f);
+
 
 // variable too keep the glsl version.
 int glsl_major = 0 , glsl_minor = 0;
@@ -28,12 +37,59 @@ int GLSLMinor(void)
 
 
 
+/*!
+ Returns the camera matrix of the current active camera object
+ */
+glm::mat4 GetCurrentCameraMatrix(void)
+{
+    switch (_cam_type) {
+        case CAMERA_MANIPULATOR:
+            return cam_manipulator.getRotationMatrix();
+            break;
+        case TRACKBALL:
+            return trackball.getRotationMatrix();
+        default:
+            break;
+    }
+}
+
+
+
+/**
+ Returns the translation matrix of the current camera
+ */
+glm::vec3 GetCurrentCameraTranslation(void)
+{
+    switch (_cam_type) {
+    case CAMERA_MANIPULATOR:
+        return cam_manipulator.getTranslationVec();
+        break;
+    case TRACKBALL: // constant distance
+            return glm::vec3(0.0f,0.0f,65.0f);
+ 
+    }
+}
+
+
+/**
+ @brief Change the camera manipulator type
+ @param m - the camera type.
+ */
+void SetCameraManipulator(CameraTypes m)
+{
+    _cam_type = m;
+}
+
+
+
 
 /* In GLFW mouse callback */
 void mouseButtonCallback( GLFWwindow * window, int button, int action, int mods ){
     
     
     trackball.mouseButtonCallback( window, button, action, mods );
+    
+    cam_manipulator.camera_MouseButton_Callback(window, button, action, mods);
 }
 
 /* In GLFW curser callback */
@@ -41,6 +97,9 @@ void cursorCallback( GLFWwindow *window, double x, double y ) {
     
     
     trackball.cursorCallback( window, x, y );
+    
+    cam_manipulator.camera_MouseCursor_Callack(window, x, y );
+    
 }
 
 

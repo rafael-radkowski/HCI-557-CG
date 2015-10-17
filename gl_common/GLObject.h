@@ -33,6 +33,13 @@ using namespace std;
  */
 void SetTrackballLocation(glm::mat4 trackball);
 
+
+/*!
+ Global function to set the trackball data
+ */
+void SetTrackballLocation(glm::mat4 orientation, glm::vec3 translation);
+
+
 /*!
  Global function to set the view matrix as look at
  */

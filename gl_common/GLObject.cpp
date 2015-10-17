@@ -7,6 +7,7 @@
 //
 
 #include <glm/glm.hpp>
+#include "GLObject.h"
 
 
 glm::mat4 g_projectionMatrix; // Store the projection matrix
@@ -16,8 +17,6 @@ glm::mat4 g_invViewMatrix;
 glm::mat4 g_trackball; // the trackball
 glm::mat4 g_rotated_view;
 glm::mat4 g_inv_rotated_view;
-
-#include "GLObject.h"
 
 
 
@@ -29,6 +28,21 @@ void SetTrackballLocation(glm::mat4 trackball)
     
    // cout << g_rotated_view[3][0] << "\t" << g_rotated_view[3][1] << "\t" << g_rotated_view[3][2] << endl;
 }
+
+
+/*!
+ Global function to set the trackball data
+ */
+void SetTrackballLocation(glm::mat4 orientation, glm::vec3 translation)
+{
+    g_viewMatrix = glm::lookAt(translation, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    
+    g_trackball = orientation;
+    g_rotated_view = g_viewMatrix * g_trackball;
+    g_inv_rotated_view = glm::inverse(g_rotated_view);
+}
+
+
 
 void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 {
@@ -43,13 +57,14 @@ void SetViewAsLookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, float far)
 {
     g_projectionMatrix = glm::perspective(view_angle_y, ratio, near, far);
+  
 }
 
 
 GLObject::GLObject()
 {
 
-    g_projectionMatrix = glm::perspective(1.0f, (float)800 / (float)600, 0.1f, 100.f);
+    g_projectionMatrix = glm::perspective(1.0f, (float)800 / (float)600, 0.1f, 10000.f);
     g_viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     g_invViewMatrix = glm::inverse(g_viewMatrix);
     

@@ -18,6 +18,7 @@
 
 // Locals
 #include "controls.h"
+#include "camera.h"
 #include "ModelObj.h"
 
 using namespace std;
@@ -52,7 +53,33 @@ int GLSLMajor(void);
 int GLSLMinor(void);
 
 
+////////////////////////////////////////////////////////////////////////
+// Camera Operations
 
 
+typedef enum cameraTypes{
+    TRACKBALL,
+    CAMERA_MANIPULATOR
+} CameraTypes;
+
+
+/**
+ Returns the camera matrix of the current active camera object
+ */
+glm::mat4 GetCurrentCameraMatrix(void);
+
+
+/**
+ Returns the translation matrix of the current camera
+*/
+glm::vec3 GetCurrentCameraTranslation(void);
+
+
+
+/**
+ @brief Change the camera manipulator type
+ @param m - the camera type.
+*/
+void SetCameraManipulator(CameraTypes m);
 
 
