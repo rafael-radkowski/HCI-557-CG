@@ -65,6 +65,12 @@ GLuint LoadAndCreateShaderProgram(string vertex_file, string fragment_file);
 bool Exists (const std::string& name);
 
 
+/*!
+Searches for the file in name. 
+Returns the new path in new_path. 
+*/
+bool Search(const std::string& name, std::string& new_path);
+
 
 /*!
  Opens a file and loads the code from this file.
