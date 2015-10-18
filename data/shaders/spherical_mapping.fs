@@ -26,7 +26,7 @@ void main(void)
     // to figure out how we like to blend a texture with the background color.
     if(texture_blend == 0)
     {
-        color = 0.2 * pass_Color + tex_color;
+        color = 0.5 * pass_Color + 0.5 * tex_color;
     }
     else if(texture_blend == 1)
     {

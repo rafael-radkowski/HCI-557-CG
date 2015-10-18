@@ -150,10 +150,13 @@ vec2 spherical_mapping(vec3 cameraPosition, vec3 surfacePostion, vec3 normal)
 {
     vec2 sphericalUV = vec2(0.0f, 0.0f);
     
-    vec3 eye_to_surface = surfacePostion - cameraPosition;
+    // calculate the eye-to-surface vector
+    vec3 eye_to_surface = normalize(surfacePostion - cameraPosition);
     
-    vec3 r = reflect( eye_to_surface, normal );
+    // calculate the reflectance vector
+    vec3 r = normalize(reflect( eye_to_surface, normal ));
     
+    // calculate the position of the texel
     float m = 2. * sqrt(
             pow( r.x, 2. ) +
             pow( r.y, 2. ) +
@@ -184,7 +187,7 @@ void main(void)
     //---------------------------------------------------------------------------
     // Environment mapping
     vec3 cameraPosition = vec3( inverseViewMatrix[3][0], inverseViewMatrix[3][1], inverseViewMatrix[3][2]);
-    vN = spherical_mapping(cameraPosition, surfacePostion.xyz, transformedNormal.xyz);
+    vN = spherical_mapping(cameraPosition, surfacePostion.xyz, normal.xyz);
     
    
     // Gamma correction

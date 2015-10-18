@@ -73,8 +73,8 @@ int main(int argc, const char * argv[])
     GLDirectLightSource  light_source;
     light_source._lightPos = glm::vec4(00.0,20.0,20.0, 0.0);
     light_source._ambient_intensity = 0.2;
-    light_source._specular_intensity = 5.5;
-    light_source._diffuse_intensity = 12.0;
+    light_source._specular_intensity = 1.2;
+    light_source._diffuse_intensity = 5.0;
     light_source._attenuation_coeff = 0.0;
     
     // add the light to this apperance object
@@ -83,22 +83,22 @@ int main(int argc, const char * argv[])
     
     GLSpotLightSource spotlight_source;
     spotlight_source._lightPos = glm::vec4(0.0,00.0,50.0, 1.0);
-    spotlight_source._ambient_intensity = 0.2;
-    spotlight_source._specular_intensity = 30.5;
-    spotlight_source._diffuse_intensity = 10.0;
+    spotlight_source._ambient_intensity = 0.0;
+    spotlight_source._specular_intensity = 1.8;
+    spotlight_source._diffuse_intensity = 2.0;
     spotlight_source._attenuation_coeff = 0.0002;
-    spotlight_source._cone_direction = glm::vec3(-1.0, -1.0,-1.0);
-    spotlight_source._cone_angle = 20.0;
+    spotlight_source._cone_direction = glm::vec3(0.0, 0.0,-1.0);
+    spotlight_source._cone_angle = 10.0;
     
     apperance_0->addLightSource(spotlight_source);
     
     // Create a material object
     GLMaterial material_0;
-    material_0._diffuse_material = glm::vec3(0.2, 0.0, 1.0);
-    material_0._ambient_material = glm::vec3(0.2, 0.0, 1.0);
+    material_0._diffuse_material = glm::vec3(0.6, 0.0, 0.0);
+    material_0._ambient_material = glm::vec3(0.6, 0.0, 0.0);
     material_0._specular_material = glm::vec3(1.0, 1.0, 1.0);
-    material_0._shininess = 12.0;
-    material_0._transparency = 0.5;
+    material_0._shininess = 2.0;
+    material_0._transparency = 1.0;
     
     // Add the material to the apperance object
     apperance_0->setMaterial(material_0);
@@ -107,7 +107,7 @@ int main(int argc, const char * argv[])
     //************************************************************************************************
     // Add a texture
     GLTexture* texture = new GLTexture();
-    texture->loadAndCreateTexture("../../data/textures/environment.bmp");
+    texture->loadAndCreateTexture("../../data/textures/reflactance_map1.bmp");
     apperance_0->setTexture(texture);
     
     //************************************************************************************************
