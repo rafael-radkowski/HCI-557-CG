@@ -51,6 +51,9 @@ file(GLOB HCI557_Directlight_SRC
     ../gl_common/GLAppearanceBase.h
     ../gl_common/GLAppearance.h
     ../gl_common/GLAppearance.cpp
+    ../gl_common/camera.h
+	../gl_common/camera.cpp
+    ../gl_common/GLObjects3D.h
 )
 
 # Create an executable
