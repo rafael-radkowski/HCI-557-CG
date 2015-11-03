@@ -56,6 +56,8 @@ file(GLOB HCI557_RayIntersectionTest_SRC
 	../gl_common/camera.cpp
     ../gl_common/GLObjectObj.h
     ../gl_common/GLObjectObj.cpp
+    ../gl_common/RayIntersectionTest.h
+    ../gl_common/RayIntersectionTest.cpp
 
 )
 

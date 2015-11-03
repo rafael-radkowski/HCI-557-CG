@@ -6,7 +6,7 @@
 //
 //
 
-#include "RayIntersectionTest.hpp"
+#include "RayIntersectionTest.h"
 
 
 
@@ -55,9 +55,9 @@ bool RayIntersectionTest::intersect(const glm::vec3& ray_start, const glm::vec3&
     
 #endif
 
+    bool ret = false;
     
     // for all vertices
-    
     vector<glm::vec3>::iterator itr = vertices.begin();
     
     while (itr != vertices.end())
@@ -100,6 +100,8 @@ bool RayIntersectionTest::intersect(const glm::vec3& ray_start, const glm::vec3&
         float u = result.y;
         float v = result.z;
         
+        
+        
         // Check if we are still within the triangle.
         if(u>=0.0 && u<= 1.0 && v >=0.0 & v<=1.0)
         {
@@ -120,9 +122,12 @@ bool RayIntersectionTest::intersect(const glm::vec3& ray_start, const glm::vec3&
                 // cout << x.x << " : " << x.y << " : " << x.z << endl;
                 //cout << t << " ->  "<< x.x << " : " << x.y << " : " << x.z << endl;
                 intersect_list.push_back(x);
+                
+                ret = true;
             }
         }
     }
     
+    return ret;
     
 }
