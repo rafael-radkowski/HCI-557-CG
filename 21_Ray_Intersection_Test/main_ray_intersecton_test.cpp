@@ -32,7 +32,7 @@
 
 
 #include "GLObjectObj.h"
-#include "RayIntersectionTest.hpp"
+#include "RayIntersectionTest.h"
 
 
 
