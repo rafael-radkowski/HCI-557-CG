@@ -54,6 +54,9 @@ include_directories(${CMAKE_SOURCE_DIR}/../gl_common/)
     ../gl_common/GLAppearanceBase.h
     ../gl_common/GLAppearance.h
     ../gl_common/GLAppearance.cpp
+    ../gl_common/camera.h
+	../gl_common/camera.cpp
+    ../gl_common/GLObjects3D.h
 )
 
 set(HCI557_RES

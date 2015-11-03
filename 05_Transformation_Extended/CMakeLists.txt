@@ -41,6 +41,9 @@ file(GLOB OpenGL_Transformations_SRC
     ../gl_common/GLObject.cpp
     ../gl_common/GLColoredBox.cpp
     ../gl_common/GLColoredBox.h
+    ../gl_common/camera.h
+	../gl_common/camera.cpp
+    ../gl_common/GLObjects3D.h
 )
 
 # Create an executable
