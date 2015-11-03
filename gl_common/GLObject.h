@@ -28,6 +28,8 @@
 using namespace std;
 
 
+
+
 /*!
  Global function to set the trackball data
  */
@@ -60,6 +62,8 @@ void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, floa
  */
 class GLObject
 {
+    // Ray intersection test has access to protected functions
+    friend class RayIntersectionTest;
 public:
     
     // constructor
@@ -94,9 +98,12 @@ public:
     void setMatrix(glm::mat4& matrix);
     
     
+
+    
+    
 protected:
     
-    
+
     /*!
      Create the vertex buffer object for this element
      */
@@ -122,7 +129,7 @@ protected:
     int                     _projectionMatrixLocation;
     int                     _inverseViewMatrixLocation;
     
-    // Stores teh model matrix and the model matrix location
+    // Stores the model matrix and the model matrix location
     int                     _modelMatrixLocation;
     glm::mat4               _modelMatrix; // Store the model matrix
     

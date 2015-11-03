@@ -121,6 +121,7 @@ void GLObject::setApperance(GLAppearance& apperance)
 void GLObject::setMatrix(glm::mat4& matrix)
 {
     _modelMatrix = matrix;
+    glUniformMatrix4fv(_modelMatrixLocation, 1, GL_FALSE, &_modelMatrix[0][0]);
 }
 
 

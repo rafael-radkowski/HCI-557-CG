@@ -19,7 +19,7 @@
 // Locals
 #include "controls.h"
 #include "camera.h"
-#include "ModelObj.h"
+#include "GLObjectObj.h"
 
 using namespace std;
 
