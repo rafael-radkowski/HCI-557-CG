@@ -61,6 +61,20 @@ void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, floa
 }
 
 
+/*!
+ Set the camera view matrix.
+ @param viewmatrix -  the view matrix;
+ */
+void SetViewAsMatrix(glm::mat4 viewmatrix)
+{
+    g_viewMatrix = viewmatrix;
+    g_invViewMatrix = glm::inverse(g_viewMatrix);
+    
+    g_rotated_view =g_viewMatrix;
+    g_inv_rotated_view = g_invViewMatrix;
+}
+
+
 GLObject::GLObject()
 {
 

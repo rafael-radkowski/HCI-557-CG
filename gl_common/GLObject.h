@@ -55,6 +55,11 @@ void SetPerspectiveViewFrustum(float view_angle_y, float ratio, float near, floa
 
 
 /*!
+ Set the camera view matrix.
+ */
+void SetViewAsMatrix(glm::mat4 viewmatrix);
+
+/*!
  Abstract base class for objects which share a common view.
  This object "common" type acts as a virtual camera and 
  stores the view and projection matrix for each object as well as 
