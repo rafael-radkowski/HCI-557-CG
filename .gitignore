@@ -61,3 +61,4 @@ data/shaders/spotlight.vs.rej
 13_Multi_Texturing/HCI557_Multi_Texture.vcxproj.user
 *.opensdf
 *.build
+test_keyframes
