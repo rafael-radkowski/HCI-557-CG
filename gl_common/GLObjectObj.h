@@ -42,6 +42,23 @@ public:
     void init(void);
     
     
+    /*!
+    Returns the number of vertices
+    */
+    int size(void);
+    
+    
+    /*!
+    Returns a reference too the vertices.
+    */
+    vector<glm::vec3>& getVertices(void){return  _vertices; };
+    
+    /*!
+    To update the vertices. 
+    This function takes a vector of vertices and replaces the current vector.
+    */
+    void updateVertices(float* vertices);
+    
 private:
     
     /*!
