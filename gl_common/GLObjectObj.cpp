@@ -67,7 +67,14 @@ bool GLObjectObj::extractNextFace3(string& in, string& out, int& pointIdx, int& 
     sscanf(v1.c_str(), " %d/%d/%d", &a, &b, &c);
     
     int idv2 = v1.find_first_of(" ");
-    out = v1.substr(idv2, v1.length()-idv2); // with blank
+    if(idv2 != -1)
+    {
+        out = v1.substr(idv2, v1.length()-idv2); // with blank
+    }
+    else
+    {
+        out = "";
+    }
     
     /*
     int idx = v1.find_first_of("/");
@@ -335,7 +342,7 @@ void GLObjectObj::initVBO(void)
     // vertices
      int locPos = glGetAttribLocation(_program, "in_Position");
     glBindBuffer(GL_ARRAY_BUFFER, _vboID[0]); // Bind our Vertex Buffer Object
-    glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+    glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
     
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
@@ -426,4 +433,34 @@ void GLObjectObj::draw(void)
     // Unbind our Vertex Array Object
     glBindVertexArray(0);
     
+}
+
+
+
+/*!
+Returns the number of vertices
+*/
+int GLObjectObj::size(void)
+{
+    return _num_vertices;
+}
+
+
+/*!
+To update the vertices.
+This function takes a vector of vertices and replaces the current vector.
+*/
+void GLObjectObj::updateVertices(float* vertices)
+{
+
+    glBindVertexArray(_vaoID[0]); // Bind our Vertex Array Object so we can use it
+    
+    // vertices
+    int locPos = glGetAttribLocation(_program, "in_Position");
+    glBindBuffer(GL_ARRAY_BUFFER, _vboID[0]); // Bind our Vertex Buffer Object
+    glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW);
+    
+    glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
+    glEnableVertexAttribArray(locPos); //
+
 }
