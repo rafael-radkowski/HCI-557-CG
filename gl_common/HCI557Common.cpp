@@ -22,6 +22,12 @@ int glsl_major = 0 , glsl_minor = 0;
 int g_change_texture_blend;
 
 
+// the current mouse position;
+int g_current_mouse_x = 0;
+int g_current_mouse_y = 0;
+
+
+
 /*!
  Return the glsl major / minor version.
  */
@@ -33,6 +39,21 @@ int GLSLMajor(void)
 int GLSLMinor(void)
 {
     return glsl_minor;
+}
+
+
+/**
+@brief: returns the x and y position of the mouse.
+*/
+int GetMouseX(void)
+{
+    return g_current_mouse_x;
+}
+
+
+int GetMouseY(void)
+{
+    return g_current_mouse_y;
 }
 
 
@@ -95,6 +116,8 @@ void mouseButtonCallback( GLFWwindow * window, int button, int action, int mods 
 /* In GLFW curser callback */
 void cursorCallback( GLFWwindow *window, double x, double y ) {
     
+    g_current_mouse_x = x;
+    g_current_mouse_y = y;
     
     trackball.cursorCallback( window, x, y );
     

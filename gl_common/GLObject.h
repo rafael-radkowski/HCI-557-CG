@@ -103,7 +103,12 @@ public:
     void setMatrix(glm::mat4& matrix);
     
     
-
+    /*!
+    Returns the shader program of this object
+    @return, the shader program id > 0. If an appearance is not set, 
+            the value is also 0.
+    */
+    int getProgram(void);
     
     
 protected:

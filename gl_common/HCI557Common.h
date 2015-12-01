@@ -83,3 +83,14 @@ glm::vec3 GetCurrentCameraTranslation(void);
 void SetCameraManipulator(CameraTypes m);
 
 
+
+/**
+@brief: returns the x and y position of the mouse.
+*/
+int GetMouseX(void);
+int GetMouseY(void);
+
+
+
+
+

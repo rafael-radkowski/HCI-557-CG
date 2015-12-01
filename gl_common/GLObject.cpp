@@ -129,6 +129,22 @@ void GLObject::setApperance(GLAppearance& apperance)
 
 
 /*!
+Returns the shader program of this object
+@return, the shader program id > 0. If an appearance is not set,
+            the value is also 0.
+*/
+int GLObject::getProgram(void)
+{
+    if(_apperance.exists())
+    {
+        return _apperance.getProgram();
+    }
+    else
+        return 0;
+}
+
+
+/*!
  Set a model matrix to move the object around
  @param matrix - the model matrix for this object.
  */
