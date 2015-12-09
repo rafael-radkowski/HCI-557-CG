@@ -102,6 +102,15 @@ void SetCameraManipulator(CameraTypes m)
 }
 
 
+/*!
+Set the distance of the camera to your center position
+*/
+void SetCameraDistance(float distance)
+{
+    cam_manipulator.setCameraDistance(distance);
+}
+
+
 
 
 /* In GLFW mouse callback */
