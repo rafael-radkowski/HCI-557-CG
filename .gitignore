@@ -63,3 +63,4 @@ data/shaders/spotlight.vs.rej
 *.build
 test_keyframes
 25_Morphing/15_Morphing
+classnotes/.DS_Store
