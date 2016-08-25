@@ -83,6 +83,12 @@ glm::vec3 GetCurrentCameraTranslation(void);
 void SetCameraManipulator(CameraTypes m);
 
 
+/*!
+Set the distance of the camera to your center position
+*/
+void SetCameraDistance(float distance);
+
+
 
 /**
 @brief: returns the x and y position of the mouse.

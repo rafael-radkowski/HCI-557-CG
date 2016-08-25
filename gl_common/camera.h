@@ -110,6 +110,12 @@ public:
      Gets the translation matrix to adjust the distance between camera and object
      */
     virtual glm::vec3 getTranslationVec(void);
+    
+    
+    /*!
+    Set the distance of your camera.
+    */
+    inline void setCameraDistance(float distance){if(distance>1.0)_camera_distance=distance;}
 
     
 protected:
