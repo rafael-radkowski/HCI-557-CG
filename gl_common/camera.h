@@ -17,6 +17,7 @@
 // stl include
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 // GLEW include
 #include <GL/glew.h>
