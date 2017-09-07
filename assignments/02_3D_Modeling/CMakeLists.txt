@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 # Main project name is ARMaker
-project(HW2_Program)
+project(HW1_Program)
 
 
 set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../../SDK/cmake/")
@@ -28,8 +28,8 @@ include_directories(${GLM_INCLUDE_DIR})
 include_directories(${OPENGL_INCLUDE_DIR})
 
 # Add all files to the configuration
-file(GLOB HW2_Program_SRC
-	hw2_main.cpp
+file(GLOB HW1_Program_SRC
+	hw1_main.cpp
     controls.cpp
     controls.h
     HCI557Common.cpp
@@ -39,7 +39,7 @@ file(GLOB HW2_Program_SRC
 )
 
 # Create an executable
-add_executable(HW2_Program ${HW2_Program_SRC})
+add_executable(HW1_Program ${HW1_Program_SRC})
 
 
 # Add link directories
@@ -55,4 +55,4 @@ ENDIF(WIN32)
 
 
 # Add libraries
-target_link_libraries(HW2_Program ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HW1_Program ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
