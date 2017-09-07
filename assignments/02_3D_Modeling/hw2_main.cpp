@@ -113,9 +113,9 @@ unsigned int createTriangleStripModel(void)
 }
 
 /*!
- ADD YOUR CODE TO CREATE A MODEL USING PRIMITIVES OF YOUR CHOISE TO THIS FUNCTION
+ ADD YOUR CODE TO CREATE A MODEL USING TRIANGLE PRIMITIVES 
  */
-unsigned int createPolygonModel(void)
+unsigned int createTriangleModel(void)
 {
     // use the vertex array object vaoID[1] for this model representation
   
@@ -149,9 +149,9 @@ void renderTriangleStripModel(void)
 
 
 /*!
- ADD YOUR CODE TO RENDER THE TRIANGLE STRIP MODEL TO THIS FUNCTION
+ ADD YOUR CODE TO RENDER THE TRIANGLE MODEL TO THIS FUNCTION
  */
-void renderPolygonModel(void)
+void renderTriangleModel(void)
 {
 
     // Bind the buffer and switch it to an active buffer
@@ -178,7 +178,7 @@ void renderPolygonModel(void)
 void setupScene(void) {
     
     createTriangleStripModel();
-    renderTriangleStripModel();
+	createTriangleModel();
     
 }
 
@@ -320,7 +320,7 @@ int main(int argc, const char * argv[])
         glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]); // Send our model matrix to the shader
         
 		// This line renders your Ppolygon model
-        renderPolygonModel();
+		renderTriangleModel();
         
         
 		// disable the shader program

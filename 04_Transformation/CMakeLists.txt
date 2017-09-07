@@ -44,6 +44,10 @@ file(GLOB OpenGL_Transformations_SRC
     ../gl_common/camera.h
 	../gl_common/camera.cpp
     ../gl_common/GLObjects3D.h
+	../gl_common/GLAppearance.cpp
+	../gl_common/GLAppearance.h
+	../gl_common/Shaders.cpp
+	../gl_common/Shaders.h
 )
 
 # Create an executable
