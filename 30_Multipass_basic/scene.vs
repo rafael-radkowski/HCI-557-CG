@@ -5,10 +5,10 @@ uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;                                          
 in vec3 in_Position;                                                                                                           
 in vec3 in_Color;   
-in vec3 in_TexCoord;          
+in vec2 in_TexCoord;          
                                        
 out vec3 pass_Color;
-out vec3 pass_TexCoord;                                               
+out vec2 pass_TexCoord;                                               
                                                                 
 void main(void)                                                  
 {                                                               

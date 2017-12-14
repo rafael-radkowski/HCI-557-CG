@@ -216,7 +216,7 @@ void create_visible_scene(void)
     glEnableVertexAttribArray(p1_in); // Disable our Vertex Array Object
 
 	int p3_in = glGetAttribLocation(program_visible, "in_TexCoord");
-	glVertexAttribPointer((GLuint)p3_in, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid*)( 3 * sizeof(GLfloat))); // Set up our vertex attributes pointer
+	glVertexAttribPointer((GLuint)p3_in, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid*)( 3 * sizeof(GLfloat))); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(p3_in); 
     
 	int p2_in = glGetAttribLocation(program_visible, "in_Color");
@@ -272,6 +272,8 @@ int main(int argc, const char * argv[])
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Make the window resize-able.
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_DEPTH_BITS, GL_TRUE);
+	
     
     // Create a window to put our stuff in.
     GLFWwindow* window = glfwCreateWindow(1600, 1200, "Hello OpenGL", NULL, NULL);
@@ -308,7 +310,7 @@ int main(int argc, const char * argv[])
     viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, -1.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     
    
-    
+	
     
      
     setupScene();
@@ -316,14 +318,15 @@ int main(int argc, const char * argv[])
 
 	// Set up our green background color
 	static const GLfloat clear_color[] = { 0.6f, 0.7f, 1.0f, 1.0f };
-	static const GLfloat clear_depth[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	static const GLfloat clear_depth[] = { 1.0f, 1.0f, 1.0f, 0.0f};
     
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	
     // This is our render loop. As long as our window remains open (ESC is not pressed), we'll continue to render things.
     while(!glfwWindowShouldClose(window))
     {
-       
-       
-        
+		
      
 		//-----------------------------------------------------------------------------
 		// Render the hidden object
@@ -331,12 +334,15 @@ int main(int argc, const char * argv[])
 		// Bind the frame buffer object
 		glBindFramebuffer(GL_FRAMEBUFFER, fboHidden);
 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		// set the viewport. It must match the texture size.
 		glViewport(0, 0, 512, 512);
 
 		// Clear the entire buffer with our green color (sets the background to be green).
 		glClearBufferfv(GL_COLOR, 0, clear_color);
 		glClearBufferfv(GL_DEPTH, 0, clear_depth);
+
 		
 		glUseProgram(program_hidden);
 
@@ -367,9 +373,6 @@ int main(int argc, const char * argv[])
         glBindVertexArray(vaoID[0]); 
         
         glDrawArrays(GL_TRIANGLES, 0, 6); 
-
-
-	
 
 		
 		//-----------------------------------------------------------------------------
