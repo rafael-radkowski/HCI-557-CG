@@ -1,6 +1,9 @@
 #include "ShaderProgram.h"
 
-
+#ifdef _WIN32
+#else
+#include <sys/stat.h>
+#endif
 
 bool cs557::ShaderProgramUtils::CheckShader(GLuint shader, GLenum shader_type)
 {
@@ -110,12 +113,16 @@ GLuint cs557::LoadAndCreateShaderProgram(string vertex_file, string fragment_fil
  */
 bool cs557::ShaderProgramUtils::Exists (const std::string& name)
 {
-   
+    #ifdef _WIN32
     if (std::experimental::filesystem::exists(name)) {
         return true;
     } else {
 		return false;
     }
+    #else
+        struct stat buffer;
+        return (stat (name.c_str(), &buffer) == 0);
+    #endif
 }
 
 

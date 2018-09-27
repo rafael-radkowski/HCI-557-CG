@@ -20,7 +20,9 @@
 #include "Window.h"					// the windows
 #include "OpenGLDefaults.h"			// some open gl and glew defaults
 #include "VertexBuffers.h"			// create vertex buffer object
+
 #include "ShaderProgram.h"			// create a shader program
+
 
 // Geometry
 #include "ModelCoordinateSystem.h"

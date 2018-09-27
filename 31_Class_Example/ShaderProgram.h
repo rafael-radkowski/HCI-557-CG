@@ -8,8 +8,9 @@
 #include <vector>
 #include <strstream>
 #include <string>
+#ifdef _WIN32
 #include <experimental\filesystem>
-
+#endif
 
 // GLEW include
 #include <GL/glew.h>

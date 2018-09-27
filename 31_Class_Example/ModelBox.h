@@ -50,11 +50,11 @@ namespace cs557
 
 		int vaoID[1]; // Our Vertex Array Object
 		int vboID[2]; // Our Vertex Buffer Object
-		int program = -1;
+		int program;
 
-		int viewMatrixLocation = -1;
-		int modelMatrixLocation = -1;
-		int projMatrixLocation = -1;
+		int viewMatrixLocation;
+		int modelMatrixLocation;
+		int projMatrixLocation;
 
 
 		float _width;
