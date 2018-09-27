@@ -67,3 +67,6 @@ classnotes/.DS_Store
 *.vcxproj.user
 assignments/02_Light_and_Material/HW2_Light_and_Material.VC.VC.opendb
 *.opendb
+.vscode
+bak
+build
