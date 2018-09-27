@@ -2,6 +2,7 @@
 # Spotlight
 
 cmake_minimum_required(VERSION 2.6)
+cmake_policy(SET CMP0015 NEW)
 
 # Main project name is ARMaker
 project(HCI557_Spotlight)
@@ -57,6 +58,8 @@ file(GLOB HCI557_Spotlight_SRC
 # Create an executable
 add_executable(HCI557_Spotlight ${HCI557_Spotlight_SRC})
 
+# for glm
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 
 # Add link directories
 # Note required for this project

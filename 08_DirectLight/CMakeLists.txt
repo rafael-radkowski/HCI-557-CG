@@ -4,6 +4,7 @@
 # All rights reserved
 
 cmake_minimum_required(VERSION 2.6)
+cmake_policy(SET CMP0015 NEW)
 
 # Main project name is ARMaker
 project(HCI557_Directlight)
@@ -55,6 +56,8 @@ file(GLOB HCI557_Directlight_SRC
 	../gl_common/camera.cpp
     ../gl_common/GLObjects3D.h
 )
+
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 
 # Create an executable
 add_executable(HCI557_Directlight ${HCI557_Directlight_SRC})
