@@ -1,7 +1,8 @@
 #pragma once
 // stl
 #include <iostream>
-
+#include <algorithm>
+#include <limits>
 
 // glfw
 #include <GLFW/glfw3.h>

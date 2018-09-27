@@ -86,9 +86,10 @@ glm::vec3 GetCurrentCameraTranslation(void)
         return cam_manipulator.getTranslationVec();
         break;
     case TRACKBALL: // constant distance
-            return glm::vec3(0.0f,0.0f,65.0f);
+        return glm::vec3(0.0f,0.0f,65.0f);
  
     }
+	return glm::vec3(0.0f, 0.0f, 65.0f);
 }
 
 
@@ -244,7 +245,11 @@ bool initGlew(void)
     // Check the GLSL version
     const char *verstr = (const char *) glGetString(GL_SHADING_LANGUAGE_VERSION);
     cout << "GLSL version supported by this platform " << string (verstr) << endl;
-    sscanf(verstr, "%d.%d", &glsl_major, &glsl_minor);
+#ifdef _WIN32
+    sscanf_s(verstr, "%d.%d", &glsl_major, &glsl_minor);
+#else
+	sscanf(verstr, "%d.%d", &glsl_major, &glsl_minor);
+#endif
     
     return true;
 }

@@ -10,8 +10,8 @@ cmake_policy(SET CMP0015 NEW)
 project(HCI557_Lighting)
 
 
-#set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/" ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
+set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/" ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
 
 message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
 #message(STATUS "SDK directory ${CMAKE_SOURCE_DIR}/../SDK")
@@ -35,9 +35,12 @@ endif()
 if (GLFW_FOUND)
 message(STATUS "Found GLEW ${GLFW_INCLUDE_DIRS} and ${GLFW3_LIBRARY}")
 else()
+IF(WIN32)
+ELSE(WIN32)
 include_directories("/usr/local/Cellar/glfw/3.2.1/include")
 include_directories("/usr/local/Cellar/glfw/1.11.0/include")
 set( GLFW3_LIBRARY glfw)
+ENDIF(WIN32)
 endif()
 
 # Include dirs

@@ -2,6 +2,7 @@
 # Simple Model
 
 cmake_minimum_required(VERSION 2.6)
+cmake_policy(SET CMP0015 NEW)
 
 # Main project name is ARMaker
 project(OpenGL_Transformations_Ext)
@@ -49,6 +50,12 @@ file(GLOB OpenGL_Transformations_SRC
 	../gl_common/Shaders.cpp
 	../gl_common/Shaders.h
 )
+
+#definition for GLM
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+# for older versions of cmake
+#add_definitions(GLM_ENABLE_EXPERIMENTAL)
+
 
 # Create an executable
 add_executable(OpenGL_Transformations_Ext ${OpenGL_Transformations_SRC})
