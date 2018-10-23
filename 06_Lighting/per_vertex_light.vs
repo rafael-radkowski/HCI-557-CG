@@ -25,14 +25,14 @@ uniform float ambientIntensity;
 
 out vec3 pass_Color;     
 
+
 void main(void)                                                  
 {  
+    vec3 normal =   vec3( transpose(inverse(modelMatrix))  * vec4(in_Normal, 1.0) );
+    vec3 transformedNormal =  normalize ( normal);
 
-    vec3 normal = normalize(in_Normal); 
-    vec4 transformedNormal =  transpose(inverse(modelMatrix))  * vec4( normal, 0.0 );
-
-    vec4 surface_point = modelMatrix * vec4(in_Position, 1.0);     
-    vec4 surface_to_light =  vec4(locationLight, 1.0) - surface_point ;       
+    vec3 surface_point = vec3( modelMatrix * vec4(in_Position, 1.0));     
+    vec3 surface_to_light =  normalize(locationLight  - surface_point) ;       
   
     // Diffuse color                                                                                          
     float diffuse_coefficient = max( dot(transformedNormal, surface_to_light), 0.0);                         
@@ -41,16 +41,14 @@ void main(void)
      // Ambient color                                                                                         
     vec3 out_ambient_color = vec3(ambientcolor) * ambientIntensity;
 
-    // specular color                                                          
-    vec3 reflectionVector = normalize(reflect(surface_to_light.xyz, transformedNormal.xyz));    
-
-    vec3 cameraPosition = vec3( viewMatrix[0][3], viewMatrix[1][3], viewMatrix[2][3]);            
-    vec3 surfaceToCamera = normalize(-cameraPosition - surface_point.xyz);    
-                                  
-    float cosAngle = max( dot(surfaceToCamera, reflectionVector), 0.0);                                       
+    // specular color            
+    vec3 reflectDir = normalize(reflect(  transformedNormal, surface_to_light));   
+    vec3 cameraPosition = vec3( -viewMatrix[3][0], -viewMatrix[3][1], -viewMatrix[3][2]);       
+    vec3 surfaceToCamera = normalize(cameraPosition - in_Position);                            
+    float cosAngle =  max( dot( reflectDir, surfaceToCamera), 0.0);   
     float specular_coefficient = pow(cosAngle, speculuar_coeff);                                                     
     vec3 out_specular_color = specularColor * specular_coefficient * specular_intensity;            
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_Position, 1.0); 
-	pass_Color = max( out_specular_color + out_diffuse_color,  out_ambient_color);
+	pass_Color =  max( out_specular_color + out_diffuse_color,  out_ambient_color);
 }                                                                 

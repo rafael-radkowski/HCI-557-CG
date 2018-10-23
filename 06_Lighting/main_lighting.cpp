@@ -40,6 +40,7 @@ GLFWwindow *window = NULL;
 glm::mat4 projectionMatrix; // Store the projection matrix
 glm::mat4 viewMatrix;       // Store the view matrix
 glm::mat4 modelMatrix;      // Store the model matrix
+glm::mat4 modelMatrixCoord;      // Store the model matrix
 
 
 
@@ -66,11 +67,16 @@ float       shininess = 10.5;
 int mode = 0;
 
 
+// Set up our green background color
+GLfloat clear_color[] = {0.6f, 0.7f, 1.0f, 1.0f};
+static const GLfloat clear_depth[] = {1.0f, 1.0f, 1.0f, 1.0f};
+
+
 // This is the callback we'll be registering with GLFW for keyboard handling.
 // The only thing we're doing here is setting up the window to close when we press ESC
 void my_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-
+   //cout << key ;
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -140,6 +146,19 @@ void my_key_callback(GLFWwindow* window, int key, int scancode, int action, int 
             if(shininess < 1) shininess = 1;
         }
     }
+    else if(key == 66 && action == GLFW_PRESS)
+    {
+        if(clear_color[0] > 0.2 ){
+            clear_color[0] = 0.0;
+            clear_color[1] = 0.0;
+            clear_color[2] = 0.0;
+        }else{
+            clear_color[0] = 0.6f;
+            clear_color[1] = 0.7f;
+            clear_color[2] = 1.0f;
+        }
+
+    }
 
     if(action == GLFW_PRESS)
         cout << "Parameters: diff: " << diffuse_intensity << " amb: " << ambient_intensity << " spec: " << specular_intensity << " shi: " << shininess << endl;
@@ -169,10 +188,19 @@ void Init(void)
     //-----------------------------------------------------------------------------------------------------------------------
 	// Projection transformations
 	projectionMatrix = glm::perspective(1.57f, (float)800 / (float)600, 0.1f, 100.f);
-	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)); 
-	viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, -4.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(2.0f, 0.0f, 0.0f)); 
+	viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    modelMatrixCoord = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)); 
 
 
+    for(int i=0; i<4; i++)
+    {
+        for(int j =0;j<4; j++)
+        {
+            cout << viewMatrix[i][j] << "\t";
+        }
+        cout << "\n";
+    }
 
     // create a coordinate system
     coordinateSystem.create(2.5);
@@ -198,19 +226,19 @@ void Init(void)
     glm::vec3 ambi_color(1.0, 1.0, 0.0);
     glUniform3fv(glGetUniformLocation(per_vertex_light_program, "ambientcolor"), 1, &ambi_color[0]);
 
-    glm::vec3 light_position(0.0, 4.0, 1.0);
+    glm::vec3 light_position(2.0, 0.0, -6.0);
     glUniform3fv(glGetUniformLocation(per_vertex_light_program, "locationLight"), 1, &light_position[0]);
 
-    diffuse_intensity = 0.4f;
+    diffuse_intensity = 1.2f;
     glUniform1f(glGetUniformLocation(per_vertex_light_program, "diffuseIntensity"), diffuse_intensity);
 
-    ambient_intensity = 0.5f;
+    ambient_intensity = 0.6f;
     glUniform1f(glGetUniformLocation(per_vertex_light_program, "ambientIntensity"), ambient_intensity);
 
-    specular_intensity = 0.5f;
+    specular_intensity =1.2f;
     glUniform1f(glGetUniformLocation(per_vertex_light_program, "specular_intensity"), specular_intensity);
     
-    shininess = 10.5f;
+    shininess = 8.5f;
     glUniform1f(glGetUniformLocation(per_vertex_light_program, "speculuar_coeff"), shininess);
 
 
@@ -223,9 +251,7 @@ void Init(void)
 void Draw(void)
 {
 
-    // Set up our green background color
-    static const GLfloat clear_color[] = {0.6f, 0.7f, 1.0f, 1.0f};
-    static const GLfloat clear_depth[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST); // ignore this line
@@ -238,16 +264,17 @@ void Draw(void)
         glClearBufferfv(GL_DEPTH, 0, clear_depth);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //// This renders the objects
+        //// This resnders the objects
 
         // update the camera values.
         // Note that this line changes the view matrix.
-        glm::mat4 rotated_view = viewMatrix * cs557::GetTrackball().getRotationMatrix();
+        glm::mat4 rotated_view = viewMatrix  * cs557::GetTrackball().getRotationMatrix() ;
+
 
         //----------------------------------------------------------------------------------------------------------------------------
         // Object 0
         // This draws a coordinate system
-        coordinateSystem.draw(projectionMatrix, rotated_view, modelMatrix);
+        coordinateSystem.draw(projectionMatrix, rotated_view, modelMatrixCoord);
 
         // update values
         glUseProgram(per_vertex_light_program);
