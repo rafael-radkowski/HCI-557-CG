@@ -143,7 +143,7 @@ void Init(void)
     // Note that this function bind the texture to texture unit GL_TEXTURE0 
     glUseProgram(texture_program);
     unsigned int texture_id = -1;
-    LoadAndCreateTexture2D("./textures/texture_brick.bmp", &texture_id);
+    LoadAndCreateTexture2D("../textures/texture_brick.bmp", &texture_id);
 
     // Activate the texture unit and bind the texture. 
     glActiveTexture(GL_TEXTURE0);
