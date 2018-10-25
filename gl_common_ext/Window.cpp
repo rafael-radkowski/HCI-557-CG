@@ -60,10 +60,6 @@ namespace cs557
 
 
 
-
-
-
-
 	/*
 	This function initializes the GLFW window
 	*/

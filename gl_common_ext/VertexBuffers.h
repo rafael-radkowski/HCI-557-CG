@@ -34,5 +34,18 @@ namespace cs557
 	*/
 	bool CreateVertexObjects33(int* vaoID, int* vboID, float* vertices, float* colors, int N);
 
+	/*
+	Create a vertex array object and vertex buffer object for vertices and texture coordinages of size 5 (x, y, z, u, v)  
+	along with normal vectors of size 3: (nx, ny, nz)
+	@param vaoID - address to store the vertex array object
+	@param vboID - address to store the vertex buffer objects. Note, TWO spaces are required to create buffers of vertices and colors. 
+	@param vertices_texture_coord - pointer to an array containing vertices and texture coords as [x0, y0, z0, u0, v0, x1, y1, z1, u1, v1, ...]
+	@param normals - pointer to an array containning normal vectors as [nx0, ny0, nz0, nx1, ny1, nz1, .....]
+	@param N - the number of vertices and colors, NOT THE LENGTH OF THE ARRAY. Note that the vector sizes MUST match. 
+	@param vertices_location - the GLSL vertices location 
+	@param normals_location - the GLSL normal vectors locations
+	*/
+	bool CreateVertexObjects53( int* vaoID, int* vboID, float* vertices_texture_coord, float* normals, int N,
+	 							int vertices_location = 0, int tex_coord_location = 1, int normals_location = 2);
 
 }

@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0015 NEW)
 
 # Main project name
-project(HCI557_Simple_Texture)
+project(HCI557_Projective_Texture)
 
 
 set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
@@ -53,8 +53,8 @@ include_directories(${GLM_INCLUDE_DIR})
 
 
 # Add all files to the configuration
-file(GLOB HCI557_Simple_Texture_SRC
-	main_texture_example.cpp
+file(GLOB HCI557_SRC
+	main.cpp
 	../gl_common_ext/OpenGLDefaults.h
 	../gl_common_ext/OpenGLDefaults.cpp
 	../gl_common_ext/VertexBuffers.h
@@ -69,7 +69,7 @@ file(GLOB HCI557_Simple_Texture_SRC
 	../gl_common_ext/Window.h
 	../gl_common_ext/ModelPlane.h
 	../gl_common_ext/ModelPlane.cpp
-    ../gl_common_ext/Texture2D.h
+    	../gl_common_ext/Texture2D.h
 	../gl_common_ext/Texture2D.cpp
 	../gl_common_ext/BMPLoader.h
 	../gl_common_ext/BMPLoader.cpp
@@ -80,7 +80,7 @@ add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 
 
 # Create an executable
-add_executable(HCI557_Simple_Texture ${HCI557_Simple_Texture_SRC} )
+add_executable(HCI557_Projective_Texture ${HCI557_SRC} )
 
 
 # Add link directories
@@ -98,4 +98,4 @@ ENDIF(WIN32)
 
 
 # Add libraries
-target_link_libraries(HCI557_Simple_Texture  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HCI557_Projective_Texture  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
