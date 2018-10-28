@@ -11,10 +11,11 @@ Create a 2D texture.
 @param dst_texture_id -  a pointer to return the texture identifer
 @return true if successfull
 */
-bool cs557::CreateTexture2D(int width, int height, int channels, unsigned char* data, unsigned int* dst_texture_id)
+bool cs557::CreateTexture2D(int width, int height, int channels, unsigned char* data, unsigned int* dst_texture_id,
+     int mode, int texture_unit )
 {
     // texture unity
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(texture_unit); //GL_TEXTURE0
 
      // Generate a texture, this function allocates the memory and
     // associates the texture with a variable.
@@ -22,14 +23,16 @@ bool cs557::CreateTexture2D(int width, int height, int channels, unsigned char* 
     
     // Set a texture as active texture.
     glBindTexture( GL_TEXTURE_2D, *dst_texture_id );
+
+
     
     // Change the parameters of your texture units.
     //glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_BLEND );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP_TO_BORDER );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_CLAMP_TO_BORDER );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R,GL_CLAMP_TO_BORDER );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, mode );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, mode );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, mode );
     
     
     // Create a texture and load it to your graphics hardware. This texture is automatically associated
@@ -88,4 +91,45 @@ bool cs557::LoadAndCreateTexture2D(string file_and_path, unsigned int* dst_textu
     }
 
     return true;
+}
+
+
+
+    /*
+Create a single 2D texture and assign it to texture unit GL_TEXTURE0 
+@param file_and_path - relative or absolute path pointing to the texture
+@param dst_texture_id -  a pointer to return the texture identifer
+@param texture_unit - a pointer to return the texture unit
+@param wrap_mode - the GL wrapping mode. Use GL_REPEAT, GL_CLAMP_TO_BORDER, etc.
+@return true if successfull
+*/
+bool cs557::LoadAndCreateTexture2D(string file_and_path, unsigned int* dst_texture_id, int wrap_mode, int texture_unit)
+{
+    unsigned char * g_data = NULL;
+    int width = -1; 
+    int height = -1; 
+    int channels = -1;
+    
+
+    // Load the file
+    bool ret = cs557::LoadBMPFromFile( file_and_path, &width, &height, &channels, &g_data);
+
+    if(!ret)
+    {
+        std::cout << "[ERROR] - Did not load bmp file: " << file_and_path << "." << std::endl;
+        return false;
+    }
+
+    // Create the texture
+    ret = cs557::CreateTexture2D(width, height, channels, g_data, dst_texture_id, wrap_mode);
+
+
+    if(!ret)
+    {
+        std::cout << "[ERROR] - Did not create a texture for file: " << file_and_path << "." << std::endl;
+        return false;
+    }
+
+    return true;
+    
 }

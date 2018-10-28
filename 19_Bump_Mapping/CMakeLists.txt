@@ -64,6 +64,9 @@ set(HCI557_RES
 	../data/shaders/displacement_texture.vs
 )
 
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+
+
 
 #----
 # SRC Groups

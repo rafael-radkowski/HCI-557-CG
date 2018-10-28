@@ -36,7 +36,7 @@ namespace cs557
     @param dst_texture_id -  a pointer to return the texture identifer
     @return true if successfull
     */
-    bool CreateTexture2D(int width, int height, int channels, unsigned char* data, unsigned int* dst_texture_id);
+    bool CreateTexture2D(int width, int height, int channels, unsigned char* data, unsigned int* dst_texture_id, int mode = GL_CLAMP_TO_BORDER, int texture_unit = GL_TEXTURE0 );
 
 
     /*
@@ -47,5 +47,18 @@ namespace cs557
     @return true if successfull
     */
     bool LoadAndCreateTexture2D(string file_and_path, unsigned int* dst_texture_id);
+
+
+
+     /*
+    Create a single 2D texture and assign it to texture unit GL_TEXTURE0 
+    @param file_and_path - relative or absolute path pointing to the texture
+    @param dst_texture_id -  a pointer to return the texture identifer
+    @param texture_unit - a pointer to return the texture unit
+    @param wrap_mode - the GL wrapping mode. Use GL_REPEAT, GL_CLAMP_TO_BORDER, etc.
+    @Param texture_unit - set the texture unit, e.g, GL_TEXTURE0
+    @return true if successfull
+    */
+    bool LoadAndCreateTexture2D(string file_and_path, unsigned int* dst_texture_id, int wrap_mode, int texture_unit = GL_TEXTURE0);
 
 }
