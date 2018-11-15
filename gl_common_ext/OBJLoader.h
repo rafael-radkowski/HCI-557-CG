@@ -2,7 +2,8 @@
 
 // from https://github.com/Bly7/OBJ-Loader
 
-#pragma once
+#ifndef OBJ_LOADER_INCLUDED
+#define OBJ_LOADER_INCLUDED
 
 // Iostream - STD I/O Library
 #include <iostream>
@@ -1173,3 +1174,6 @@ namespace objl
 		}
 	};
 }
+
+
+#endif
