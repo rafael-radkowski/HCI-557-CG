@@ -50,9 +50,12 @@ Create a simple coordinate system in the centroid
 */
 void cs557::Sphere::create(float radius, int segments, int rows, unsigned int shader_program)
 {
+	program = -1;
+
 	// This overwrite the default shader program
 	if(shader_program != -1){
 		program = shader_program;
+		cout << "Use default shader program " << endl;
 	}
 
 	_radius = radius;

@@ -16,6 +16,6 @@ void main(void)
 {                                                               
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_Position, 1.0); 
     pass_Normal = in_Normal.xyz;// vec3( transpose(inverse(modelMatrix))  * vec4(in_Normal, 0.0) );   
-	pass_Color = vec3(0.6, 0.6, 0.6);    
+	pass_Color = vec3(1.0, 1.0, 0.0);    
 	pass_Texture = in_Texture;                              
 }                                                    

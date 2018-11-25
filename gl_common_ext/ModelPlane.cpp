@@ -72,10 +72,10 @@ void cs557::Plane::create(float width, float height, unsigned int shader_program
 	float vertices[] = { 
 		//--------------------------------------------------------
 		// xy-plane, positive z direction, texture coordinates
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y, 0.0, 0.0, 0.0,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, 0.0, 0.0, 1.0,
-		_width / 2.0 + center_x, -_height / 2.0 + center_y, 0.0, 1.0, 0.0,
-		_width / 2.0 + center_x, _height / 2.0 + center_y,  0.0, 1.0, 1.0
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y, 0.0f, 0.0f, 0.0f,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, 0.0f, 0.0f, 1.0f,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y, 0.0f, 1.0f, 0.0f,
+		_width / 2.0f + center_x, _height / 2.0f + center_y,  0.0f, 1.0f, 1.0f
 		
 	};
 

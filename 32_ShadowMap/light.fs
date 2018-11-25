@@ -12,5 +12,5 @@ void main(void)
 {                    
 	vec4 tex_color =  texture(tex, pass_Texture.xy);
 	                                            
-	color =  tex_color  + vec4(pass_Color, 1.0f) * 0.2;                            
+	color =  vec4(pass_Color, 1.0f) ;                            
 }                                                              

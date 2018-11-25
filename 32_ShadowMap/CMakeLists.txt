@@ -1,5 +1,5 @@
 # Main cmake file 
-# Multiplass rendering basic example
+# Shadow map rendering example
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0015 NEW)
 
 # Main project name
-project(HCI557_Multipass_Rendering)
+project(HCI557_ShadowMap)
 
 
 set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
@@ -69,27 +69,27 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/Window.h
 	../gl_common_ext/ModelPlane.h
 	../gl_common_ext/ModelPlane.cpp
-    ../gl_common_ext/Texture2D.h
+    	../gl_common_ext/Texture2D.h
 	../gl_common_ext/Texture2D.cpp
 	../gl_common_ext/BMPLoader.h
 	../gl_common_ext/BMPLoader.cpp
 	../gl_common_ext/ModelOBJ.h
 	../gl_common_ext/ModelOBJ.cpp
+	../gl_common_ext/ModelSphere.h
+	../gl_common_ext/ModelSphere.cpp
 	../gl_common_ext/RenderToTexture.h
 
 )
 
 
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-
 # Create an executable
-add_executable(HCI557_Multipass_Rendering ${HCI557_SRC} )
+add_executable(HCI557_ShadowMap ${HCI557_SRC} )
 
 
 # Add link directories
@@ -107,4 +107,4 @@ ENDIF(WIN32)
 
 
 # Add libraries
-target_link_libraries(HCI557_Multipass_Rendering  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HCI557_ShadowMap  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )

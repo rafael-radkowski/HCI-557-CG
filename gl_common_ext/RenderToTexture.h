@@ -22,8 +22,6 @@
 #include <vector>
 #include <list>
 #include <algorithm>
-#include <experimental\filesystem>
-
 
 // GLEW include
 #include <GL/glew.h>
@@ -61,15 +59,16 @@ void CreateRenderToTexture(int texture_width, int texture_height, unsigned int& 
 	// create a texture for the depth buffer
 	glGenTextures(1, &texture_depth);
 	glBindTexture(GL_TEXTURE_2D, texture_depth);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, texture_width, texture_height);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT24, texture_width, texture_height);
+
 
 	// attach color and depth texture to fbo
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture_color, 0);
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, texture_depth, 0);
 
 
-	static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, draw_buffers);
+	static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 | GL_DEPTH_ATTACHMENT };
+	glDrawBuffers(2, draw_buffers);
 
 
 
