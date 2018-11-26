@@ -497,7 +497,7 @@ void Draw(void)
 		// reset the viewport to the previouse size
 		// Note that the opperating system zoom factor may interfer with this setting. 
 		// Check your system scale and set it accordingly 
-		int OSZoom = 2.0;
+		int OSZoom = 1.0;
 		glViewport(0, 0, OSZoom * 1280, OSZoom *1024); // the defaut window is set to this size
 
 
