@@ -16,6 +16,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 
+#include "ControlsBase.h"
+
 using namespace glm;
 using namespace std;
 
@@ -27,7 +29,8 @@ namespace cs557
 	/*
 	 Implementation of a trakball
 	 */
-	class TrackballControls {
+	class TrackballControls : public ControlsBase
+	{
 
 	public:
 
@@ -44,9 +47,18 @@ namespace cs557
 
 
 		/*
-		 * Create a rotation matrix within the camera coordinate,
-		 */
+		Deprecated: Do not use this. Use GetViewMatrix() instead
+		Return a reference of the trackball.
+    	LEGACY FUNCTION - TO BE BACKWARD COMPATIBLE UNTIL I CHANGE THIS
+		*/
 		glm::mat4 getRotationMatrix();
+
+
+
+		/*
+		Return a camera view matrix including the current user interaction
+		*/
+		glm::mat4 getViewMatrix(void);
 
 
 
@@ -63,8 +75,13 @@ namespace cs557
 		glm::vec3   _currPos;
 		glm::vec3   _camAxis;
 
+		glm::mat4   _curOrient;
+
 		bool        _xAxis;
 		bool        _yAxis;
+
+		 // the view matrix. 
+        glm::mat4       _vm;
 
 	};
 

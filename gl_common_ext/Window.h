@@ -19,7 +19,7 @@
 
 // locals
 #include "TrackballControls.h"		// a trackball controller
-
+#include "CameraControls.h"
 
 using namespace std;
 
@@ -42,9 +42,22 @@ namespace cs557
 
 
 	/*
+	Deprecated: Do not use this. Use GetCamera() instead
 	Return a reference of the trackball.
+    LEGACY FUNCTION - TO BE BACKWARD COMPATIBLE UNTIL I CHANGE THIS
 	*/
-	TrackballControls& GetTrackball(void);
+	ControlsBase& GetTrackball(void);
 
+	/*
+	Returns the camera controller. 
+	*/
+	ControlsBase& GetCamera(void);
+	
+
+	/*
+	Set the initial view matrix for the camera controler. 
+	@param vm - 4x4 view matrix. 
+	*/
+	void InitControlsViewMatrix(glm::mat4 vm);
 
 }

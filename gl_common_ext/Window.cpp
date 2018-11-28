@@ -1,38 +1,43 @@
 #include "Window.h"
 
 
+//#define _WITH_CAMERA
+
 namespace cs557
 {
 
 
-
-
-
 	// A trackball to move and rotate the camera view 
 	// Note that WINDOW_WIDTH and  WINDOW_HEIGHT is defined in Window.h
+#ifdef _WITH_CAMERA
+	static cs557::CameraControls camera(WINDOW_WIDTH, WINDOW_HEIGHT);
+#else
 	static cs557::TrackballControls trackball(WINDOW_WIDTH, WINDOW_HEIGHT, 0.4f, true, true);
-
-
-
+#endif
 
 
 
 	/* In GLFW mouse callback */
 	void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods) {
-
+	
+#ifdef _WITH_CAMERA
+		camera.mouseButtonCallback(window, button, action, mods);
+#else
 		trackball.mouseButtonCallback(window, button, action, mods);
+#endif
 	}
 
 
 
 	/* In GLFW curser callback */
 	void cursorCallback(GLFWwindow *window, double x, double y) {
-
+	
+#ifdef _WITH_CAMERA
+		camera.cursorCallback(window, x, y);
+#else
 		trackball.cursorCallback(window, x, y);
+#endif
 	}
-
-
-
 
 
 
@@ -121,10 +126,38 @@ namespace cs557
 	/*
 	Return a reference of the trackball.
 	*/
-	TrackballControls& GetTrackball(void)
+	ControlsBase& GetTrackball(void)
 	{
-		return trackball;
+#ifndef _WITH_CAMERA
+		return trackball;	
+#else
+		return camera;
+#endif
 	}
+
+
+	ControlsBase& GetCamera(void)
+	{
+#ifdef _WITH_CAMERA
+		return camera;
+#else
+		return trackball;	
+#endif
+	}
+
+
+	/*
+	Set the initial view matrix for the camera controler. 
+	@param vm - 4x4 view matrix. 
+	*/
+	void InitControlsViewMatrix(glm::mat4 vm)
+	{
+#ifdef _WITH_CAMERA
+		camera.initView(vm);
+#endif
+	}
+
+
 
 
 };//namespace cs557

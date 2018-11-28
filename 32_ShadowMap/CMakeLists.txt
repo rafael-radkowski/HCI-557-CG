@@ -78,6 +78,9 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/ModelSphere.h
 	../gl_common_ext/ModelSphere.cpp
 	../gl_common_ext/RenderToTexture.h
+	../gl_common_ext/CameraControls.h
+	../gl_common_ext/CameraControls.cpp
+	
 
 )
 

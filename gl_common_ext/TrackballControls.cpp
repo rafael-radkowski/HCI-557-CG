@@ -20,7 +20,12 @@ TrackballControls::TrackballControls( int window_width, int window_height, GLflo
     _current_angle    = 0.0f;
     _camAxis    = glm::vec3(0.0f, 1.0f, 0.0f);
     
+    _vm = { 1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            0,0,0,1};
 
+    _curOrient = glm::mat4();
 }
 
 /**
@@ -45,7 +50,8 @@ glm::vec3 TrackballControls::toScreenCoord( double x, double y ) {
         coord.z = sqrt( 1.0 - length_squared );
     else
         coord = glm::normalize( coord );
-    
+
+
     return coord;
 }
 
@@ -57,39 +63,56 @@ glm::vec3 TrackballControls::toScreenCoord( double x, double y ) {
  */
 void TrackballControls::mouseButtonCallback( GLFWwindow * window, int button, int action, int mods ){
     _mouseEvent = ( action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT );
+
+
 }
 
 
 
 void TrackballControls::cursorCallback( GLFWwindow *window, double x, double y ){
-    if( _mouseEvent == 0 )
+    if( _mouseEvent == 0 ){
         return;
+    }
     else if( _mouseEvent == 1 ) {
         /* Start of trackball, remember the first position */
         _prevPos     = toScreenCoord( x, y );
         _mouseEvent  = 2;
         return;
     }
+    else if(_mouseEvent == 2)
+    {
     
-    /* Tracking the subsequent */
-    _currPos  = toScreenCoord( x, y );
+        /* Tracking the subsequent */
+        _currPos  = toScreenCoord( x, y );
+        
+        /* Calculate the angle in radians, and clamp it between 0 and 90 degrees */
+        _current_angle    = acos( std::min(1.0f, glm::dot(_prevPos, _currPos) ));
+        
+        /* Cross product to get the rotation axis, but it's still in camera coordinate */
+        _camAxis  = glm::cross( _prevPos, _currPos );
+
+
+        _vm = glm::rotate( _vm, glm::degrees(_current_angle) * _rollingSpeed, _camAxis );
+
+        _prevPos = _currPos;
     
-    /* Calculate the angle in radians, and clamp it between 0 and 90 degrees */
-    _current_angle    = acos( std::min(1.0f, glm::dot(_prevPos, _currPos) ));
-    
-    /* Cross product to get the rotation axis, but it's still in camera coordinate */
-    _camAxis  = glm::cross( _prevPos, _currPos );
+    }
+
 }
 
 
 
 
 glm::mat4 TrackballControls::getRotationMatrix() {
-    
-    return glm::rotate( glm::degrees(_current_angle) * _rollingSpeed, _camAxis );
+    return _vm;  
 }
 
-
+/*
+Return a camera view matrix including the current user interaction
+*/
+glm::mat4 TrackballControls::getViewMatrix() {
+    return _vm;  
+}
 
 
 
