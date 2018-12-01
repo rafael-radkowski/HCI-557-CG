@@ -435,6 +435,7 @@ void Init(void)
 void Draw(void)
 {
 
+    cs557::InitControlsViewMatrix(viewMatrix);
     
 
     // Enable depth test
