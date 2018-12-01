@@ -452,7 +452,7 @@ void Draw(void)
 
         // update the camera values.
         // Note that this line changes the view matrix.
-        glm::mat4 rotated_view =   viewMatrix * cs557::GetTrackball().getRotationMatrix() * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)) ;
+        glm::mat4 rotated_view =    cs557::GetTrackball().getRotationMatrix() * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f)) ;
 
 
 

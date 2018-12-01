@@ -11,7 +11,8 @@
  Dec. 12, 2017:
  - Added a description
 ***************************/
-#pragma once
+#ifndef RENDERTOTEXTURE
+#define RENDERTOTEXTURE
 
 // stl
 #include <stdio.h>
@@ -42,7 +43,7 @@ The function creates the fbo, the textures, and returns the descriptors indices 
 @param texture_color -  a variable in which this function can write the color texture idx into.
 @param texture_depth -  a variable in which this function can write the depth texture idx into.
 */
-void CreateRenderToTexture(int texture_width, int texture_height, unsigned int& frame_buffer_object, unsigned int& texture_color,  unsigned int& texture_depth)
+inline void CreateRenderToTexture(int texture_width, int texture_height, unsigned int& frame_buffer_object, unsigned int& texture_color,  unsigned int& texture_depth)
 {
 	// Create a frame buffer
 	//glCreateFramebuffers(1, &frame_buffer_object);
@@ -61,15 +62,13 @@ void CreateRenderToTexture(int texture_width, int texture_height, unsigned int& 
 	glBindTexture(GL_TEXTURE_2D, texture_depth);
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT24, texture_width, texture_height);
 
-
 	// attach color and depth texture to fbo
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture_color, 0);
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, texture_depth, 0);
 
-
 	static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 | GL_DEPTH_ATTACHMENT };
 	glDrawBuffers(2, draw_buffers);
 
-
-
 }
+
+#endif
