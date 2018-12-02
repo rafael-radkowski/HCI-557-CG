@@ -37,7 +37,7 @@ namespace cs557
 		@param rows - number of rows
 		@param shader_program - overwrite the default shader program by passing a hander to the constructor
 		*/
-		void create(float radius, int segments = 30, int rows = 40, unsigned int shader_program = -1);
+		void create(float radius, int segments = 30, int rows = 40, int shader_program = -1);
 
 
 		/*
@@ -47,6 +47,12 @@ namespace cs557
 		*/
 		void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 modelMatrix);
 
+
+		/*
+		Return the shader program
+		@return - int containing the shader program
+		*/
+		int getProgram(void){return program;}
 
 	private:
 

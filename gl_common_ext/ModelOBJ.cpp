@@ -52,7 +52,7 @@ Load an OBJ model from file
 @param path_and_filename - number of rows
 @param shader_program - overwrite the default shader program by passing a hander to the constructor
 */
-void cs557::OBJModel::create(string path_and_filename, unsigned int shader_program)
+void cs557::OBJModel::create(string path_and_filename, int shader_program)
 {
 	program = -1;
 	_N = 0;

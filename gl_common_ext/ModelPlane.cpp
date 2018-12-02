@@ -49,7 +49,7 @@ using namespace cs557_plane;
 Create a simple coordinate system in the centroid
 @param length - the length of each unit axis
 */
-void cs557::Plane::create(float width, float height, unsigned int shader_program)
+void cs557::Plane::create(float width, float height, int shader_program)
 {
 
 	// This overwrite the default shader program

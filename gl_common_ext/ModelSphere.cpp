@@ -48,7 +48,7 @@ using namespace cs557_sphere;
 Create a simple coordinate system in the centroid
 @param radius - the radios of the sphere
 */
-void cs557::Sphere::create(float radius, int segments, int rows, unsigned int shader_program)
+void cs557::Sphere::create(float radius, int segments, int rows,  int shader_program)
 {
 	program = -1;
 

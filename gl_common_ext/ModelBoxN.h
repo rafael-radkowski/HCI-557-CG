@@ -45,6 +45,12 @@ namespace cs557
 		void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 modelMatrix);
 
 
+		/*
+		Return the shader program
+		@return - int containing the shader program
+		*/
+		int getProgram(void){return program;}
+
 	private:
 
 

@@ -42,7 +42,6 @@ namespace cs557 {
 	GLuint CreateShaderProgram(string vertex_source, string fragment_source);
 
 
-
 	/*!
 	Load a shader program from a file and creates the related program
 	@param vertex_file -  the file which stores the vertex shader code
@@ -51,6 +50,29 @@ namespace cs557 {
 	0 indicates a problem
 	*/
 	GLuint LoadAndCreateShaderProgram(string vertex_file, string fragment_file);
+
+
+	/*
+	Create a shader program
+	@param vertex source - the vertex shader source code as string. 
+	@param geometry source - the geometry shader source code as string. 
+	@param fragment_source - the fragment shader source code as string
+	@return - Gluint of the shader program, must be larger than -1. 
+	0 indicates a problem
+	*/
+	GLuint CreateShaderProgram(string vertex_source, string geometry_source, string fragment_source);
+
+
+
+	/*!
+	Load a shader program from a file and creates the related program
+	@param vertex_file -  the file which stores the vertex shader code
+	@param geometry_file -  the file which stores the geometry shader code
+	@param fragment_file -  the file which stores the fragment shader code
+	@return - Gluint of the shader program, must be larger than 0. 
+	0 indicates a problem
+	*/
+	GLuint LoadAndCreateShaderProgram(string vertex_file, string geometry_file, string fragment_file);
 
 
 	class ShaderProgramUtils

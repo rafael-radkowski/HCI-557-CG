@@ -34,7 +34,7 @@ namespace cs557
 		Create a simple coordinate system in the centroid
 		@param length - the length of each unit axis
 		*/
-		void create(float width, float height, unsigned int shader_program = -1);
+		void create(float width, float height, int shader_program = -1);
 
 
 		/*
@@ -44,13 +44,21 @@ namespace cs557
 		*/
 		void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 modelMatrix);
 
+		/*
+		Return the shader program
+		@return - int containing the shader program
+		*/
+		int getProgram(void){return program;}
 
 	private:
 
 
 		int vaoID[1]; // Our Vertex Array Object
 		int vboID[2]; // Our Vertex Buffer Object
-		unsigned int program;
+		
+		// the shader program that renders this object
+		int program;
+
 
 		int viewMatrixLocation;
 		int modelMatrixLocation;
