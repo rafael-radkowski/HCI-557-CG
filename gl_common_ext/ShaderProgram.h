@@ -79,13 +79,18 @@ namespace cs557 {
 	{
 	public:
 		/*!
-		 Check the shader code for errors
+		 Check the shader code for errors after compiling
 		 @param shader: the shader program id
 		 @param shader_type, vertex or framgment shader
 		 */
 		static bool CheckShader(GLuint shader, GLenum shader_type);
 
 
+		/*!
+		 Check the shader code for errors after linking
+		 @param shader: the shader program id
+		 */
+		static bool CheckLinker(GLuint shader);
 
 
 		/*!

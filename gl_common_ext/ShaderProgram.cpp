@@ -35,6 +35,39 @@ bool cs557::ShaderProgramUtils::CheckShader(GLuint shader, GLenum shader_type)
 }
 
 
+/*!
+Check the shader code for errors after linking
+@param shader: the shader program id
+*/
+//static 
+bool cs557::ShaderProgramUtils::CheckLinker(GLuint shader)
+{
+    GLint linked = 0;
+    glGetProgramiv(shader, GL_LINK_STATUS, &linked);
+    
+    if (linked == GL_FALSE)
+    {
+        GLint info_len = 0;
+        
+        glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &info_len);
+        
+        if (info_len)
+        {
+            char* buf = (char*) malloc(info_len);
+            if (buf) {
+                glGetProgramInfoLog(shader, info_len, NULL, buf);
+                cout << "Could not link the shaders code: " << " GL_LINK_STATUS " << "error: \n" <<  buf << endl;
+                free(buf);
+            }
+            glDeleteShader(shader);
+            shader = 0;
+        }
+        return false;
+    }
+    return true;
+}
+
+
 
 /*
  Creates a shader program
@@ -71,6 +104,7 @@ GLuint cs557::CreateShaderProgram(string vertex_source, string fragment_source)
 	}
     
     // We create a shader with our fragment shader source code and compile it.
+    // This function returns 0 if an error occurs creating the shader object.
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fs, 1, &fs_source, NULL);
     glCompileShader(fs);
@@ -97,7 +131,17 @@ GLuint cs557::CreateShaderProgram(string vertex_source, string fragment_source)
     glAttachShader(program, vs);
     glAttachShader(program, fs);
     
+    // Link the program
     glLinkProgram(program);
+
+    // check the linker program for errors
+    bool link_status = ShaderProgramUtils::CheckLinker( program);
+    if(!link_status)
+    {
+        cout << "Problems link the shader program" << endl;
+        program = -1;
+        return program;
+    }
     
     glUseProgram(program);
     
