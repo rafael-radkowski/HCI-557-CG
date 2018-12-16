@@ -94,10 +94,10 @@ void cs557::OBJModel::create(string path_and_filename, int shader_program)
 
 	int size = loader.LoadedMeshes.size();
 
-	if(size > 0)
+	for(int i=0; i<size; i++)
 	{
 
-		objl::Mesh curMesh = loader.LoadedMeshes[0];
+		objl::Mesh curMesh = loader.LoadedMeshes[i];
 
 		for (int j = 0; j < curMesh.Vertices.size(); j++)
 		{
@@ -111,19 +111,16 @@ void cs557::OBJModel::create(string path_and_filename, int shader_program)
 		{
 			indices.push_back(curMesh.Indices[j]);
 		}
-
-		_I = curMesh.Indices.size();
-		_N = points.size();
-
-
-		// create a vertex buffer object
-		cs557::CreateVertexObjectsIndexed53(vaoID, vboID, iboID, &points[0].first.x, &normals[0].x, _N, &indices[0], _I, pos_location, tex_location, norm_location );
-
-
 		//glBindAttribLocation(program, pos_location, "in_Position");
 		//glBindAttribLocation(program, norm_location, "in_Normal");
 		//glBindAttribLocation(program, tex_location, "in_Texture");
 	}
+	_I = indices.size();
+	_N = points.size();
+
+	// create a vertex buffer object
+	cs557::CreateVertexObjectsIndexed53(vaoID, vboID, iboID, &points[0].first.x, &normals[0].x, _N, &indices[0], _I, pos_location, tex_location, norm_location );
+
 }
 
 
@@ -150,7 +147,7 @@ void cs557::OBJModel::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm
 	glBindVertexArray(vaoID[0]);
 
 	// Draw the triangles
- 	glDrawElements(GL_TRIANGLES, _N, GL_UNSIGNED_INT, 0);
+ 	glDrawElements(GL_TRIANGLES, _I, GL_UNSIGNED_INT, 0);
 	
 
 	// Unbind our Vertex Array Object
