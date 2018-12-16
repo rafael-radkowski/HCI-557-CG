@@ -1,3 +1,25 @@
+/*
+ModelOBJ - This code is part of CS/CPRE/ME 557 - Computer Graphics 
+
+This class provides functions to load and render an 3D model stored as .obj file. 
+However, it just loads the meshes from an obj file and renders them. 
+Materials and a shader program must be manually assigned. 
+
+Features:
+- Load all meshes from an obj file. 
+- Draws the meshes (if a shader program was assigned)
+
+Rafael Radkowski
+Iowa State Univerity
+rafael@iastate.edu
+Sep. 12, 2018
+rafael@iastate.edu
+
+Last edit:
+Dec 16, 2018, RR
+	- fixed a bug that skipped severa triangles from being rendeered.
+	- changed the code to process all data. 
+*/
 #pragma once
 
 // stl include

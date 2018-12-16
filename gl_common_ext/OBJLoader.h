@@ -1,6 +1,7 @@
 // OBJ_Loader.h - A Single Header OBJ Model Loader
 
 // from https://github.com/Bly7/OBJ-Loader
+// credits to Robert S., Github: Bly7
 
 #ifndef OBJ_LOADER_INCLUDED
 #define OBJ_LOADER_INCLUDED
