@@ -1,10 +1,30 @@
-//
-//  main.cpp
-//  OpenGL4Test
-//
-//  Created by Rafael Radkowski on 5/28/15.
-//  Copyright (c) 2015 -. All rights reserved.
-//
+/*
+HelloOpenGL.
+
+This program is test code. 
+We use it in this course to verify that your OpenGl development environment is 
+ready to be used. To code already demonstrates a lot of OpenGL content which
+we will discuss in class. 
+
+THERE IS NO NEED TO UNDERSTAND IT AT THIS POINT. 
+
+If you see a window with a square - That is all what you need for now. 
+
+Rafael Radkowski
+Iowa State University
+rafael@iastate.edu
++1(515) 294 7044
+August 8, 2015 
+MIT License
+
+This code is part of the Iowa State U. course CS/CPRE/ME 557 - Computer Graphics and Geometric Modeling. 
+
+----------------------------------------------------------------
+Last edited:
+Sep 5, 2019, RR
+- Revised the comments in this program
+*/
+
 
 // stl include
 #include <iostream>
@@ -22,9 +42,10 @@
 // glfw includes
 #include <GLFW/glfw3.h>
 
-
+// The std namespace 
 using namespace std;
 
+// This is a string containing GLSL vertex shader code. 
 static const string vs_string =
     "#version 410 core                                                 \n"
     "                                                                   \n"
@@ -42,7 +63,9 @@ static const string vs_string =
     "    pass_Color = in_Color;                                         \n"
     "}                                                                 \n";
 
-// Fragment shader source code. This determines the colors in the fragment generated in the shader pipeline. In this case, it colors the inside of our triangle specified by our vertex shader.
+// This string contains GLSL fragment shader source code. 
+// It determines the colors in the fragment generated in the shader pipeline. 
+// In this case, it colors the inside of our triangle specified by our vertex shader.
 static const string fs_string  =
     "#version 410 core                                                 \n"
     "                                                                  \n"
@@ -54,19 +77,26 @@ static const string fs_string  =
     "}                                                                 \n";
 
 
+//---------------------------------------------------------------------------
+// Global variables which we use in this program. 
+
+// Matrices for the viewing pipeline. 
 glm::mat4 projectionMatrix; // Store the projection matrix
 glm::mat4 viewMatrix; // Store the view matrix
 glm::mat4 modelMatrix; // Store the model matrix
 
-
-
-
-// Define some of the global variables we're using for this sample
+// The variable program stores the GLSL shader program id
 GLuint program;
-GLuint vao;
 
-unsigned int vaoID[1]; // Our Vertex Array Object
+// vao = vertex array object. The vertex array object 
+// aggregates rendering content stored in vertex buffers such as vertices, colors, and normal vectors.  
+// Note that it only organizes the content but it does not provide the memory to store it. 
+// The variable stores id that refer to the graphics card memory. 
+unsigned int vaoID[1]; 
 
+// vbo = vertex boffer object. The vertex buffer object 
+// is a memory unit that stores render content such as vertices, colors, and normal vectors.  
+// The variable stores id that refer to the graphics card memory.
 unsigned int vboID[2]; // Our Vertex Buffer Object
 
 
@@ -87,6 +117,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 
+/*
+Create a single square. 
+*/
 void createSquare(void)
 {
     float* vertices = new float[18];  // Vertices for our square
@@ -220,10 +253,7 @@ int main(int argc, const char * argv[])
     
     glLinkProgram(program);
     
-    // Generate vertex arrays for our program. More explanation on this will come in the future.
-    //glGenVertexArrays(1, &vao);
-    //glBindVertexArray(vao);
-    
+
     // We'll specify that we want to use this program that we've attached the shaders to.
     glUseProgram(program);
     
@@ -280,7 +310,7 @@ int main(int argc, const char * argv[])
     }
     
     // Program clean up when the window gets closed.
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, vaoID);
     glDeleteProgram(program);
 }
 
