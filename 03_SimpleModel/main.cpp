@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 -. All rights reserved.
 //
 
+
+#define GLM_ENABLE_EXPERIMENTAL
+
 // stl include
 #include <iostream>
 #include <string>
