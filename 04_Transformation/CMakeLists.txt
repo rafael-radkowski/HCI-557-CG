@@ -27,32 +27,37 @@ include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${GLFW3_INCLUDE_DIR})
 include_directories(${GLM_INCLUDE_DIR})
 include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/../gl_common/)
+include_directories(${CMAKE_SOURCE_DIR}/../gl_common_ext/)
 
 # Add all files to the configuration
 file(GLOB OpenGL_Transformations_SRC
 	transformation_main.cpp
-    ../gl_common/HCI557Common.cpp
-    ../gl_common/HCI557Common.h
-	../gl_common/controls.cpp
-    ../gl_common/controls.h
-	../gl_common/CoordSystem.cpp
-    ../gl_common/CoordSystem.h
-    ../gl_common/GLObject.h
-    ../gl_common/GLObject.cpp
-    ../gl_common/GLColoredBox.cpp
-    ../gl_common/GLColoredBox.h
-    ../gl_common/camera.h
-	../gl_common/camera.cpp
-    ../gl_common/GLObjects3D.h
-	../gl_common/GLAppearance.cpp
-	../gl_common/GLAppearance.h
-	../gl_common/Shaders.cpp
-	../gl_common/Shaders.h
+    ../gl_common_ext/OpenGLDefaults.h
+	../gl_common_ext/OpenGLDefaults.cpp
+	../gl_common_ext/VertexBuffers.h
+	../gl_common_ext/VertexBuffers.cpp
+	../gl_common_ext/ShaderProgram.h
+	../gl_common_ext/ShaderProgram.cpp
+	../gl_common_ext/TrackballControls.h
+	../gl_common_ext/TrackballControls.cpp
+	../gl_common_ext/ModelCoordinateSystem.cpp
+	../gl_common_ext/ModelCoordinateSystem.h
+	../gl_common_ext/Window.cpp
+	../gl_common_ext/Window.h
+	../gl_common_ext/ModelBox.cpp
+	../gl_common_ext/ModelBox.h
+	../gl_common_ext/CameraControls.h
+	../gl_common_ext/CameraControls.cpp
+	../gl_common_ext/CommonTypes.h
 )
 
 #definition for GLM
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+add_compile_definitions(_WITH_CAMERA)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Create an executable
 add_executable(OpenGL_Transformations ${OpenGL_Transformations_SRC})
