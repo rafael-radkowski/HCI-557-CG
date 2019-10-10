@@ -1,14 +1,13 @@
 # Main cmake file 
-# Multiple per-fragment-light example
+# Simple Model
 
 cmake_minimum_required(VERSION 2.6)
 
 # policy for relative subfolders
 cmake_policy(SET CMP0015 NEW)
 
-
 # Main project name
-project(HCI557_MultipleLights)
+project(HCI557_Per_Pixel_Light)
 
 
 set(CFILE_PATH  "${CMAKE_SOURCE_DIR}/../SDK/cmake/")
@@ -44,18 +43,21 @@ set( GLFW3_LIBRARY glfw)
 ENDIF(WIN32)
 endif()
 
+
+
+
+
+
 # Include dirs
-include_directories(../gl_common_ext)
-include_directories(./../../gl_common_ext)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${GLFW3_INCLUDE_DIR})
 include_directories(${GLM_INCLUDE_DIR})
-
+include_directories(../gl_common_ext)
 
 # Add all files to the configuration
-file(GLOB HCI557_SRC
-	main.cpp
+file(GLOB HCI557_Lighting_SRC
+	main_lighting.cpp
 	../gl_common_ext/OpenGLDefaults.h
 	../gl_common_ext/OpenGLDefaults.cpp
 	../gl_common_ext/VertexBuffers.h
@@ -68,22 +70,15 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/ModelCoordinateSystem.h
 	../gl_common_ext/Window.cpp
 	../gl_common_ext/Window.h
-	../gl_common_ext/ModelPlane.h
-	../gl_common_ext/ModelPlane.cpp
-    ../gl_common_ext/Texture2D.h
-	../gl_common_ext/Texture2D.cpp
-	../gl_common_ext/BMPLoader.h
-	../gl_common_ext/BMPLoader.cpp
-	../gl_common_ext/ModelOBJ.h
-	../gl_common_ext/ModelOBJ.cpp
 	../gl_common_ext/ModelSphere.h
 	../gl_common_ext/ModelSphere.cpp
-	../gl_common_ext/RenderToTexture.h
+	../gl_common_ext/ModelBoxN.h
+	../gl_common_ext/ModelBoxN.cpp
 	../gl_common_ext/CameraControls.h
 	../gl_common_ext/CameraControls.cpp
 	../gl_common_ext/CommonTypes.h
-
 )
+
 
 
 add_compile_definitions(_WITH_CAMERA)
@@ -94,7 +89,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Create an executable
-add_executable(${PROJECT_NAME} ${HCI557_SRC} )
+add_executable(HCI557_Per_Pixel_Light ${HCI557_Lighting_SRC} )
 
 
 # Add link directories
@@ -112,4 +107,4 @@ ENDIF(WIN32)
 
 
 # Add libraries
-target_link_libraries(${PROJECT_NAME}  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HCI557_Per_Pixel_Light  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )

@@ -20,10 +20,7 @@ TrackballControls::TrackballControls( int window_width, int window_height, GLflo
     _current_angle    = 0.0f;
     _camAxis    = glm::vec3(0.0f, 1.0f, 0.0f);
     
-    _vm = { 1,0,0,0,
-            0,1,0,0,
-            0,0,1,0,
-            0,0,0,1};
+    _vm = {1.f,0.f,0.f,0.f,0.f,1.f,0.f,0.f,0.f,0.f,1.f,0.f,0.f,0.f,0.f,1.f};
 
     _curOrient = glm::mat4();
 }

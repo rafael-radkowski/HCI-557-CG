@@ -66,41 +66,41 @@ void cs557::BoxN::create(float width, float height, float length, unsigned int s
 	float vertices[] = { 
 		//--------------------------------------------------------
 		// xy-plane, positive z direction
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y, _length / 2.0 + center_z,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, _length / 2.0 + center_z,
-		_width / 2.0 + center_x, -_height / 2.0 + center_y,  _length / 2.0 + center_z,
-		_width / 2.0 + center_x, _height / 2.0 + center_y, _length / 2.0 + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y, _length / 2.0f + center_z,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, _length / 2.0f + center_z,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y,  _length / 2.0f + center_z,
+		_width / 2.0f + center_x, _height / 2.0f + center_y, _length / 2.0f + center_z,
 		//--------------------------------------------------------
 		// xy-plane, negative z direction
-		_width / 2.0 + center_x, -_height / 2.0 + center_y, -_length / 2.0 + center_z,
-		_width / 2.0 + center_x, _height / 2.0 + center_y,  -_length / 2.0 + center_z,
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y,  -_length / 2.0 + center_z,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, -_length / 2.0 + center_z,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y, -_length / 2.0f + center_z,
+		_width / 2.0f + center_x, _height / 2.0f + center_y,  -_length / 2.0f + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y,  -_length / 2.0f + center_z,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, -_length / 2.0f + center_z,
 		//--------------------------------------------------------
 		// yz-plane, positive x direction
-		_width / 2.0 + center_x, -_height / 2.0 + center_y,  _length / 2.0 + center_z,
-		_width / 2.0 + center_x, _height / 2.0 + center_y, _length / 2.0 + center_z,
-		_width / 2.0 + center_x, -_height / 2.0 + center_y, -_length / 2.0 + center_z,
-		_width / 2.0 + center_x,  _height / 2.0 + center_y, -_length / 2.0 + center_z,
+		_width / 2.f + center_x, -_height / 2.0f + center_y,  _length / 2.0f + center_z,
+		_width / 2.0f + center_x, _height / 2.0f + center_y, _length / 2.0f + center_z,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y, -_length / 2.0f + center_z,
+		_width / 2.0f + center_x,  _height / 2.0f + center_y, -_length / 2.0f + center_z,
 		//--------------------------------------------------------
 		// yz-plane, negative x direction
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y,  _length / 2.0 + center_z,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, _length / 2.0 + center_z,
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y, -_length / 2.0 + center_z,
-		-_width / 2.0 + center_x,  _height / 2.0 + center_y, -_length / 2.0 + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y,  _length / 2.0f + center_z,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, _length / 2.0f + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y, -_length / 2.0f + center_z,
+		-_width / 2.0f + center_x,  _height / 2.0f + center_y, -_length / 2.0f + center_z,
 		//--------------------------------------------------------
 		// xz-plane, positive y direction
-		_width / 2.0 + center_x, _height / 2.0 + center_y,  _length / 2.0 + center_z,
-		_width / 2.0 + center_x, _height / 2.0 + center_y, -_length / 2.0 + center_z,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, _length / 2.0 + center_z,
-		-_width / 2.0 + center_x, _height / 2.0 + center_y, -_length / 2.0 + center_z,
+		_width / 2.0f + center_x, _height / 2.0f + center_y,  _length / 2.0f + center_z,
+		_width / 2.0f + center_x, _height / 2.0f + center_y, -_length / 2.0f + center_z,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, _length / 2.0f + center_z,
+		-_width / 2.0f + center_x, _height / 2.0f + center_y, -_length / 2.0f + center_z,
 		
 		//--------------------------------------------------------
 		// xz-plane, negative y direction
-		_width / 2.0 + center_x, -_height / 2.0 + center_y,  _length / 2.0 + center_z,
-		_width / 2.0 + center_x, -_height / 2.0 + center_y, -_length / 2.0 + center_z,
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y, _length / 2.0 + center_z,
-		-_width / 2.0 + center_x, -_height / 2.0 + center_y, -_length / 2.0 + center_z,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y,  _length / 2.0f + center_z,
+		_width / 2.0f + center_x, -_height / 2.0f + center_y, -_length / 2.0f + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y, _length / 2.0f + center_z,
+		-_width / 2.0f + center_x, -_height / 2.0f + center_y, -_length / 2.0f + center_z,
 		
 	};
 

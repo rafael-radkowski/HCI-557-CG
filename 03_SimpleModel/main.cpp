@@ -396,6 +396,7 @@ int main(int argc, const char * argv[])
         
         // Draw the triangles
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 16);
+
         // Unbind our Vertex Array Object
         glBindVertexArray(0);
         

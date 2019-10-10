@@ -109,7 +109,7 @@ void main(void)
 
 		// checks whether the light was set.
 		// Multiple lights blend adative
-		mixed += useLight( L,  E,  pass_Normal, light[i], mat[0]);
+		mixed += useLight( L,  normalize(pass_Position),  pass_Normal, light[i], mat[0]);
 		
 	}
 	                                             

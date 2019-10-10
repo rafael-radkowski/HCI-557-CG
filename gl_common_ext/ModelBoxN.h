@@ -1,4 +1,21 @@
 #pragma once
+/*
+
+
+
+Rafael Radkowski
+Iowa State University
+November 2018
+rafael@iastate.edu
+
+MIT License
+------------------------------------------------
+Last changes:
+
+Oct 10, 2019, RR
+- Fixed a bug that resulted in a compiler error; float-double conflicts. 
+
+*/
 
 // stl include
 #include <iostream>
