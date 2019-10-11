@@ -1,5 +1,20 @@
-# Main cmake file 
-# Simple Model
+#  cmake file 
+# 06_Per_Pixel_Light
+#
+#  This cmake file is part of CS/ME?CPRE 557
+# 
+#	Rafael Radkowski
+#	Iowa State University
+#	1620 Howe Hall
+#	Ames, IA 50011
+#	rafael@iastate.edu
+#----------------------------------------------------------------
+# Last edits
+#
+# Oct 11, 2019, RR
+# - added linker path to glfw 3.3
+# - moved the add executable definition below the library paths definition. 
+
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -19,9 +34,9 @@ message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
 
 # Find packages
 FIND_PACKAGE(OpenGL REQUIRED)
-FIND_PACKAGE(glew REQUIRED)
 FIND_PACKAGE(glm REQUIRED)
 FIND_PACKAGE(GLFW3 REQUIRED)
+FIND_PACKAGE(glew REQUIRED)
 
 
 if (GLEW_FOUND)
@@ -32,6 +47,7 @@ if (OPENGL_FOUND)
 message(STATUS "Found OPENGL ${OPENGL_INCLUDE_DIR} and ${OPENGL_LIBRARIES}")
 endif()
 
+
 if (GLFW_FOUND)
 message(STATUS "Found GLEW ${GLFW_INCLUDE_DIRS} and ${GLFW3_LIBRARY}")
 else()
@@ -39,6 +55,7 @@ IF(WIN32)
 ELSE(WIN32)
 include_directories("/usr/local/Cellar/glfw/3.2.1/include")
 include_directories("/usr/local/Cellar/glfw/1.11.0/include")
+include_directories("/usr/local/Cellar/glfw/3.3/include")
 set( GLFW3_LIBRARY glfw)
 ENDIF(WIN32)
 endif()
@@ -88,15 +105,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Create an executable
-add_executable(HCI557_Per_Pixel_Light ${HCI557_Lighting_SRC} )
 
 
 # Add link directories
 # Note required for this project
 IF(WIN32)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
+	link_directories(/usr/local/Cellar/glfw/3.2.1/lib)
 ELSE(WIN32)
+	link_directories( /usr/local/Cellar/glfw/3.3/lib)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 	link_directories(/usr/local/lib)
 	link_directories(/usr/local/Cellar/glfw3/3.0.4/lib)
@@ -106,5 +123,9 @@ ELSE(WIN32)
 ENDIF(WIN32)
 
 
+# Create an executable
+add_executable(HCI557_Per_Pixel_Light ${HCI557_Lighting_SRC} )
+
+
 # Add libraries
-target_link_libraries(HCI557_Per_Pixel_Light  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(HCI557_Per_Pixel_Light  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY}  ${OPENGL_LIBRARIES} )

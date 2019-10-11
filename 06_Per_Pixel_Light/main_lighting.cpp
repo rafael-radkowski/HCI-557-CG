@@ -106,14 +106,21 @@ cs557::BoxN    box;
 // A variable to store the glsl location for of shader program
 int per_fragment_light_program = -1;
 
-// The camera position defined as vector 3
+
+
+//---------------------------------------------------------
+// Light model
+// The light position defined as vector 3
 glm::vec3   light_position;
+
 
 // The camera position must be passed to the glsl shader program.
 // This variable keeps the location of the light_position in the glsl program. 
 int         light_shader_loc = -1;
 
-// Light intensity. 
+//---------------------------------------------------------
+
+// Material reflection intensity.
 // These variables are defined on a global level so that the keyboard function 
 // as well as the renderer can access them. 
 float       diffuse_intensity = 0.2;

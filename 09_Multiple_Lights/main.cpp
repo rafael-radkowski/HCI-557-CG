@@ -19,7 +19,7 @@ Iowa State University
 November 2018
 rafael@iastate.edu
 
-All copyrights reserved. 
+MIT License
 */
 
 
