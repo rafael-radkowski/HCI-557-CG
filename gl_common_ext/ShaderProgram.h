@@ -1,3 +1,29 @@
+/*
+@file: ShaderProgram.h/.cpp
+
+This file provides functions to load a vertex and fragment shader program from 
+a ascii file and to create the glsl shader program.
+
+Features:
+- Load shader code from ascii files.
+- Search for the code in different paths if it cannot be found in the specified path. 
+- Create a glsl shader program
+
+This file is part of CS/CPRE/ME 557 Computer Graphics at Iowa State University
+
+Rafael Radkowski
+Iowa State University
+rafael@iastate.edu
++1 (515) 294-7044
+MIT License
+
+-------------------------------------------------------------------------------
+Last edited:
+
+Oct 19, 2019, RR
+- Added another search path if the shader code cannot be found in the given path. 
+
+*/
 #pragma once
 
 // stl include
@@ -9,9 +35,8 @@
 #include <strstream>
 #include <string>
 
-#ifdef _WIN32
-#include <experimental\filesystem>
-#endif
+// Adds a filesytem resource depending on the operating system.
+#include "FilesystemCheck.h"
 
 
 // GLEW include

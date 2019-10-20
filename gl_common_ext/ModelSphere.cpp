@@ -73,9 +73,6 @@ void cs557::Sphere::create(float radius, int segments, int rows,  int shader_pro
 
 	_N = points.size();
 
-	// create a vertex buffer object
-	CreateVertexObjects33(vaoID, vboID, &points[0].x, &normals[0].x, _N);
-
 
 	// create a shader program only if the progrm was not overwritten. 
 	if(program == -1)
@@ -88,6 +85,11 @@ void cs557::Sphere::create(float radius, int segments, int rows,  int shader_pro
 	modelMatrixLocation = glGetUniformLocation(program, "modelMatrix"); // Get the location of our model matrix in the shader
 	int pos_location = glGetAttribLocation(program, "in_Position");
 	int col_location = glGetAttribLocation(program, "in_Normal");
+
+	
+	// create a vertex buffer object
+	CreateVertexObjects33(vaoID, vboID, &points[0].x, &normals[0].x, _N, pos_location, col_location);
+
 
 
 	glBindAttribLocation(program, pos_location, "in_Position");

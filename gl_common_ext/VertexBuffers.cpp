@@ -38,7 +38,7 @@ bool cs557::CreateVertexObjects33(int* vaoID, int* vboID, float* vertices, float
 
 	// vertices
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[0]); // Bind our Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N *3* sizeof(GLfloat), vertices, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * 3 * int(sizeof(GLfloat)), vertices, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)vertices_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(vertices_location); // Disable our Vertex Array Object
@@ -46,7 +46,7 @@ bool cs557::CreateVertexObjects33(int* vaoID, int* vboID, float* vertices, float
 
 								  //Color
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[1]); // Bind our second Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N * 3* sizeof(GLfloat), colors, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * 3 * int(sizeof(GLfloat)), colors, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)normals_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(normals_location); // Enable the second vertex attribute array
@@ -102,7 +102,7 @@ bool cs557::CreateVertexObjectsIndexed33( int* vaoID, int* vboID, int* iboID, fl
 
 	// vertices
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[0]); // Bind our Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N *3* sizeof(GLfloat), points, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(3) * sizeof(GLfloat), points, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)vertices_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(vertices_location); // Disable our Vertex Array Object
@@ -110,7 +110,7 @@ bool cs557::CreateVertexObjectsIndexed33( int* vaoID, int* vboID, int* iboID, fl
 
 	 //Color
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[1]); // Bind our second Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N * 3* sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(3) * sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)normals_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(normals_location); // Enable the second vertex attribute array
@@ -174,7 +174,7 @@ bool cs557::CreateVertexObjectsIndexed53( int* vaoID, int* vboID, int* iboID, fl
 
 	// vertices
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[0]); // Bind our Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N *  5 * sizeof(GLfloat), points, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(5) * sizeof(GLfloat), points, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)vertices_location, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(vertices_location); // Enable the Vertex Array Object
@@ -185,7 +185,7 @@ bool cs557::CreateVertexObjectsIndexed53( int* vaoID, int* vboID, int* iboID, fl
 
 	//Normals
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[1]); // Bind our second Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N * 3* sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(3)* sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)normals_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(normals_location); // Enable the second vertex attribute array
@@ -246,7 +246,7 @@ bool cs557::CreateVertexObjects53(int* vaoID, int* vboID, float* vertices_textur
 
 	// vertices
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[0]); // Bind our Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N *  5 * sizeof(GLfloat), vertices_texture_coord, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(5) * sizeof(GLfloat), vertices_texture_coord, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)vertices_location, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(vertices_location); // Enable the Vertex Array Object
@@ -257,7 +257,7 @@ bool cs557::CreateVertexObjects53(int* vaoID, int* vboID, float* vertices_textur
 
 	// Normals
 	glBindBuffer(GL_ARRAY_BUFFER, vboID[1]); // Bind our second Vertex Buffer Object
-	glBufferData(GL_ARRAY_BUFFER, N * 3* sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
+	glBufferData(GL_ARRAY_BUFFER, N * int(3)* sizeof(GLfloat), normals, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
 
 	glVertexAttribPointer((GLuint)normals_location, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
 	glEnableVertexAttribArray(normals_location); // Enable the second vertex attribute array

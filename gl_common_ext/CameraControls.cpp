@@ -103,8 +103,10 @@ void CameraControls::cursorCallback( GLFWwindow *window, double x, double y )
 
          /* Cross product to get the rotation axis, but it's still in camera coordinate */
         _camAxis  = glm::cross( _previous_sc, _current_sc );
-
-        _vm = glm::rotate(_vm, glm::degrees(_current_angle) * _rolling_speed, _camAxis );
+		
+		// Check if the angle is larger than 0.001. The matrix becomes undefined otherwise. 
+		if(std::abs(_current_angle) > 0.001)
+			_vm = glm::rotate(_vm, glm::degrees(_current_angle) * _rolling_speed, _camAxis );
 
         _previous_sc = _current_sc;
     }

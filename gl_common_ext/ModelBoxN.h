@@ -1,7 +1,28 @@
 #pragma once
 /*
+@file: ModelBox.h/.cpp
 
+This file creates and renders a box model
 
+Features:
+- It determines the vertices, triangles, and normal vectors for the box.
+- Creates the vertex buffer object and the vertex buffer array
+- Loads the content to the graphics card.
+- Links the shader uniform and attribute variables to the content.
+- Renders the box.
+
+Uniform and attributes variables:
+Note that this file expects to find the uniform variables
+	uniform mat4 projectionMatrix;                                   
+	uniform mat4 viewMatrix;                                         
+	uniform mat4 modelMatrix;  
+as part of the shader code
+
+The attribute variables are:
+	in vec3 in_Position;                                               
+	in vec3 in_Normal;    
+
+This file is part of CS/CPRE/ME 557 Computer Graphics at Iowa State University
 
 Rafael Radkowski
 Iowa State University
@@ -14,6 +35,10 @@ Last changes:
 
 Oct 10, 2019, RR
 - Fixed a bug that resulted in a compiler error; float-double conflicts. 
+
+Oct 19, 2019, RR
+- Fixed a bug: the attribute location and the vertices/normal target locations were
+	incorrect associated which prevented the object from being correctly rendered in some cases. 
 
 */
 

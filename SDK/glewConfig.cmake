@@ -11,7 +11,7 @@ set(GLEW_VERSION "1.13.0")
 ####### Any changes to this file will be overwritten by the next CMake run ####
 ####### The input file was glewConfig.cmake.in                            ########
 
-get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../../../../Program Files/OpenGL_CS557" ABSOLUTE)
+get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../../../Program Files (x86)/OpenGL_CS557" ABSOLUTE)
 
 macro(set_and_check _var _file)
   set(${_var} "${_file}")

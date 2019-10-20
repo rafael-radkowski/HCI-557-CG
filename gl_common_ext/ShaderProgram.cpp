@@ -196,10 +196,21 @@ bool cs557::ShaderProgramUtils::Exists (const std::string& name)
  */
 string cs557::ShaderProgramUtils::LoadFromFile(string path_and_file)
 {
+	// Check if the file exits. 
 	if(!Exists(path_and_file)) {
 		
-		cout << "[ERROR] Cannot find shader program " << path_and_file << "." <<endl;
-		return "";
+		// extract the filename.
+		int idx = path_and_file.find_last_of("/");
+		string file;
+		if (idx > 0) {
+			file = path_and_file.substr(idx+1, path_and_file.length() - idx - 1);
+		}
+		if(!Exists(file)) {
+			cout << "[ERROR] Cannot find shader program " << path_and_file << "." <<endl;
+			return "";
+		}
+
+		path_and_file = file;
 	}
     
     
@@ -366,5 +377,4 @@ GLuint cs557::LoadAndCreateShaderProgram(string vertex_file, string geometry_fil
 
     // create and return the pgoram.
     return CreateShaderProgram(vertex_source, geometry_source, fragment_source);
-
 }

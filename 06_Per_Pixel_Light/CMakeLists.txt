@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # policy for relative subfolders
 cmake_policy(SET CMP0015 NEW)
+cmake_policy(SET CMP0074 NEW)
 
 # Main project name
 project(HCI557_Per_Pixel_Light)
@@ -94,12 +95,15 @@ file(GLOB HCI557_Lighting_SRC
 	../gl_common_ext/CameraControls.h
 	../gl_common_ext/CameraControls.cpp
 	../gl_common_ext/CommonTypes.h
+	../gl_common_ext/FilesystemCheck.h
 )
 
 
 
 add_compile_definitions(_WITH_CAMERA)
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)

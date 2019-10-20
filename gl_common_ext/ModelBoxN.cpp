@@ -135,12 +135,6 @@ void cs557::BoxN::create(float width, float height, float length, unsigned int s
 	};
 
 
-
-
-	// create a vertex buffer object
-	CreateVertexObjects33(vaoID, vboID, vertices, normals, 24);
-
-
 	// create a shader program only if the progrm was not overwritten. 
 	if(program == -1)
 		program = cs557::CreateShaderProgram(vs_string_box_410, fs_string_box_410);
@@ -154,6 +148,9 @@ void cs557::BoxN::create(float width, float height, float length, unsigned int s
 	int pos_location = glGetAttribLocation(program, "in_Position");
 	int normal_location = glGetAttribLocation(program, "in_Normal");
 
+	
+	// create a vertex buffer object
+	CreateVertexObjects33(vaoID, vboID, vertices, normals, 24, pos_location, normal_location);
 
 	glBindAttribLocation(program, pos_location, "in_Position");
 	glBindAttribLocation(program, normal_location, "in_Normal");

@@ -1,3 +1,25 @@
+/*
+@file: VertexBuffer.h/.cpp
+
+This file contains helper function to create a vertex buffer object and to 
+load data into the vertex buffer. It can simplify the content creation since
+the vertex buffer call is mostly repetative. 
+
+This file is part of CS/CPRE/ME 557 Computer Graphics at Iowa State University
+
+Rafael Radkowski
+Iowa State University
+rafael@iastate.edu
++1 (515) 294-7044
+MIT License
+
+-------------------------------------------------------------------------------
+Last edited:
+
+Oct 20, 2019, RR
+- Added a int cast to some functions to prevent 4 byte vs. 8 byte conflicts. 
+
+*/
 #pragma once
 
 
