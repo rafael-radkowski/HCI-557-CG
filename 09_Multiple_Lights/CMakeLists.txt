@@ -105,6 +105,8 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/CameraControls.cpp
 	../gl_common_ext/CommonTypes.h
 	../gl_common_ext/FilesystemCheck.h
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
 
 )
 

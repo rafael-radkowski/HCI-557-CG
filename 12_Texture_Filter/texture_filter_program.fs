@@ -1,13 +1,5 @@
-#version 410 core                                                 
-
-
-const float textureSize = 512.0; //size of the texture
-const float texelSize = 1.0 / textureSize; //size of one texel
-
-in vec2 pass_TexCoord; //this is the texture coord
-in vec3 pass_Normal;     
-in vec3 pass_Position;   
-in vec4 pass_Color;   
+#version 410 core        
+#define MAX_LIGHTS 8
 
 // The material parameters
 uniform struct LightSource {
@@ -36,11 +28,30 @@ uniform struct Material {
 } mat[1];
 
 
-uniform int texture_blend;
 uniform sampler2D tex; //this is the texture
 
+const float textureSize = 512.0; //size of the texture
+const float texelSize = 1.0 / textureSize; //size of one texel
 
-out vec4 color;
+// texture blend mode
+uniform int texture_blend;
+
+// variable to obtain the texture filter mode. 
+uniform int texture_filter;
+                
+// input variables from the fragment shader. 
+in vec2 pass_Texture;	
+in vec3 pass_Normal;     
+in vec3 pass_Position;   
+in vec4 pass_Color;   
+
+// the view pipeline variables. 
+uniform mat4 projectionMatrix;                                    
+uniform mat4 viewMatrix;                                           
+uniform mat4 modelMatrix;  
+
+// the output color. 
+out vec4 color; 
 
 /*
 Per-fragment light. 
@@ -92,10 +103,9 @@ vec4 useLight(vec3 L, vec3 E, vec3 N, LightSource s, Material m)
 }
 
 
-
-
-
-
+/*
+A bilinear texture filter.
+*/
 vec4 texture2DBilinear( sampler2D textureSampler, vec2 uv )
 {
     vec4 tl = texture(textureSampler, uv);
@@ -110,29 +120,49 @@ vec4 texture2DBilinear( sampler2D textureSampler, vec2 uv )
 }
 
 
-void main(void)                                                   
-{
-    // This function finds the color component for each texture coordinate. 
-    vec4 tex_color =  texture2DBilinear(tex, pass_TexCoord);
-    
-    // This mixes the background color with the texture color.
-    // The GLSL shader code replaces the former envrionment. It is now up to us
-    // to figure out how we like to blend a texture with the background color.
-    if(texture_blend == 0)
-    {
-        color = pass_Color + tex_color;
-    }
-    else if(texture_blend == 1)
-    {
-        color = pass_Color * tex_color;
-    }
-    else if(texture_blend == 3)
-    {
-        color = (1-pass_Color.w)*pass_Color + tex_color;
-    }
-    else
-    {
-        color = pass_Color + tex_color;
-    }
-    
-}
+void main(void)            
+{                  
+	// fetch the color for the current texture coordinate and render the fragment. 
+	vec4 tex_color;
+	if(texture_filter == 0)
+		tex_color =  texture(tex, pass_Texture);
+	else if(texture_filter == 1)
+		tex_color =  texture2DBilinear(tex, pass_Texture);
+
+
+
+	// eye position 
+	vec3 E = normalize( vec3(viewMatrix[3][0], viewMatrix[3][1], viewMatrix[3][2]) );
+     
+
+	// calc light. 
+	vec4 mixed = vec4(0.0,0.0,0.0,1.0);
+	for (int i=0; i<MAX_LIGHTS; i++){
+
+		if(light[i].used == false) continue;
+
+		// light position if camera frame
+		vec4 L_c = viewMatrix * vec4(light[i].position, 1.0);
+	
+		// light to fragment 
+		vec3 L = normalize( L_c.xyz - pass_Position );
+		if(light[i].type == 2) L = light[i].direction;// direct light
+
+		// checks whether the light was set.
+		// Multiple lights blend adative
+		mixed += useLight( L,  normalize(pass_Position),  pass_Normal, light[i], mat[0]);
+		
+	}
+
+	if(texture_blend == 0)
+		color = tex_color;
+	else if(texture_blend == 1)
+		color = tex_color + mixed;
+	else if(texture_blend == 2)
+		color = tex_color * mixed;
+	else if(texture_blend == 3)
+		color = (1-mixed.w)*mixed + mixed.w * tex_color;
+
+}           
+
+                                

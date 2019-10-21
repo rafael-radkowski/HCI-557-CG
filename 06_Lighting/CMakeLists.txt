@@ -67,6 +67,8 @@ file(GLOB HCI557_Lighting_SRC
 	../gl_common_ext/Window.h
 	../gl_common_ext/ModelSphere.h
 	../gl_common_ext/ModelSphere.cpp
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
 )
 
 

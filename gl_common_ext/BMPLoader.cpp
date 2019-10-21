@@ -29,7 +29,8 @@ bool cs557::LoadBMPFromFile(const string path_and_file, int* width, int* height,
     }
 
     // Check whether the file exits
-	bool ret = Exists(path_and_file);
+	string local_path_and_file = path_and_file;
+	bool ret =  FileUtils::Search(path_and_file, local_path_and_file);
     
 	if(!ret)
 	{
@@ -47,7 +48,7 @@ bool cs557::LoadBMPFromFile(const string path_and_file, int* width, int* height,
     
     // This opens a file
     FILE * file;
-    file = fopen( path_and_file.c_str(), "rb" );
+    file = fopen( local_path_and_file.c_str(), "rb" );
     
     if ( file == NULL ) return 0;
     

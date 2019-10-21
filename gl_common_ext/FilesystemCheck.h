@@ -34,4 +34,6 @@ Oct 21, 2019, RR:
 		#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 		#include <experimental\filesystem>
 	#endif
+#else
+	#include <sys/stat.h>
 #endif

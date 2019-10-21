@@ -1,8 +1,9 @@
 # Main cmake file 
-# Simple Model
+# Transformations
 
 cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0015 NEW)
+cmake_policy(SET CMP0074 NEW)
 
 # Main project name is ARMaker
 project(OpenGL_Transformations)
@@ -49,6 +50,8 @@ file(GLOB OpenGL_Transformations_SRC
 	../gl_common_ext/CameraControls.h
 	../gl_common_ext/CameraControls.cpp
 	../gl_common_ext/CommonTypes.h
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
 )
 
 #definition for GLM

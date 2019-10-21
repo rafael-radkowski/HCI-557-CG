@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # policy for relative subfolders
 cmake_policy(SET CMP0015 NEW)
+cmake_policy(SET CMP0074 NEW)
 
 # Main project name
 project(HCI557_Simple_Texture)
@@ -55,6 +56,15 @@ include_directories(${GLM_INCLUDE_DIR})
 # Add all files to the configuration
 file(GLOB HCI557_Simple_Texture_SRC
 	main_texture_example.cpp
+	
+)
+
+set(Shader_SRC
+	texture_program.vs
+	texture_program.fs
+)
+
+set(Graphics_SRC
 	../gl_common_ext/OpenGLDefaults.h
 	../gl_common_ext/OpenGLDefaults.cpp
 	../gl_common_ext/VertexBuffers.h
@@ -73,14 +83,25 @@ file(GLOB HCI557_Simple_Texture_SRC
 	../gl_common_ext/Texture2D.cpp
 	../gl_common_ext/BMPLoader.h
 	../gl_common_ext/BMPLoader.cpp
+	../gl_common_ext/CameraControls.h
+	../gl_common_ext/CameraControls.cpp
+	../gl_common_ext/CommonTypes.h
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
 )
 
+source_group(shader FILES ${Shader_SRC})
+source_group(graphics FILES ${Graphics_SRC})
 
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-
+add_compile_definitions(_WITH_CAMERA)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Create an executable
-add_executable(HCI557_Simple_Texture ${HCI557_Simple_Texture_SRC} )
+add_executable(HCI557_Simple_Texture ${HCI557_Simple_Texture_SRC} ${Graphics_SRC} ${Shader_SRC} )
 
 
 # Add link directories

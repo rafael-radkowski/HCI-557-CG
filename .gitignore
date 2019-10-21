@@ -115,3 +115,5 @@ SDK/glfw-3.1.1/tests/events.dir/
 SDK/glfw-3.1.1/tests/fsaa.dir/
 SDK/glfw-3.1.1/tests/sharing.dir/
 SDK/glfw-3.1.1/tests/tearing.dir/
+11_Simple_Textures/HCI557_Simple_Texture.dir/
+12_Texture_Filter/HCI557_Texture_Filter.dir/

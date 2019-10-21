@@ -201,24 +201,11 @@ bool cs557::ShaderProgramUtils::Exists (const std::string& name)
 string cs557::ShaderProgramUtils::LoadFromFile(string path_and_file)
 {
 	// Check if the file exits. 
-	if(!Exists(path_and_file)) {
-		
-		// extract the filename.
-		int idx = path_and_file.find_last_of("/");
-		string file;
-		if (idx > 0) {
-			file = path_and_file.substr(idx+1, path_and_file.length() - idx - 1);
-		}
-		if(!Exists(file)) {
-			cout << "[ERROR] Cannot find shader program " << path_and_file << "." <<endl;
-			return "";
-		}
-
-		path_and_file = file;
-	}
+	string local_path_and_file;
+	bool ret = cs557::FileUtils::Search( path_and_file, local_path_and_file);
     
-    
-    ifstream in(path_and_file);
+    // Load the code
+    ifstream in(local_path_and_file);
     
     if(in.is_open())
     {

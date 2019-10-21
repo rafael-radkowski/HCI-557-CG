@@ -33,6 +33,9 @@ Oct 21, 2019, RR
 // glfw includes
 #include <GLFW/glfw3.h>
 
+// local
+#include "FileUtils.h"
+
 
 using namespace std;
 

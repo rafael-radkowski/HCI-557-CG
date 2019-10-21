@@ -1,3 +1,35 @@
+/*
+Texture example.
+
+This file demonstrate how to add a texture to an surface model in OpenGL and GLSL. 
+The code creates a single plane and adds a texture to this plane. 
+
+Note that this project incorporates multiple files:
+
+-ModelPlane.h/.cpp: the plane including the texture coordinates were created in this file. 
+	Study the function create to see how texture coordinates can be added to a vertex buffer object. 
+
+-Texture2D.h./.cpp: this file (class) loads a texture from a bitmap file (.bmp) and creates an OpenGL/GLSL texture. 
+	Look into CreateTexture2D(...) to see how the texture can be created. 
+
+-BMPLoader.h/.cpp: this class contains a loader for a bitmap image. It is called within Texture2D. 
+
+This file is part of CS/CPRE/ME 557 Computer Graphics at Iowa State University
+
+Rafael Radkowski
+Iowa State University
+rafael@iastate.edu
++1 (515) 294-7044
+MIT License
+
+-------------------------------------------------------------------------------
+Last edited:
+
+Oct 20, 2019, RR:
+- Added more comments
+- Changed the shader loader and texture loader to seek the files if the path is incorrect. 
+
+*/
 
 // stl include
 #include <iostream>
@@ -32,6 +64,7 @@
 
 using namespace std;
 using namespace cs557;
+
 //------------------------------------------------------------
 //
 //	Some global variables to keep track of
@@ -40,11 +73,9 @@ using namespace cs557;
 GLFWwindow *window = NULL;
 
 // Transformation pipeline variables
-
-glm::mat4 projectionMatrix; // Store the projection matrix
-glm::mat4 viewMatrix;       // Store the view matrix
-glm::mat4 modelMatrix;      // Store the model matrix
-glm::mat4 modelMatrixCoord;
+glm::mat4 projectionMatrix; // Variable to store the projection matrix
+glm::mat4 viewMatrix;       // Variable to store the view matrix
+glm::mat4 modelMatrix;      // Variable to store the model matrix for the plane. 
 
 
 //------------------------------------------------------------
@@ -53,15 +84,15 @@ glm::mat4 modelMatrixCoord;
 
 // a corodinate system
 cs557::CoordinateSystem coordinateSystem;
+glm::mat4 modelMatrixCoord; // Variable to store the model matrix for the coordinate system. . 
 
-
-
-int texture_program = -1;
-
+// The plane model. 
+// This model includes vertices with normal vectors and texture coordinates. 
+// Study Plane in ModelPlane.h/.cpp to see how it works. 
 cs557::Plane plane0;
 
 
-// Set up our green background color
+// Set up the background color and the clear color. 
 GLfloat clear_color[] = {0.6f, 0.7f, 1.0f, 1.0f};
 static const GLfloat clear_depth[] = {1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -120,27 +151,33 @@ void Init(void)
 
     //-----------------------------------------------------------------------------------------------------------------------
 	// Projection transformations
+	// These lines define the major view pipeline. 
 	projectionMatrix = glm::perspective(1.57f, (float)800 / (float)600, 0.1f, 100.f);
 	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)); 
 	viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, -4.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    modelMatrixCoord = glm::translate(glm::mat4(1.0f), glm::vec3(.0f, 0.0f, 0.0f)); 
+  
 
 
     // create a coordinate system
     coordinateSystem.create(2.5);
+	// Transformation for the coordinate system. It remains in the center. 
+	modelMatrixCoord = glm::translate(glm::mat4(1.0f), glm::vec3(.0f, 0.0f, 0.0f)); 
 
 
     // Load the shader program
+	// This code loads a shader code from files and creates the OpenGL/GLSL shader program. 
+	int texture_program = -1;
     texture_program = cs557::LoadAndCreateShaderProgram("../texture_program.vs", "../texture_program.fs");
 
     
-
     // create a plane
+	// This line creates the plane of size 4 x 4. 
+	// It also attaches the texture_program to the plane to become the active renderer. 
     plane0.create(4.0, 4.0, texture_program);
 
 
-    // Load the texture and create it.
-    // Note that this function bind the texture to texture unit GL_TEXTURE0 
+    // Load the texture image from a file and create the GLSL / OpenGL texture.
+    // Note that this function binds the texture to texture unit GL_TEXTURE0 
     glUseProgram(texture_program);
     unsigned int texture_id = -1;
     LoadAndCreateTexture2D("../textures/texture_brick.bmp", &texture_id);
@@ -154,8 +191,6 @@ void Init(void)
     int texture_location = glGetUniformLocation(texture_program, "tex");
     glUniform1i(texture_location, 0);
 
-
-
 }
 
 //------------------------------------------------------------
@@ -164,8 +199,8 @@ void Init(void)
 
 void Draw(void)
 {
-
-    
+	// This function initializes the camera with our view matrix. 
+    cs557::InitControlsViewMatrix(viewMatrix);
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST); // ignore this line
@@ -182,7 +217,7 @@ void Draw(void)
 
         // update the camera values.
         // Note that this line changes the view matrix.
-        glm::mat4 rotated_view = viewMatrix * cs557::GetTrackball().getRotationMatrix();
+        glm::mat4 rotated_view = cs557::GetCamera().getRotationMatrix();
 
         //----------------------------------------------------------------------------------------------------------------------------
         // Object 0
@@ -192,6 +227,8 @@ void Draw(void)
 
 
         // draw the plane
+		// This function activates the related shader code, binds the texture and the geometry, 
+		// and draws the geometry. 
         plane0.draw(projectionMatrix, rotated_view, modelMatrix);
 
 

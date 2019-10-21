@@ -9,7 +9,7 @@ out vec4 color;
 
 void main(void)            
 {                  
-
+	// fetch the color for the current texture coordinate and render the fragment. 
 	vec4 tex_color =  texture(tex, pass_Texture);
 
 	color = tex_color;

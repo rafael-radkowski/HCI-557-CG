@@ -37,7 +37,7 @@ Oct 19, 2019, RR
 
 // Adds a filesytem resource depending on the operating system.
 #include "FilesystemCheck.h"
-
+#include "FileUtils.h"
 
 // GLEW include
 #include <GL/glew.h>

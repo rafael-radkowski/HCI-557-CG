@@ -83,10 +83,10 @@ void cs557::Plane::create(float width, float height, int shader_program)
 
 
 
-	float normals[] = { 0.0, 0.0, 1.0, //
-		0.0, 0.0, 1.0, 
-		0.0, 0.0, 1.0, 
-		0.0, 0.0, 1.0,
+	float normals[] = { 0.0f, 0.0f, 1.0f, //
+		0.0f, 0.0f, 1.0f, 
+		0.0f, 0.0f, 1.0f, 
+		0.0f, 0.0f, 1.0f,
 	};
 
 
