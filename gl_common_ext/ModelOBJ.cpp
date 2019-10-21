@@ -111,9 +111,6 @@ void cs557::OBJModel::create(string path_and_filename, int shader_program)
 		{
 			indices.push_back(curMesh.Indices[j]);
 		}
-		//glBindAttribLocation(program, pos_location, "in_Position");
-		//glBindAttribLocation(program, norm_location, "in_Normal");
-		//glBindAttribLocation(program, tex_location, "in_Texture");
 	}
 	_I = indices.size();
 	_N = points.size();
@@ -131,6 +128,8 @@ Draw the coordinate system
 */
 void cs557::OBJModel::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 modelMatrix )
 {
+	// No indices loaded. 
+	if(_I == 0) return; 
 
 	// Enable the shader program
 	glUseProgram(program);

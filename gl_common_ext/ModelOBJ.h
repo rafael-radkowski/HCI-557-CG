@@ -19,6 +19,10 @@ Last edit:
 Dec 16, 2018, RR
 	- fixed a bug that skipped severa triangles from being rendeered.
 	- changed the code to process all data. 
+
+Oct 20, 2019, RR
+	- Removed some legacy code. 
+	- Test whether points have been loaded before rendering. 
 */
 #pragma once
 

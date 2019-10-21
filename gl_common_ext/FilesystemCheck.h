@@ -17,6 +17,8 @@ MIT License
 -------------------------------------------------------------------------------
 Last edited:
 
+Oct 21, 2019, RR:
+- The filesystem header loaded depend on the visual studio version
 
 */
 #pragma once
@@ -26,10 +28,10 @@ Last edited:
 
 #ifdef _WIN32
 	#if _MSC_VER > 1900	
+		#include <filesystem>
+	#else
 		#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 		#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-		#include <experimental\filesystem>
-	#else
 		#include <experimental\filesystem>
 	#endif
 #endif

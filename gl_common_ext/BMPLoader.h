@@ -1,3 +1,13 @@
+/*
+
+
+---------------------------------------------------------
+Last edits:
+
+Oct 21, 2019, RR
+- Added FilesystemCheck.h and removed experimental/filesystem
+- Added code for filesystem::exists() for the experimental version and the new version. 
+*/
 #pragma once
 
 
@@ -7,8 +17,10 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <experimental/filesystem>
+#include <vector> 
+
+#include "FilesystemCheck.h"
+
 // GLEW include
 #include <GL/glew.h>
 

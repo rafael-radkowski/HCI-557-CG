@@ -18,12 +18,15 @@
 # Oct 11, 2019, RR
 # - added linker path to glfw 3.3
 # - moved the add executable definition below the library paths definition. 
-
+#
+# Oct 21, 2019, RR
+# - added policy 74
 
 cmake_minimum_required(VERSION 2.6)
 
 # policy for relative subfolders
 cmake_policy(SET CMP0015 NEW)
+cmake_policy(SET CMP0074 NEW)
 
 
 # Main project name
@@ -101,6 +104,7 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/CameraControls.h
 	../gl_common_ext/CameraControls.cpp
 	../gl_common_ext/CommonTypes.h
+	../gl_common_ext/FilesystemCheck.h
 
 )
 
