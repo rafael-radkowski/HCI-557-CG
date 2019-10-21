@@ -23,6 +23,7 @@ Dec 16, 2018, RR
 Oct 20, 2019, RR
 	- Removed some legacy code. 
 	- Test whether points have been loaded before rendering. 
+	- Added the class FileUtils to the code to check whether the model is at its indicated location. 
 */
 #pragma once
 
@@ -45,7 +46,7 @@ Oct 20, 2019, RR
 // local
 #include "VertexBuffers.h"			// create vertex buffer object
 #include "ShaderProgram.h"			// create a shader program
-
+#include "FileUtils.h"				// checks whether the model file is at its given location.
 
 
 using namespace std;

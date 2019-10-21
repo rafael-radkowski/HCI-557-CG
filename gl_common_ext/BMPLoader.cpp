@@ -88,7 +88,7 @@ bool cs557::LoadBMPFromFile(const string path_and_file, int* width, int* height,
 bool cs557::Exists (const std::string& name)
 {
    #ifdef _WIN32
- #if _MSC_VER > 1900	
+ #if defined(_MSC_VER) && (_MSC_VER >= 1916)	 
     if (std::filesystem::exists(name)) {
 #else
 	if (std::experimental::filesystem::exists(name)) {

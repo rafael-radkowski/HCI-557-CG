@@ -382,6 +382,11 @@ void CreateShadowReceiver(void)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, plane0d.texture_id);
 
+	// Set the texture clamp to edge mode so that the texture does not repeat itself. 
+	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
+
     // Fetch the texture location and set the parameter to 0.
     // Note that 0 is the number of the texture unit GL_TEXTURE0.
     int texture_location = glGetUniformLocation(plane0d.shader_program_id, "tex");

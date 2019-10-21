@@ -239,7 +239,7 @@ void Init(void)
 void Draw(void)
 {
 
-    
+    cs557::InitControlsViewMatrix(viewMatrix);
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST); // ignore this line
@@ -256,7 +256,7 @@ void Draw(void)
 
         // update the camera values.
         // Note that this line changes the view matrix.
-        glm::mat4 rotated_view = viewMatrix * cs557::GetTrackball().getRotationMatrix();
+        glm::mat4 rotated_view = cs557::GetCamera().getRotationMatrix();
 
         //----------------------------------------------------------------------------------------------------------------------------
         // Object 0

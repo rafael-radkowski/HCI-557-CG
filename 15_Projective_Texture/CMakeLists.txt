@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # policy for relative subfolders
 cmake_policy(SET CMP0015 NEW)
+cmake_policy(SET CMP0074 NEW)
 
 # Main project name
 project(HCI557_Projective_Texture)
@@ -15,6 +16,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/" ${CMAKE_MODULE_PATH} "${CMAKE_SOURC
 
 message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
 #message(STATUS "SDK directory ${CMAKE_SOURCE_DIR}/../SDK")
+
 
 
 # Find packages
@@ -69,16 +71,20 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/Window.h
 	../gl_common_ext/ModelPlane.h
 	../gl_common_ext/ModelPlane.cpp
-    	../gl_common_ext/Texture2D.h
+    ../gl_common_ext/Texture2D.h
 	../gl_common_ext/Texture2D.cpp
 	../gl_common_ext/BMPLoader.h
 	../gl_common_ext/BMPLoader.cpp
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
+	../gl_common_ext/CameraControls.h
+	../gl_common_ext/CameraControls.cpp
 )
 
 
-# add_compile_definitions(_WITH_CAMERA)
+add_compile_definitions(_WITH_CAMERA)
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)

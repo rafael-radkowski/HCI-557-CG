@@ -4,7 +4,7 @@
 using namespace cs557;
 
 #ifdef _WIN32
-	#if _MSC_VER > 1900	
+	#if defined(_MSC_VER) && (_MSC_VER >= 1916)	
 		namespace fs = std::filesystem;
 	#else
 		namespace fs = std::experimental::filesystem;
@@ -20,10 +20,10 @@ Check whether or not a file exists at the given path.
 bool FileUtils::Exists(string path_and_file)
 {
  #ifdef _WIN32
-	#if _MSC_VER > 1900	
+	#if defined(_MSC_VER) && (_MSC_VER >= 1916)	
 		if (std::filesystem::exists(path_and_file)) {
 	#else
-		if (std::experimental::filesystem::exists(name)) {
+		if (std::experimental::filesystem::exists(path_and_file)) {
 	#endif
 			return true;
 		} else {

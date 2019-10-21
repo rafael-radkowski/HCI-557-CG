@@ -88,9 +88,13 @@ void cs557::OBJModel::create(string path_and_filename, int shader_program)
 	int tex_location = glGetAttribLocation(program, "in_Texture");
 
 
+	// Check for the file.
+	string found_file;
+	FileUtils::Search(path_and_filename, found_file);
+
 	// Load the geometry from file. 
 	objl::Loader loader;
-	loader.LoadFile(path_and_filename);
+	loader.LoadFile(found_file);
 
 	int size = loader.LoadedMeshes.size();
 
