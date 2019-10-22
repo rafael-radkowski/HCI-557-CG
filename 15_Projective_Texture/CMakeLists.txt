@@ -90,8 +90,6 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 
-# Create an executable
-add_executable(HCI557_Projective_Texture ${HCI557_SRC} )
 
 
 # Add link directories
@@ -106,6 +104,10 @@ ELSE(WIN32)
 	link_directories(/usr/local/Cellar/glew/1.11.0/lib)
 	link_directories(/usr/local/Cellar/glfw/3.2.1/lib)
 ENDIF(WIN32)
+
+
+# Create an executable
+add_executable(HCI557_Projective_Texture ${HCI557_SRC} )
 
 
 # Add libraries
