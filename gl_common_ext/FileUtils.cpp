@@ -31,7 +31,7 @@ bool FileUtils::Exists(string path_and_file)
 		}
 #else
         struct stat buffer;
-        return (stat (name.c_str(), &buffer) == 0);
+        return (stat (path_and_file.c_str(), &buffer) == 0);
 #endif
 }
 
@@ -99,7 +99,7 @@ bool FileUtils::Search(string path_and_file, string& new_path_and_file)
 	return false;
  #else
 	// Linux version is not implemented. The code returns false if the file does not exists. 
-	if (exists(string path_and_file)) {
+	if (FileUtils::Exists(path_and_file)) {
 		new_path_and_file = path_and_file;
 		return true;
 	}else{

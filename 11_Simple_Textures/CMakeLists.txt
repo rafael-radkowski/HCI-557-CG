@@ -20,9 +20,10 @@ message(STATUS "Source directory ${CMAKE_SOURCE_DIR}")
 
 # Find packages
 FIND_PACKAGE(OpenGL REQUIRED)
-FIND_PACKAGE(glew REQUIRED)
 FIND_PACKAGE(glm REQUIRED)
 FIND_PACKAGE(GLFW3 REQUIRED)
+FIND_PACKAGE(glew REQUIRED)
+
 
 
 if (GLEW_FOUND)
@@ -36,17 +37,18 @@ endif()
 if (GLFW_FOUND)
 message(STATUS "Found GLEW ${GLFW_INCLUDE_DIRS} and ${GLFW3_LIBRARY}")
 else()
+
 IF(WIN32)
 ELSE(WIN32)
 include_directories("/usr/local/Cellar/glfw/3.2.1/include")
 include_directories("/usr/local/Cellar/glfw/1.11.0/include")
+include_directories("/usr/local/Cellar/glfw/3.3/include")
 set( GLFW3_LIBRARY glfw)
 ENDIF(WIN32)
 endif()
 
 # Include dirs
 include_directories(../gl_common_ext)
-include_directories(./../../gl_common_ext)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${GLFW3_INCLUDE_DIR})
@@ -100,15 +102,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Create an executable
-add_executable(HCI557_Simple_Texture ${HCI557_Simple_Texture_SRC} ${Graphics_SRC} ${Shader_SRC} )
-
 
 # Add link directories
 # Note required for this project
 IF(WIN32)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 ELSE(WIN32)
+	link_directories( /usr/local/Cellar/glfw/3.3/lib)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 	link_directories(/usr/local/lib)
 	link_directories(/usr/local/Cellar/glfw3/3.0.4/lib)
@@ -117,6 +117,9 @@ ELSE(WIN32)
 	link_directories(/usr/local/Cellar/glfw/3.2.1/lib)
 ENDIF(WIN32)
 
+# Create an executable
+add_executable(${PROJECT_NAME} ${HCI557_Simple_Texture_SRC} ${Graphics_SRC} ${Shader_SRC} )
+
 
 # Add libraries
-target_link_libraries(HCI557_Simple_Texture  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )
+target_link_libraries(${PROJECT_NAME}  ${GLEW_LIBRARIES} ${GLEW_LIBRARY} ${GLFW3_LIBRARY} ${OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} )

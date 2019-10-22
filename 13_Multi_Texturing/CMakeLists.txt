@@ -45,7 +45,6 @@ endif()
 
 # Include dirs
 include_directories(../gl_common_ext)
-include_directories(./../../gl_common_ext)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${GLFW3_INCLUDE_DIR})
@@ -80,17 +79,20 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/FileUtils.cpp
 )
 
+set(Shader_SRC
+	multi_texture_program.vs	
+	multi_texture_program.fs
+)
 
+source_group(shader FILES ${Shader_SRC})
 
 add_compile_definitions(_WITH_CAMERA)
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Create an executable
-add_executable(${PROJECT_NAME} ${HCI557_SRC} )
 
 
 # Add link directories
@@ -98,6 +100,7 @@ add_executable(${PROJECT_NAME} ${HCI557_SRC} )
 IF(WIN32)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 ELSE(WIN32)
+	link_directories( /usr/local/Cellar/glfw/3.3/lib)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 	link_directories(/usr/local/lib)
 	link_directories(/usr/local/Cellar/glfw3/3.0.4/lib)
@@ -105,6 +108,10 @@ ELSE(WIN32)
 	link_directories(/usr/local/Cellar/glew/1.11.0/lib)
 	link_directories(/usr/local/Cellar/glfw/3.2.1/lib)
 ENDIF(WIN32)
+
+# Create an executable
+add_executable(${PROJECT_NAME} ${HCI557_SRC} )
+
 
 
 # Add libraries

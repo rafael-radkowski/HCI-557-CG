@@ -100,8 +100,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Create an executable
-add_executable(HCI557_Texture_Filter ${HCI557_Simple_Texture_SRC} ${Graphics_SRC} ${Shader_SRC} )
 
 
 # Add link directories
@@ -109,6 +107,7 @@ add_executable(HCI557_Texture_Filter ${HCI557_Simple_Texture_SRC} ${Graphics_SRC
 IF(WIN32)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 ELSE(WIN32)
+	link_directories( /usr/local/Cellar/glfw/3.3/lib)
 	link_directories(${CMAKE_SOURCE_DIR}/../SDK/lib)
 	link_directories(/usr/local/lib)
 	link_directories(/usr/local/Cellar/glfw3/3.0.4/lib)
@@ -116,6 +115,10 @@ ELSE(WIN32)
 	link_directories(/usr/local/Cellar/glew/1.11.0/lib)
 	link_directories(/usr/local/Cellar/glfw/3.2.1/lib)
 ENDIF(WIN32)
+
+# Create an executable
+add_executable(HCI557_Texture_Filter ${HCI557_Simple_Texture_SRC} ${Graphics_SRC} ${Shader_SRC} )
+
 
 
 # Add libraries

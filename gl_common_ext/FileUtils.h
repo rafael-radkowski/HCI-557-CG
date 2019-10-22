@@ -20,6 +20,9 @@ MIT License
 ------------------------------------------------------------------
 Last edited:
 
+Oct 22, 2019, RR
+- Bugfix: fixed a bug that caused a compiler errror on Mac OS X. 
+
 */
 #pragma once
 
