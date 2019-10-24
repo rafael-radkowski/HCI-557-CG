@@ -26,6 +26,5 @@ void main(void)
 			
 	// pass the position				                       
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_Position, 1.0);       
-	       
-		
+	       	
 }                                                            

@@ -162,5 +162,7 @@ void main(void)
 	if(texture_blend_mode == 0)                                      
 		color = tex_color;  
 	else if (texture_blend_mode == 1)    
-		color = mixed * tex_color;                          
+		color = mixed * tex_color; 
+	else if (texture_blend_mode == 2)    
+		color = 0.5 * mixed + 0.5 * tex_color;                          
 }                                                      

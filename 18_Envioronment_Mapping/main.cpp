@@ -195,6 +195,14 @@ void my_key_callback(GLFWwindow* window, int key, int scancode, int action, int 
     }
     else if(key == 51 && action == GLFW_PRESS) // 3
     {
+        glUseProgram(teapot0.getProgram());
+        glUniform1i(glGetUniformLocation(teapot0.getProgram(), "texture_blend_mode"), 2);
+        glUseProgram(plane0.getProgram());
+        glUniform1i(glGetUniformLocation(plane0.getProgram(), "texture_blend_mode"), 2);
+
+    }
+    else if(key == 52 && action == GLFW_PRESS) // 4
+    {
         if(current_texture == texture_id0 )
             current_texture = texture_id1;
         else if(current_texture == texture_id1 )
@@ -518,8 +526,8 @@ int main(int argc, const char *argv[])
     cout << "This code example demonstrates an environment map implementation." << endl;
     cout << "Rafael Radkowski\nrafael@iastate.edu\nIowa State University\n" << endl;
     cout << "Use the keys a, s, d, w, r, f to move one light source around.\n" << endl;
-    cout << "Use the keys 1 and 2 to switch between texture blend modes.\n" << endl;
-    cout << "Use the key 3 switch between different environment textures.\n" << endl;
+    cout << "Use the keys 1, 2, and 3 to switch between texture blend modes.\n" << endl;
+    cout << "Use the key 4 switch between different environment textures.\n" << endl;
     cout << "This example is part of ME/CS/CPRE557" << endl;
 
 
