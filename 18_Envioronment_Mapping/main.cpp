@@ -106,6 +106,7 @@ Material        spheremat;
 // the texture id
 unsigned int texture_id0 = -1;
 unsigned int texture_id1 = -1;
+unsigned int texture_id2 = -1;
 unsigned int current_texture = -1;
 
 // a helper plane to render the pre-render content
@@ -196,8 +197,10 @@ void my_key_callback(GLFWwindow* window, int key, int scancode, int action, int 
     {
         if(current_texture == texture_id0 )
             current_texture = texture_id1;
-        else
-            current_texture = texture_id0;
+        else if(current_texture == texture_id1 )
+            current_texture = texture_id2;
+         else 
+         current_texture = texture_id0;
     }
 
     // Update the position of the light. 
@@ -317,7 +320,10 @@ void CreateTeapotModel(void)
     // Note that this function binds the texture to texture unit GL_TEXTURE0 
     glUseProgram(teapot0.getProgram());
     LoadAndCreateTexture2D("../reflactance_map_city.bmp", &texture_id0);
-    LoadAndCreateTexture2D("../reflactance_map_lake.bmp", &texture_id1);
+    LoadAndCreateTexture2D("../reflactance_map_city_glossy.bmp", &texture_id1);
+    LoadAndCreateTexture2D("../reflactance_map_lake.bmp", &texture_id2);
+    
+
     current_texture = texture_id0;
 
     // Activate the texture unit and bind the texture. 
