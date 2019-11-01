@@ -117,7 +117,7 @@ namespace cs557
         int             _windowWidth;
 		int             _windowHeight;
 
-        glm::vec3       _position;
+       
         float           _horizontalAngle;
         float           _verticalAngle;
         float           _locomotion_speed; 
@@ -126,11 +126,18 @@ namespace cs557
         bool            _xAxis;
         bool            _yAxis;
 
+		glm::vec3       _center;
+		glm::vec3       _eye;
+
+		glm::vec2		_prev_screen_xy;
+
         /*
         0 - no event
         1 - left mouse button pressed. 
         */
         int             _mouse_event;
+		int             _mouse_move_event;
+		int				_mouse_middle_event;
 
         // screen coordinates
         glm::vec3       _previous_sc; 
