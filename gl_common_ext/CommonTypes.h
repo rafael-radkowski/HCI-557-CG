@@ -11,7 +11,14 @@ Iowa State University
 November 2018
 rafael@iastate.edu
 
-All copyrights reserved. 
+MIT License
+-----------------------------------------------------
+Last edits:
+
+Nov. 5th, 2019, RR
+- Replace setAllUniform with apply and marked the previous function as deprecated. 
+
+
 */
 
 
@@ -106,6 +113,17 @@ typedef struct Material
     Note that the shader program must use the correct variable names.
     @param program_id - the shader program id as integer
     */
+    inline void apply(int program_id ){
+        setAllUniform( program_id );
+    }
+
+
+    /*
+    The function passes all the uniform variables to the passed program.
+    Note that the shader program must use the correct variable names.
+    @param program_id - the shader program id as integer
+    */
+   [[deprecated("Replaced by apply. This function will be removed in the next future")]]
     inline void setAllUniform(int program_id )
     {
 
@@ -234,12 +252,21 @@ typedef struct _LightSource
         error_count = 0;
 	}
 
+    /*
+    The function passes all the uniform variables to the passed program.
+    Note that the shader program must use the correct variable names.
+    @param program_id - the shader program id as integer
+    */
+    inline void apply(int program_id ){
+        setAllUniform( program_id );
+    }
 
     /*
     The function passes all the uniform variables to the passed program.
     Note that the shader program must use the correct variable names.
     @param program_id - the shader program id as integer
     */
+   [[deprecated("Replaced by apply. This function will be removed in the next future")]]
     inline void setAllUniform(int shader_program_id)
     {
         glUseProgram(shader_program_id );
