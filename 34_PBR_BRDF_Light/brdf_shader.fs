@@ -120,16 +120,17 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 
 void main(void)                                                  
 {   
-
     // eye position 
 	vec3 E = normalize( vec3(viewMatrix[3][0], viewMatrix[3][1], viewMatrix[3][2]) );
      
-
     vec3 F0 = brdf[0].F0;
     F0 = mix(F0, brdf[0].albedo, brdf[0].metallic);
 
     // camera view to fragment position
     vec3 V = normalize(E -pass_Position);
+
+     // normal vector
+    vec3 N = normalize(pass_Normal);
 
     vec3 Lo = vec3(0.0);
     for (int i=0; i<MAX_LIGHTS; i++){
@@ -145,17 +146,12 @@ void main(void)
           // halfway -vector
         vec3 H = normalize(V + L);
 
-        // normal vector
-        vec3 N = normalize(pass_Normal);
-
-
         // calculate the radiance comming from the light source. 
         vec3  lightColor  = brdf[0].lightColor;
         float cosTheta    = max(dot(pass_Normal, L), 0.0);
         float attenuation = calculateAttenuation(pass_Position, L_viewspace, brdf[0].k1, brdf[0].k2);
         vec3  radiance    = lightColor * attenuation * cosTheta;
         
-
          // cook-torrance reflection brdf
         float NDF = DistributionGGX(N, H, brdf[0].roughness);        
         float G   = GeometrySmith(N, V, L, brdf[0].roughness);      
@@ -165,17 +161,16 @@ void main(void)
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
         vec3 specular     = numerator / max(denominator, 0.001);  
      
-
+        // Diffuse and ambient term
         vec3 kS = F;
         vec3 kD = vec3(1.0) - kS;
         kD *= 1.0 - brdf[0].metallic;	    
 
          // add to outgoing radiance Lo
         float NdotL = max(dot(N, L), 0.0);  
-
         Lo += (kD * brdf[0].albedo / PI + specular) * radiance * NdotL; 
 
-        //Lo = vec3(F );
+        //Lo = vec3(G );
     }
 
     //ambient add
@@ -188,5 +183,5 @@ void main(void)
 
     
 	frag_out = vec4(color, 1.0);       
-    //frag_out = vec4(Lo, 1.0);
+   // frag_out = vec4(Lo, 1.0);
 }                                                           
