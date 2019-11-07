@@ -37,7 +37,10 @@ bool cs557::CreateTexture2D(int width, int height, int channels, unsigned char* 
     
     // Create a texture and load it to your graphics hardware. This texture is automatically associated
     // with texture 0 and the textuer variable "texture" / the active texture.
-    if(channels == 3){
+    if(channels == 1){
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+    }
+    else if(channels == 3){
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
     }
     else if(channels == 4){

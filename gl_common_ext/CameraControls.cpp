@@ -158,7 +158,7 @@ void CameraControls::cursorCallback( GLFWwindow *window, double x, double y )
 
 		 if(std::abs(distance) > 0.001){
 			 
-			_eye = glm::vec3(_vm[3]) +  glm::vec3( glm::normalize(_vm_inv[1]- _vm[3])) * sign * 0.05f;
+			_eye = glm::vec3(_vm[3]) +  glm::vec3( glm::normalize(_vm_inv[1]- _vm[3])) * sign * 0.5f;
 			_vm[3] = glm::vec4(0.0,0.0,0.0, 1.0);
 			_vm = glm::translate(_eye)  * _vm;
 			//_vm[3] = glm::vec4(_eye, 1.0);
