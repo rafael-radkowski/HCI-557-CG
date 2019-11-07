@@ -31,7 +31,7 @@ in vec2 in_Texture;
 out vec3 pass_Normal; 
 smooth out vec3 pass_Position;
 out vec4 pass_Color;   
-out vec2 pass_Texture;                                             
+out vec2 pass_Texture;                                         
                                                                 
 void main(void)                                                  
 {            

@@ -28,7 +28,7 @@ uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;  
 
 
-float PI = 3.1415;                                                          
+float PI = 3.141592653;                                                          
 
 // The material parameters
 uniform struct LightSource {
@@ -69,8 +69,7 @@ out vec4 frag_out;
 float calculateAttenuation(vec3 light_position, vec3 fragment_position, float k1, float k2)
 {
     float distance    = length(light_position - fragment_position);
-    float attenuation = 1.0 / (1.0 + k1 * distance + 
-                    k2 * (distance * distance));  
+    float attenuation = 1.0 / (1.0 + k1 * distance +  k2 * (distance * distance));  
     return attenuation;
 }
 
@@ -131,13 +130,13 @@ void main(void)
     //vec3 roughness_color = texture(  brdf_tex[0].roughnessMap, pass_Texture).rgb;
 
     // eye position 
-	vec3 E = normalize( vec3(viewMatrix[3][0], viewMatrix[3][1], viewMatrix[3][2]) );
+	vec3 E = ( vec3(viewMatrix[0][0], viewMatrix[1][3], viewMatrix[2][3]) );
      
     vec3 F0 = brdf_tex[0].F0;
     F0 = mix(F0, albedo_color, metallic_value);
 
     // camera view to fragment position
-    vec3 V = normalize( E-pass_Position);
+    vec3 V = normalize( -pass_Position);
 
      // normal vector
     vec3 N = normalize(pass_Normal);
@@ -148,7 +147,7 @@ void main(void)
         if(light[i].used == false) continue;
 
         // Light in view space
-        vec3 L_viewspace = vec3(viewMatrix * vec4(light[i].position, 1.0));
+        vec3 L_viewspace = (viewMatrix * vec4(light[i].position, 1.0)).rgb;
 
         // light to fragment position
         vec3 L = normalize(L_viewspace - pass_Position);
@@ -159,7 +158,7 @@ void main(void)
 
         // calculate the radiance comming from the light source. 
         vec3  lightColor  = brdf_tex[0].lightColor;
-        float cosTheta    = max(dot(pass_Normal, L), 0.0);
+        float cosTheta    = max(dot(N, L), 0.0);
         float attenuation = calculateAttenuation(pass_Position, L_viewspace, brdf_tex[0].k1, brdf_tex[0].k2);
         vec3  radiance    = lightColor * attenuation * cosTheta;
         
@@ -167,7 +166,7 @@ void main(void)
          // cook-torrance reflection brdf
         float NDF = DistributionGGX(N, H, roughness_value);        
         float G   = GeometrySmith(N, V, L, roughness_value);      
-        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0); 
+        vec3 F    = fresnelSchlick(max(dot(V, H), 0.0), F0); 
 
         vec3 numerator    = NDF * G * F;
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
@@ -183,7 +182,7 @@ void main(void)
 
         Lo += (kD * albedo_color / PI + specular) * radiance * NdotL; 
 
-       // Lo = vec3(roughness_color );
+        //Lo = vec3(pass_View);
     }
 
     //ambient add
@@ -197,5 +196,5 @@ void main(void)
 
     
 	frag_out = vec4(color, 1.0);       
-    //frag_out = vec4(Lo, 1.0);
+   // frag_out = vec4(E, 1.0);
 }                                                           

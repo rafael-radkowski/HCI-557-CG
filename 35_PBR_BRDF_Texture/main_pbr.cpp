@@ -162,6 +162,15 @@ void CreateLights(void)
     light1.dir =  glm::vec3(0.0f, 0.0f, 0.0f);
     light1.color = glm::vec3(0.0f, 0.0f, 1.0f);
     light1.intensity = 1.0;
+
+
+    //---------------------------------------------------------
+    // Create a third light. 
+    light2.index = 2;
+    light2.pos =  glm::vec3(0.0f, 6.0f, 10.0f);
+    light2.dir =  glm::vec3(0.0f, 0.0f, 0.0f);
+    light2.color = glm::vec3(0.0f, 0.0f, 1.0f);
+    light2.intensity = 1.0;
 }
 
 
@@ -204,8 +213,8 @@ void Init(void)
     program_sphere_02 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
     program_sphere_03 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
     program_sphere_04 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
-    program_sphere_11 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
-    program_sphere_12 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
+    program_sphere_11 = LoadAndCreateShaderProgram("../brdf_ibl_shader.vs", "../brdf_ibl_shader.fs");
+    program_sphere_12 = LoadAndCreateShaderProgram("../brdf_ibl_shader.vs", "../brdf_ibl_shader.fs");
     program_sphere_13 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
     program_sphere_14 = LoadAndCreateShaderProgram("../brdf_tex_shader.vs", "../brdf_tex_shader.fs");
 
@@ -238,6 +247,7 @@ void Init(void)
     light0.apply(sphere_12.getProgram());
     light0.apply(sphere_13.getProgram());
     light0.apply(sphere_14.getProgram());
+   
     light1.apply(sphere_01.getProgram());
     light1.apply(sphere_02.getProgram());
     light1.apply(sphere_03.getProgram());
@@ -246,6 +256,15 @@ void Init(void)
     light1.apply(sphere_12.getProgram());
     light1.apply(sphere_13.getProgram());
     light1.apply(sphere_14.getProgram());
+
+    light2.apply(sphere_01.getProgram());
+    light2.apply(sphere_02.getProgram());
+    light2.apply(sphere_03.getProgram());
+    light2.apply(sphere_04.getProgram());
+    light2.apply(sphere_11.getProgram());
+    light2.apply(sphere_12.getProgram());
+    light2.apply(sphere_13.getProgram());
+    light2.apply(sphere_14.getProgram());
     
 
 
@@ -306,17 +325,60 @@ void Init(void)
 
 
 
-    BRDFLoader::ReadBMP(brdf_tex4, "../PBR/streaked_metal1/streaked-metal1-albedo.bmp",
+    BRDFLoader::ReadIBL(brdf_tex4, "../PBR/streaked_metal1/streaked-metal1-albedo.bmp",
                                     "../PBR/streaked_metal1/streaked-metal1-metalness.bmp",
                                     "../PBR/streaked_metal1/streaked-metal1-roughness.bmp",
-                                    "../PBR/streaked_metal1/streaked-metal1-ao.bmp");
+                                    "../PBR/streaked_metal1/streaked-metal1-ao.bmp",
+                                    "../PBR/reflactance_map_city.bmp");
     
 
     brdf_tex4.lightColor = glm::vec3(73.47, 71.31, 74.79);
     brdf_tex4.F0 = glm::vec3(0.86, 0.87, 0.88);
-    brdf_tex4.k1 = 0.05;
-    brdf_tex4.k2 = 0.02;
+    brdf_tex4.k1 = 0.0;
+    brdf_tex4.k2 = 0.0;
     brdf_tex4.apply(sphere_11.getProgram());
+
+
+    BRDFLoader::ReadIBL(brdf_tex5, "../PBR/Copper_scuffed/Copper-scuffed_basecolor-boosted.bmp",
+                                    "../PBR/Copper_scuffed/Copper-scuffed_metallic.bmp",
+                                    "../PBR/Copper_scuffed/Copper-scuffed_roughness.bmp",
+                                    "../PBR/Copper_scuffed/Copper-scuffed_metallic.bmp",
+                                    "../PBR/reflactance_map_city.bmp");
+    
+
+    brdf_tex5.lightColor = glm::vec3(73.47, 71.31, 74.79);
+    brdf_tex5.F0 = glm::vec3(0.86, 0.87, 0.88);
+    brdf_tex5.k1 = 0.0;
+    brdf_tex5.k2 = 0.0;
+    brdf_tex5.apply(sphere_12.getProgram());
+
+
+    BRDFLoader::ReadBMP(brdf_tex6, "../PBR/worn_braided_carpet/worn-braided-carpet-albedo.bmp",
+                                    "../PBR/worn_braided_carpet/worn-braided-carpet-Metallic.bmp",
+                                    "../PBR/worn_braided_carpet/worn-braided-carpet-Roughness.bmp",
+                                    "../PBR/worn_braided_carpet/worn-braided-carpet-ao.bmp");
+    
+
+    brdf_tex6.lightColor = glm::vec3(23.47, 21.31, 24.79);
+    brdf_tex6.F0 = glm::vec3(0.06, 0.06, 0.06);
+    brdf_tex6.k1 = 0.05;
+    brdf_tex6.k2 = 0.02;
+    brdf_tex6.apply(sphere_13.getProgram());
+
+
+
+    BRDFLoader::ReadBMP(brdf_tex7, "../PBR/slipperystonework/slipperystonework-albedo.bmp",
+                                    "../PBR/slipperystonework/slipperystonework-metalness.bmp",
+                                    "../PBR/slipperystonework/slipperystonework-rough.bmp",
+                                    "../PBR/slipperystonework/slipperystonework-ao.bmp");
+    
+
+    brdf_tex7.lightColor = glm::vec3(23.47, 21.31, 24.79);
+    brdf_tex7.F0 = glm::vec3(0.02, 0.02, 0.02);
+    brdf_tex7.k1 = 0.00;
+    brdf_tex7.k2 = 0.01;
+    brdf_tex7.apply(sphere_14.getProgram());
+  
   
   
  
@@ -376,9 +438,15 @@ void Draw(void)
 
         brdf_tex4.activateMaps(sphere_11.getProgram());
         sphere_11.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(4.5f, -2.0f, 0.0f)) );
-      //  sphere_12.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(1.5f, -2.0f, 0.0f)) );
-      //  sphere_13.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(-1.5f,-2.0f, 0.0f)) );
-      //  sphere_14.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(-4.5f, -2.0f, 0.0f)) );
+      
+        brdf_tex5.activateMaps(sphere_12.getProgram());
+        sphere_12.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(1.5f, -2.0f, 0.0f)) );
+        
+        brdf_tex6.activateMaps(sphere_13.getProgram());
+        sphere_13.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(-1.5f,-2.0f, 0.0f)) );
+
+        brdf_tex7.activateMaps(sphere_14.getProgram());
+        sphere_14.draw(projectionMatrix, rotated_view, glm::translate(glm::mat4(1.0f), glm::vec3(-4.5f, -2.0f, 0.0f)) );
     
 
         // Swap the buffers so that what we drew will appear on the screen.
