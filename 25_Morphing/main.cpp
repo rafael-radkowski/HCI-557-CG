@@ -261,7 +261,7 @@ void Draw(void)
 //	RENDER THE SCENE
 int main(int argc, const char *argv[])
 {
-    cout << "This code example demonstrates projective texture mapping." << endl;
+    cout << "This code example demonstrates blend shape morphing." << endl;
     cout << "Rafael Radkowski\nrafael@iastate.edu\nIowa State University" << endl;
     cout << "This example is part of ME/CS/CPRE557" << endl;
 

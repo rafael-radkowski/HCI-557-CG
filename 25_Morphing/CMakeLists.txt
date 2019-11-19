@@ -75,10 +75,21 @@ file(GLOB HCI557_SRC
 	../gl_common_ext/BMPLoader.cpp
 	../gl_common_ext/ModelBSMorphing.h
 	../gl_common_ext/ModelBSMorphing.cpp
+	../gl_common_ext/CameraControls.h
+	../gl_common_ext/CameraControls.cpp
+	../gl_common_ext/CommonTypes.h
+	../gl_common_ext/FileUtils.h
+	../gl_common_ext/FileUtils.cpp
 )
 
 
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+add_compile_definitions(_WITH_CAMERA)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 
 
 # Create an executable
