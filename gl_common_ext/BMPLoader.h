@@ -55,10 +55,4 @@ namespace cs557
 
 
 
-    /*!
-    Verifies wheterh a file [name] exits
-    @param name - the path and the name of the file.
-    */
-    bool Exists (const std::string& name);
-
 }

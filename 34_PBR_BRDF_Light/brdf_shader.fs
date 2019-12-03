@@ -12,6 +12,9 @@ rafael@iastate.edu
 MIT License
 ------------------------------------------------
 Last changes:
+
+Dec 4, 2019, RR:
+- Changed the variable type for pass_Color from vec3 to vec4. 
  
 */
 #version 410 core    
@@ -20,7 +23,7 @@ Last changes:
 // the incoming variables
 in vec3 pass_Normal;
 in vec3 pass_Position;
-in vec3 pass_Color;
+in vec4 pass_Color;
 
 uniform mat4 projectionMatrix;                                    
 uniform mat4 viewMatrix;                                           

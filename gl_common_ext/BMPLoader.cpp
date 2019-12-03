@@ -80,26 +80,3 @@ bool cs557::LoadBMPFromFile(const string path_and_file, int* width, int* height,
 }
 
 
-
-/*!
- Verifies wheterh a file [name] exits
- @param name - the path and the name of the file.
- */
-bool cs557::Exists (const std::string& name)
-{
-   #ifdef _WIN32
- #if defined(_MSC_VER) && (_MSC_VER >= 1916)	 
-    if (std::filesystem::exists(name)) {
-#else
-	if (std::experimental::filesystem::exists(name)) {
-#endif
-        return true;
-    } else {
-		return false;
-    }
-    #else
-        struct stat buffer;
-        return (stat (name.c_str(), &buffer) == 0);
-    #endif
-}
-
