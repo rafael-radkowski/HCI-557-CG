@@ -2,7 +2,7 @@
 
 // from https://github.com/Bly7/OBJ-Loader
 // credits to Robert S., Github: Bly7
-
+#pragma once
 #ifndef OBJ_LOADER_INCLUDED
 #define OBJ_LOADER_INCLUDED
 
@@ -22,7 +22,7 @@
 #include <math.h>
 
 // Print progress to console while loading (large models)
-#define OBJL_CONSOLE_OUTPUT
+//#define OBJL_CONSOLE_OUTPUT
 
 // Namespace: OBJL
 //

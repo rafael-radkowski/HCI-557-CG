@@ -119,3 +119,4 @@ SDK/glfw-3.1.1/tests/tearing.dir/
 12_Texture_Filter/HCI557_Texture_Filter.dir/
 32_ShadowMap/HCI557_ShadowMap.dir/
 /18_Envioronment_Mapping/reflactance_map_city_glossy.png
+34_PBR_BRDF_Light/HCI557_DirectLight_BRDF.dir/

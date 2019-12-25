@@ -135,7 +135,7 @@ void CameraControls::cursorCallback( GLFWwindow *window, double x, double y )
 		
 		// Check if the angle is larger than 0.001. The matrix becomes undefined otherwise. 
 		if(std::abs(_current_angle) > 0.001){
-			_eye = _vm[3];
+			_eye = glm::vec3(_vm[3]);
 			_vm[3] = glm::vec4(0.0,0.0,0.0, 1.0);
 			_vm = glm::translate(_eye) * (glm::rotate(glm::mat4(1.0), glm::degrees(_current_angle) * _rolling_speed, _camAxis ) * _vm) ;
 		}
