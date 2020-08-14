@@ -151,17 +151,22 @@ void CameraControls::cursorCallback( GLFWwindow *window, double x, double y )
 
 	}else if (_mouse_move_event == 2) {
 		
+		//-------------------------------------------------------------------
+		// zoom in and out to the center point. 
 		 float distance = y - _prev_screen_xy.y;
 		 float sign = glm::sign( y - _prev_screen_xy.y );
 
 		 glm::mat4 _vm_inv =glm::inverse(_vm);
+		 glm::vec3 dof = glm::vec3(_vm_inv[2]);
+		 glm::vec3 eye = glm::vec3(_vm_inv[3]);
 
 		 if(std::abs(distance) > 0.001){
 			 
-			_eye = glm::vec3(_vm[3]) +  glm::vec3( glm::normalize(_vm_inv[1]- _vm[3])) * sign * 0.5f;
-			_vm[3] = glm::vec4(0.0,0.0,0.0, 1.0);
-			_vm = glm::translate(_eye)  * _vm;
-			//_vm[3] = glm::vec4(_eye, 1.0);
+			_eye = eye +  glm::vec3( glm::normalize(dof)) * sign * 0.08f;
+			_vm_inv[3] = glm::vec4(_eye, 1.0);
+			_vm = glm::inverse(_vm_inv);
+
+
 		}
 		 _prev_screen_xy.y = y;
 		 _prev_screen_xy.x = x;
@@ -178,18 +183,22 @@ void CameraControls::cursorCallback( GLFWwindow *window, double x, double y )
 	}
 	else if (_mouse_middle_event == 2) {
 		
+		//-------------------------------------------------------------------
+		// Change the center point
 		float signx = glm::sign( x - _prev_screen_xy.x );
 		float signy = glm::sign( y - _prev_screen_xy.y );
 		_current_sc= toScreenCoord( y,x ); 
 		
 
 		glm::mat4 _vm_inv =glm::inverse(_vm);
-		
-		_eye = glm::vec3(_vm[3]) +  glm::normalize( glm::vec3(_vm_inv[0])) * signx * 0.05f -  glm::normalize( glm::vec3(_vm_inv[1])) * signy * 0.05f;
-		_center =  glm::vec3(_vm[3]) + glm::normalize(glm::vec3(_vm[2])) +  glm::normalize( glm::vec3(_vm_inv[0])) * signx * 0.05f -  glm::normalize( glm::vec3(_vm_inv[1])) * signy * 0.05f;
+		glm::vec3 side = glm::vec3(_vm_inv[0]);
+		glm::vec3 up = glm::vec3(_vm_inv[1]);
+		glm::vec3 eye = glm::vec3(_vm_inv[3]);
 
-		_vm[3] = glm::vec4(_eye, 1.0);
-		_vm[2] = glm::vec4( glm::normalize(_center - _eye), 0.0);
+		_eye = eye - glm::normalize( glm::vec3(side)) * signx * 0.05f+  glm::normalize( glm::vec3(up)) * signy * 0.05f;
+
+		_vm_inv[3] = glm::vec4(_eye, 1.0);
+		_vm = glm::inverse(_vm_inv);
 
 	
 		_prev_screen_xy.y = y;
